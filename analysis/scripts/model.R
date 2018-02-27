@@ -17,12 +17,7 @@ set.seed(seed)
 # gpf = general population females
 # msm = man that have sex with other man
 # src = source (sequences closely related to population being studies by that are from other countries)
-demes <- c(
-  'gpm'
-  , 'gpf'
-  , 'msm'
-  , 'src'
-)
+demes <- c('gpm', 'gpf', 'msm', 'src')
 
 # Sets the equations of the model (birth, death and migration rates are pre-filled with zeros)
 eqns <- setup.model.equations(demes)
@@ -76,19 +71,24 @@ THETA <- list(
   initgp = 1
 )
 
-SRCSIZE <<- 1e5 # arbitrary large number > A(t) forall t
-X0 <- c( gpm = unname( THETA$initgp/2 ), gpf = unname( THETA$initgp/2), msm = unname( THETA$initmsm ) , src = SRCSIZE)
+# arbitrary large number > A(t) forall t
+SRCSIZE <<- 1e5
+# X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
+X0 <- c(gpm = unname(THETA$initgp/2), gpf = unname(THETA$initgp/2), msm = unname(THETA$initmsm) , src = SRCSIZE)
 
-births['msm', 'msm'] <- 'parms$msmspline( t, parms ) * msm * parms$pmsm2msm'
-births['msm', 'gpf'] <- 'parms$msmspline( t, parms ) * msm * (1-parms$pmsm2msm)'
+# Because there are 4 demes in this model, the birth matrix is a 4 x 4 matrix
+# Each element in the matrix is a string that will be passed as R code
+births['msm', 'msm'] <- 'parms$msmspline(t, parms) * msm * parms$pmsm2msm'
+births['msm', 'gpf'] <- 'parms$msmspline(t, parms) * msm * (1-parms$pmsm2msm)'
 
-births['gpm', 'gpf'] <- 'parms$gpspline( t, parms ) * gpm * parms$maleX'
-births['gpf', 'gpm'] <- 'parms$gpspline( t, parms ) * gpf * parms$pgpf2gpm'
-births['gpf', 'msm'] <- 'parms$gpspline( t, parms ) * gpf * (1-parms$pgpf2gpm)'
+births['gpm', 'gpf'] <- 'parms$gpspline(t, parms) * gpm * parms$maleX'
+births['gpf', 'gpm'] <- 'parms$gpspline(t, parms) * gpf * parms$pgpf2gpm'
+births['gpf', 'msm'] <- 'parms$gpspline(t, parms) * gpf * (1-parms$pgpf2gpm)'
 
 # f = (1/2)*(Y^2)/Ne
 births['src', 'src'] <- '.5*SRCSIZE^2/parms$srcNe'
 
+# Migrations is also a 4 x 4 matrix because we have 4 demes
 migs['src', 'gpm'] <- 'parms$import * gpm'
 migs['src', 'gpf'] <- 'parms$import * gpf'
 migs['src', 'msm'] <- 'parms$import * msm'
@@ -97,10 +97,12 @@ migs['gpm', 'src'] <- 'parms$import * gpm'
 migs['gpf', 'src'] <- 'parms$import * gpf'
 migs['msm', 'src'] <- 'parms$import * msm'
 
+# Deaths is a vector that showed in which rate a lineage dies
 deaths['msm'] <- 'GAMMA * msm'
 deaths['gpf'] <- 'GAMMA * gpf'
 deaths['gpm'] <- 'GAMMA * gpm'
 deaths['src'] <- '.5*SRCSIZE^2/parms$srcNe'
 
 #sde = FALSE means that an ordinary differential equation model will be constructed
-dm <- build.demographic.process(births, deaths = deaths, mig = migs, parameterNames = names(THETA), rcpp = FALSE, sde = FALSE)
+# build the demographic process to be used in the coalescent analysis
+dm <- build.demographic.process(births = births, deaths = deaths, migrations = migs, parameterNames = names(THETA), rcpp = FALSE, sde = FALSE)
