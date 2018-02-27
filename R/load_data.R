@@ -1,4 +1,6 @@
-
+# reads the phylogenetic tree that will be used in the coalescent analysis
+# this tree has the tips from children or whil information of the state (demes)
+# were missing
 tree.all <- read.tree("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre")
 
 all.data.cgr <- read.csv("data/HIV_subtypes_summary_CGR.csv")
