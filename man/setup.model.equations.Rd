@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscellaneous.R
 \name{setup.model.equations}
 \alias{setup.model.equations}
-\title{Setup Model Equations}
+\title{Setup model equations}
 \usage{
 setup.model.equations(demes, nondemes = NULL, rcpp = FALSE)
 }

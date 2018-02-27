@@ -1,4 +1,4 @@
-#' Setup Model Equations
+#' Setup model equations
 #'
 #' Function to setup the components of the mathematical model. See \code{\link[phydynR]{build.demographic.process}}
 #' for more details
