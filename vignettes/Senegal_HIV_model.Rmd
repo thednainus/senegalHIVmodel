@@ -16,11 +16,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+This vignette will demonstrate how to estimate HIV transmission rates using DNA sequences from Senegal. This also provides a guidance on how analysis described in Nascimento, (...), Volz, 2018 was carried out.
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+## The Model
+The model we fit is based on the structured coalescent models (ref). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences. In our mathematical model we have 4 different discrete-traits:
+
+* `gpf` = HIV sample from the general population - females;
+* `gpm` = HIV sample from the general population - males;
+* `msm` = HIV sample from men that have sex with other men;
+* `src` = source sample, which are HIV sample from individuals that are not from other countries and not from Senegal 
+
+These
+
+Bootstrap style
 
 ## Vignette Info
 
