@@ -16,17 +16,48 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette will demonstrate how to estimate HIV transmission rates using DNA sequences from Senegal. This also provides a guidance on how analysis described in Nascimento, (...), Volz, 2018 was carried out.
+This vignette will demonstrate how to estimate HIV transmission rates using DNA sequences from Senegal. This also provides a guidance on how analysis described in Nascimento, (...), Volz, 2018 was carried out. 
+
+## Basic requirements
+This vignette assumes that you know the basics of R and have the following packages already installed:
+
+* devtools: useful for installing packages directly from github         repository, for example. 
+* phydynR: it implements the coalescent simulation and likelihood       function for phylodynamics analysis
+* akima: this package is necessary for interpolation of data (used      for the calculation of the likelihood by the phydynR package)
+* BayesianTools: package for Bayesian inference
+
+### Load the necessary packages:
+```r
+  library(phydynR)
+  library(akima)
+  library(BayesianTools)
+```
 
 ## The Model
-The model we fit is based on the structured coalescent models (ref). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences. In our mathematical model we have 4 different discrete-traits:
+The model we fit is based on the structured coalescent models (ref). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences.
+
+We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) and only 1 stage of infection. We used 1 stage of infection, because the metadata available for the Senegal sequences did not have information that we could use to determine the stage of HIV infection at the time the sample was collected.
+
+The ODEs, or model equations, are:
+
+
+
+
+
+
+In our mathematical model we have 4 different discrete-traits:
 
 * `gpf` = HIV sample from the general population - females;
 * `gpm` = HIV sample from the general population - males;
 * `msm` = HIV sample from men that have sex with other men;
-* `src` = source sample, which are HIV sample from individuals that are not from other countries and not from Senegal 
+* `src` = source sample, which are HIV sample from individuals that are from other countries and not from Senegal 
 
-`gpf`, `gpm`, `msm`, and `src` are the demes of our model, and are 
+
+
+`gpf`, `gpm`, `msm`, and `src` are the demes of our model, and are represented in R as:
+```{r}
+demes <- c('gpm', 'gpf', 'msm', 'src')
+```
 
 Bootstrap style
 
