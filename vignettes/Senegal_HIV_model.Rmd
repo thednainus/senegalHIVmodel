@@ -2,7 +2,9 @@
 title: "Senegal HIV model"
 author: "Fabricia F. Nascimento"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Senegal HIV model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -36,21 +38,34 @@ This vignette assumes that you know the basics of R and have the following packa
 ## The Model
 The model we fit is based on the structured coalescent models (ref). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences.
 
+In our mathematical model we have 4 different discrete-traits:
+
+* __gpf__ = HIV sample from the general population -- females;
+* __gpm__ = HIV sample from the general population -- males;
+* __msm__ = HIV sample from men that have sex with other men;
+* __src__ = source sample, which are HIV sample from individuals that are              from other countries and not from Senegal 
+
 We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) and only 1 stage of infection. We used 1 stage of infection, because the metadata available for the Senegal sequences did not have information that we could use to determine the stage of HIV infection at the time the sample was collected.
+
+Transmission was modelled in a way that:
+
+* __msm__ could transmite to __msm__
+* __msm__ could transmit to __gpf__
+* __gpf__ could transmit to __msm__
+* __gpf__ could transmit to __gpm__
+* __gpm__ could transmit to __gpf__
 
 The ODEs, or model equations, are:
 
+\begin{aligned}
+\dot{I}_{msm} &= [p_{msm}I_{msm} + (1 - p_{f})I_{msm}] \lambda(t) - \gamma I_{msm}  \\
+\dot{I}_{gpf} &= [p_{f}I_{gpf} + (1 - p_{msm})I_{gpf}] \lambda(t) - \gamma I_{gpf}  \\
+\dot{I}_{gpm} &= (m_xI_{gpm}) \lambda(t) - \gamma I_{gpm}
+\end{aligned}
 
 
 
 
-
-In our mathematical model we have 4 different discrete-traits:
-
-* `gpf` = HIV sample from the general population - females;
-* `gpm` = HIV sample from the general population - males;
-* `msm` = HIV sample from men that have sex with other men;
-* `src` = source sample, which are HIV sample from individuals that are from other countries and not from Senegal 
 
 
 
