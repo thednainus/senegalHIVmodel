@@ -26,7 +26,7 @@ The model we fit is based on the structured coalescent models (ref). These model
 * `msm` = HIV sample from men that have sex with other men;
 * `src` = source sample, which are HIV sample from individuals that are not from other countries and not from Senegal 
 
-These
+`gpf`, `gpm`, `msm`, and `src` are the demes of our model, and are 
 
 Bootstrap style
 
