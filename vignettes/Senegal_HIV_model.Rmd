@@ -36,31 +36,42 @@ This vignette assumes that you know the basics of R and have the following packa
 ```
 
 ## The Model
-The model we fit is based on the structured coalescent models (ref). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences.
+The model we fit is based on the structured coalescent models (REF HERE). These models are used to estimate epidemiological parameters using a phylogenetic tree and information on states of each tip of the tree. Theses states are discrete-trait information representing each sequences.
 
-In our mathematical model we have 4 different discrete-traits:
+In our mathematical model we have 4 different discrete-traits, that we further explain in along this vignette:
 
-* __gpf__ = HIV sample from the general population -- females;
-* __gpm__ = HIV sample from the general population -- males;
-* __msm__ = HIV sample from men that have sex with other men;
-* __src__ = source sample, which are HIV sample from individuals that are              from other countries and not from Senegal 
+* $gpf$ = HIV sample from the general population -- females;
+* $gpm$ = HIV sample from the general population -- males;
+* $msm$ = HIV sample from men that have sex with other men;
+* $src$ = source sample, which are HIV samples from individuals that are from other countries and not from Senegal 
 
-We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) and only 1 stage of infection. We used 1 stage of infection, because the metadata available for the Senegal sequences did not have information that we could use to determine the stage of HIV infection at the time the sample was collected.
+### Stage of infection
 
-Transmission was modelled in a way that:
+We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) and only 1 stage of infection. This means that infected individuals would die and not recover from the infection. In our model we represented it as $\gamma$ rate. We used 1 stage of infection, because the metadata available for the Senegal sequences did not have information that we could use to determine the stage of HIV infection at the time the samples were collected. 
 
-* __msm__ could transmite to __msm__
-* __msm__ could transmit to __gpf__
-* __gpf__ could transmit to __msm__
-* __gpf__ could transmit to __gpm__
-* __gpm__ could transmit to __gpf__
+### How transmissions were modelled?
+
+* An infected $msm$ ($I_{msm}$) could transmite to another $msm$ with probability $p_{msm2msm}$
+* An infected $msm$ ($I_{msm}$) could transmit to a $gpf$ with probability  $(1 - p_{msm2msm})$
+* An infected $gpf$ ($I_{gpf}$) could transmit to a $gpm$ with probability $p_{gpf2gpm}$
+* An infected $gpf$ ($I_{gpf}$) could transmit to a $msm$ with probability $(1 - p_{gpf2gpm})$
+* An infected $gpm$ could also transmit to a $gpf$. For this event, we used the risk ratio of a male to transmite to a female, and fixed it to $2.0$. This is the parameter $maleX$ of our model.
+
+### How about HIV incidence rate?
+
+We also modelled the HIV incidence rate as a funtion of time ($t$) in $msm$ and the $gp$ (general population) as different spline functions (REF HERE), that in our ODEs will be represented by $\lambda(t)$ and $\mu(t)$, respectively.
+
+### The $source$ compartment!
+
+Finally, to model the HIV epidemic in Senegal, we also added an additional compartment named "source" ($src$), that is reprsent the rate lineages are imported to Senegal from other countries. We modelled this as a constant efective population size rate, with two parameters to be estimeted in our models -- srcNe: the effective source population size; and the $import$ rate. Because, as mentioned, these are modeled as constant effective population size, the infected $src$ individuals along time are not represented in the ODEs below. 
+
 
 The ODEs, or model equations, are:
 
 \begin{aligned}
-\dot{I}_{msm} &= [p_{msm}I_{msm} + (1 - p_{f})I_{msm}] \lambda(t) - \gamma I_{msm}  \\
-\dot{I}_{gpf} &= [p_{f}I_{gpf} + (1 - p_{msm})I_{gpf}] \lambda(t) - \gamma I_{gpf}  \\
-\dot{I}_{gpm} &= (m_xI_{gpm}) \lambda(t) - \gamma I_{gpm}
+\dot{I}_{msm} &= [p_{msm2msm}I_{msm} + (1 - p_{gpf2gpm})I_{msm}] \lambda(t) - \gamma I_{msm}  \\
+\dot{I}_{gpf} &= [p_{gpf2gpm}I_{gpf} + (1 - p_{msm2msm})I_{gpf}] \mu(t) - \gamma I_{gpf}  \\
+\dot{I}_{gpm} &= (male_xI_{gpm}) \mu(t) - \gamma I_{gpm}
 \end{aligned}
 
 
@@ -69,24 +80,12 @@ The ODEs, or model equations, are:
 
 
 
-`gpf`, `gpm`, `msm`, and `src` are the demes of our model, and are represented in R as:
+$gpf$, $gpm$, $msm$, and $src$ are the demes of our model, and are represented in R as:
 ```{r}
 demes <- c('gpm', 'gpf', 'msm', 'src')
 ```
 
-Bootstrap style
 
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
 
 ## Figures
 
