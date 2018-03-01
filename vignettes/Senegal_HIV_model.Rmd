@@ -57,6 +57,10 @@ We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) a
 * An infected $gpf$ ($I_{gpf}$) could transmit to a $msm$ with probability $(1 - p_{gpf2gpm})$
 * An infected $gpm$ could also transmit to a $gpf$. For this event, we used the risk ratio of a male to transmite to a female, and fixed it to $2.0$. This is the parameter $maleX$ of our model.
 
+```{r out.width = "50%", fig.align="center", fig.cap="Transmission model for HIV in Senegal", echo = FALSE}
+knitr::include_graphics("images/SN_model.png")
+```
+
 ### How about HIV incidence rate?
 
 We also modelled the HIV incidence rate as a funtion of time ($t$) in $msm$ and the $gp$ (general population) as different spline functions (REF HERE), that in our ODEs will be represented by $\lambda(t)$ and $\mu(t)$, respectively.
@@ -74,45 +78,79 @@ The ODEs, or model equations, are:
 \dot{I}_{gpm} &= (male_xI_{gpm}) \mu(t) - \gamma I_{gpm}
 \end{aligned}
 
+### How to express the mathematical model in R?
 
+In our model, we are interested in HIV transmission in the general population ($gp$) and in the $msm$ risk group. But remember we have also to consider the imported HIV, which is in the $src$ compartment. Based on that, $gpf$, $gpm$, $msm$, and $src$ are the demes of our model, and are represented as a vector in R as:
 
-
-
-
-
-$gpf$, $gpm$, $msm$, and $src$ are the demes of our model, and are represented in R as:
 ```{r}
 demes <- c('gpm', 'gpf', 'msm', 'src')
 ```
 
+The calculation of births and migrations of our model are expressed as 4 $\times$ 4 matrices, which represent a tranmission or movement from one deme to another deme. Also, lineages also die at a same rate.
 
+First, we have to setup the components of the model. This can easily be done using the the `setup.model.equations` function in this research compendium. 
 
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```r
+eqns <- senegalHIVmodel::setup.model.equations(demes)
+attach(eqns)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r echo = FALSE}
+Parameter = c("spline shape gp0",
+              "spline shape gp1",
+              "spline shape gp2",
+              "spline function for gp",
+              "spline interval gp",
+              "spline shape msm0",
+              "spline shape msm1",
+              "spline shape msm2",
+              "spline function for msm",
+              "spline interval msm",
+              "infectiouness ration from male to female",
+              "importation rate",
+              "effective population size of src",
+              "probability of msm infect another msm",
+              "probability of gpf to infect a gpm",
+              "initial number of msm",
+              "initial number of gp") 
+`Symbol in R` = c("gpsp0",
+           "gpsp1",
+           "gpsp2",
+           "gpsploc",
+           "gpspline",
+           "msmsp0",
+           "msmsp1",
+           "msmsp2",
+           "msmsploc",
+           "msmspline",
+           "maleX",
+           "import",
+           "srcNe",
+           "pmsm2msm",
+           "pgpf2gpm",
+           "initmsm",
+           "initgp"
+           ) 
+`Initial values` = c("6/10",
+                   "4/10",
+                   "1/10",
+                   "1987",
+                   "N/A",
+                   "4/10",
+                   "4/10",
+                   "2/10",
+                   "1995",
+                   "N/A",
+                   "2.0",
+                   "1.20",
+                   "1.10",
+                   "0.85",
+                   "0.85",
+                   "1.0",
+                   "1.0") 
+data_list = data.frame(Parameter, `Symbol in R`, `Initial values`) 
+data_list <- as.matrix(data_list)
+colnames(data_list)<-c("Parameter","Symbol in R",
+                    "Initial values")
+knitr::kable(data_list)
 ```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
