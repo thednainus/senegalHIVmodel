@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(knitr.table.format = "html")
 ```
 
 This vignette will demonstrate how to estimate HIV transmission rates using DNA sequences from Senegal. This also provides a guidance on how analysis described in Nascimento, (...), Volz, 2018 was carried out. 
@@ -186,7 +187,9 @@ data_list = data.frame(Parameter, `Symbol in R`, `Initial values`)
 data_list <- as.matrix(data_list)
 colnames(data_list)<-c("Parameter","Symbol in R",
                     "Initial values")
-knitr::kable(data_list, caption = "Table 1: Parameters used in our model as in R")
+
+kable_table <- knitr::kable(data_list)
+kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", position = "center", font_size = 12)
 ```
 
 
@@ -208,33 +211,44 @@ eqns <- senegalHIVmodel::setup.model.equations(demes)
 attach(eqns)
 ```
 
+
 __Setting up the birth matrix__
 
 Note that each element in the matrix is a string that will be passed as R code
 ```{r}
-births['msm', 'msm'] <- 'parms$msmspline(t, parms) * msm * parms$pmsm2msm'
-births['msm', 'gpf'] <- 'parms$msmspline(t, parms) * msm * (1-parms$pmsm2msm)'
+births['msm', 'msm'] <- "parms$msmspline(t, parms) * msm * parms$pmsm2msm"
+births['msm', 'gpf'] <- "parms$msmspline(t, parms) * msm * (1-parms$pmsm2msm)"
 
-births['gpm', 'gpf'] <- 'parms$gpspline(t, parms) * gpm * parms$maleX'
-births['gpf', 'gpm'] <- 'parms$gpspline(t, parms) * gpf * parms$pgpf2gpm'
-births['gpf', 'msm'] <- 'parms$gpspline(t, parms) * gpf * (1-parms$pgpf2gpm)'
+births['gpm', 'gpf'] <- "parms$gpspline(t, parms) * gpm * parms$maleX"
+births['gpf', 'gpm'] <- "parms$gpspline(t, parms) * gpf * parms$pgpf2gpm"
+births['gpf', 'msm'] <- "parms$gpspline(t, parms) * gpf * (1-parms$pgpf2gpm)"
 
 # f = (1/2)*(Y^2)/Ne
-births['src', 'src'] <- '.5*SRCSIZE^2/parms$srcNe'
+births['src', 'src'] <- "0.5*SRCSIZE^2/parms$srcNe"
 
-knitr::kable(births)
+kable_table <- knitr::kable(births)
+kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", full_width = F, position = "center", font_size = 12)
+```
+
+```{r}
+sometext <- strsplit(paste0(
+  "You can even try to make some crazy things like this paragraph. ", 
+  "It may seem like a useless feature right now but it's so cool ",
+  "and nobody can resist. ;)"
+), " ")[[1]]
+text_formatted <- paste(kableExtra::text_spec(sometext, "html", color = spec_color(1:length(sometext), end = 0.9), font_size = spec_font_size(1:length(sometext), begin = 5, end = 20)), collapse = " ")
 ```
 
 __Setting up the migration matrix__
 
 ```{r}
-migs['src', 'gpm'] <- 'parms$import * gpm'
-migs['src', 'gpf'] <- 'parms$import * gpf'
-migs['src', 'msm'] <- 'parms$import * msm'
+migs['src', 'gpm'] <- "parms$import * gpm"
+migs['src', 'gpf'] <- "parms$import * gpf"
+migs['src', 'msm'] <- "parms$import * msm"
 
-migs['gpm', 'src'] <- 'parms$import * gpm'
-migs['gpf', 'src'] <- 'parms$import * gpf'
-migs['msm', 'src'] <- 'parms$import * msm'
+migs['gpm', 'src'] <- "parms$import * gpm"
+migs['gpf', 'src'] <- "parms$import * gpf"
+migs['msm', 'src'] <- "parms$import * msm"
 ```
 
 __Setting up the vector for the death rates__
@@ -248,7 +262,7 @@ deaths['src'] <- '.5*SRCSIZE^2/parms$srcNe'
 
 __The demographic model__
 
-After setting up all the componenets of our model, we can build the demographic process using the function `build.demographic.process`. This output can be used as imput to coalescent models for the calculation of the likelihood, when fitting the model using a Markov chain Monte Carlo (MCMC), for example.
+After setting up all the componenets of the mathematical model, we can build the demographic process using the function `build.demographic.process`. The `dm` output can be used as imput to coalescent models for the calculation of the likelihood, when fitting the model using a Markov chain Monte Carlo (MCMC), for example.
 
 ```{r}
 
