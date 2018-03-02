@@ -20,14 +20,15 @@ knitr::opts_chunk$set(
 options(knitr.table.format = "html")
 ```
 
-This vignette will demonstrate how to estimate HIV transmission rates using DNA sequences from Senegal. This also provides a guidance on how analysis described in Nascimento, (...), Volz, 2018 was carried out. 
+This vignette will demonstrate how to estimate HIV transmission rates using DNA 
+sequences from Senegal. This also provides a guidance on how analysis described in Nascimento _et al_. 2018 was carried out. 
 
 ## Basic requirements
 This vignette assumes that you know the basics of R and have the following packages already installed:
 
-* devtools: useful for installing packages directly from github         repository, for example. 
-* phydynR: it implements the coalescent simulation and likelihood       function for phylodynamics analysis
-* akima: this package is necessary for interpolation of data (used      for the calculation of the likelihood by the phydynR package)
+* devtools: useful for installing packages directly from github repository, for example. 
+* phydynR: it implements the coalescent simulation and likelihood function for phylodynamics analysis
+* akima: this package is necessary for interpolation of data (used for the calculation of the likelihood by the phydynR package)
 * BayesianTools: package for Bayesian inference
 
 ### Load the necessary packages:
@@ -116,15 +117,19 @@ THETA <- list(
   maleX = 1.25,
   import = 1/20,
   srcNe = 1/10,
-  gpspline = function( t, parms ){
-    if (t < T0 ) return( parms$gpsp0 )
+  gpspline = function(t, parms){
+    if (t < T0) return(parms$gpsp0)
     if (t > T1) return (parms$gpsp2)
-    with(parms, aspline( x = c(T0, gpsploc, T1), y=c(gpsp0, gpsp1, gpsp2) , xout = t)$y)
+    with(parms, aspline(x = c(T0, gpsploc, T1),
+                        y=c(gpsp0, gpsp1, gpsp2),
+                        xout = t)$y)
   },
-  msmspline  = function( t, parms){
-    if (t < T0 ) return( parms$msmsp0 )
-    if (t > T1) return ( parms$msmsp2 )
-    with(parms, aspline( x = c(T0, msmsploc, T1), y=c(msmsp0, msmsp1, msmsp2) , xout = t)$y)
+  msmspline  = function(t, parms){
+    if (t < T0) return(parms$msmsp0)
+    if (t > T1) return (parms$msmsp2)
+    with(parms, aspline(x = c(T0, msmsploc, T1),
+                        y=c(msmsp0, msmsp1, msmsp2),
+                        xout = t)$y)
   },
   pmsm2msm = 0.85,
   pgpf2gpm = 0.85,
@@ -189,7 +194,10 @@ colnames(data_list)<-c("Parameter","Symbol in R",
                     "Initial values")
 
 kable_table <- knitr::kable(data_list)
-kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", full_width = FALSE, position = "center", font_size = 12)
+kableExtra::kable_styling(kable_input = kable_table,
+                          bootstrap_options = "striped",
+                          full_width = FALSE, position = "center",
+                          font_size = 12)
 
 ```
 
@@ -233,7 +241,11 @@ births['src', 'src'] <- "$src \\to src$"
 
 kable_table <- knitr::kable(births, align = "c")
 
-out <- kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = c("striped", "hover"), full_width = FALSE, position = "center", font_size = 12)
+out <- kableExtra::kable_styling(kable_input = kable_table,
+                                 bootstrap_options = c("striped", "hover"),
+                                 full_width = FALSE,
+                                 position = "center",
+                                 font_size = 12)
 
 kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
 ```
@@ -257,7 +269,7 @@ births['src', 'src'] <- "0.5*SRCSIZE^2/parms$srcNe"
 __Setting up the migration matrix__
 
 Similar to the birth matrix, we also allow migrations from $gpf$, $gpm$, or $msm$ to the $src$; and from $src$ to $gpf$, $gpm$, or $msm$. This is modelled as a constant effective population size.
-```{r results = "asis", echo=FALSE}
+```{r echo=FALSE}
 migs['src', 'gpm'] <- "$src \\to gpm$"
 migs['src', 'gpf'] <- "$src \\to gpf$"
 migs['src', 'msm'] <- "$src \\to msm$"
@@ -268,7 +280,11 @@ migs['msm', 'src'] <- "$msm \\to src$"
 
 kable_table <- knitr::kable(migs, align = "c")
 
-out <- kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = c("striped", "hover"), full_width = FALSE, position = "center", font_size = 12)
+out <- kableExtra::kable_styling(kable_input = kable_table,
+                                 bootstrap_options = c("striped", "hover"),
+                                 full_width = FALSE,
+                                 position = "center",
+                                 font_size = 12)
 
 kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
 ```
