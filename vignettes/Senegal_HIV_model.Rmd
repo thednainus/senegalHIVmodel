@@ -3,7 +3,7 @@ title: "Senegal HIV model"
 author: "Fabricia F. Nascimento"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
 bibliography: bib/senegal_HIVmodel.bib
 vignette: >
@@ -67,9 +67,9 @@ knitr::include_graphics("images/SN_model.png")
 
 We also modelled the HIV incidence rate as a funtion of time ($t$) in $msm$ and the $gp$ (general population) as different spline functions [@Eilers1996], that in our ODEs will be represented by $\lambda(t)$ and $\mu(t)$, respectively.
 
-### The $source$ compartment!
+### The $source$ compartment
 
-Finally, to model the HIV epidemic in Senegal, we also added an additional compartment named "source" ($src$), that is reprsent the rate lineages are imported to Senegal from other countries. We modelled this as a constant efective population size rate, with two parameters to be estimeted in our models -- srcNe: the effective source population size; and the $import$ rate. Because, as mentioned, these are modeled as constant effective population size, the infected $src$ individuals along time are not represented in the ODEs below. 
+Finally, to model the HIV epidemic in Senegal, we also added an additional compartment named "source" ($src$), that is reprsent the rate lineages are imported to Senegal from other countries. We modelled this as a constant efective population size rate, with two parameters to be estimeted in our models -- $srcNe$: the effective source population size; and the $import$ rate. Because, as mentioned, these are modeled as constant effective population size, the infected $src$ individuals along time are not represented in the ODEs below. 
 
 
 The ODEs, or model equations, are:
@@ -189,14 +189,18 @@ colnames(data_list)<-c("Parameter","Symbol in R",
                     "Initial values")
 
 kable_table <- knitr::kable(data_list)
-kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", position = "center", font_size = 12)
+kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", full_width = FALSE, position = "center", font_size = 12)
+
 ```
 
 
 We also need to setup some initial conditions of our model. We should set an arbitrary large number for the $src$ population, 
 ```{r}
 SRCSIZE <<- 1e5
-X0 <- c(gpm = unname(THETA$initgp/2), gpf = unname(THETA$initgp/2), msm = unname(THETA$initmsm) , src = SRCSIZE)
+X0 <- c(gpm = unname(THETA$initgp/2),
+        gpf = unname(THETA$initgp/2),
+        msm = unname(THETA$initmsm),
+        src = SRCSIZE)
 ```
 
 
@@ -214,7 +218,29 @@ attach(eqns)
 
 __Setting up the birth matrix__
 
-Note that each element in the matrix is a string that will be passed as R code
+We should set up the birth matrix to allow the transmissions from one deme to another deme as in __Figure 1__.
+
+```{r, echo=FALSE}
+births['msm', 'msm'] <- "$msm \\to msm$"
+births['msm', 'gpf'] <- "$msm \\to gpf$"
+
+births['gpm', 'gpf'] <- "$gpm \\to gpf$"
+births['gpf', 'gpm'] <- "$gpf \\to gpm$"
+births['gpf', 'msm'] <- "$gpf \\to msm$"
+
+# f = (1/2)*(Y^2)/Ne
+births['src', 'src'] <- "$src \\to src$"
+
+kable_table <- knitr::kable(births, align = "c")
+
+out <- kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = c("striped", "hover"), full_width = FALSE, position = "center", font_size = 12)
+
+kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
+```
+
+
+To set up these transmissions between demes, each element in the matrix is a string that will be passed as R code.
+
 ```{r}
 births['msm', 'msm'] <- "parms$msmspline(t, parms) * msm * parms$pmsm2msm"
 births['msm', 'gpf'] <- "parms$msmspline(t, parms) * msm * (1-parms$pmsm2msm)"
@@ -225,21 +251,30 @@ births['gpf', 'msm'] <- "parms$gpspline(t, parms) * gpf * (1-parms$pgpf2gpm)"
 
 # f = (1/2)*(Y^2)/Ne
 births['src', 'src'] <- "0.5*SRCSIZE^2/parms$srcNe"
-
-kable_table <- knitr::kable(births)
-kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = "striped", full_width = F, position = "center", font_size = 12)
 ```
 
-```{r}
-sometext <- strsplit(paste0(
-  "You can even try to make some crazy things like this paragraph. ", 
-  "It may seem like a useless feature right now but it's so cool ",
-  "and nobody can resist. ;)"
-), " ")[[1]]
-text_formatted <- paste(kableExtra::text_spec(sometext, "html", color = spec_color(1:length(sometext), end = 0.9), font_size = spec_font_size(1:length(sometext), begin = 5, end = 20)), collapse = " ")
-```
 
 __Setting up the migration matrix__
+
+Similar to the birth matrix, we also allow migrations from $gpf$, $gpm$, or $msm$ to the $src$; and from $src$ to $gpf$, $gpm$, or $msm$. This is modelled as a constant effective population size.
+```{r results = "asis", echo=FALSE}
+migs['src', 'gpm'] <- "$src \\to gpm$"
+migs['src', 'gpf'] <- "$src \\to gpf$"
+migs['src', 'msm'] <- "$src \\to msm$"
+
+migs['gpm', 'src'] <- "$gpm \\to src$"
+migs['gpf', 'src'] <- "$gpf \\to src$"
+migs['msm', 'src'] <- "$msm \\to src$"
+
+kable_table <- knitr::kable(migs, align = "c")
+
+out <- kableExtra::kable_styling(kable_input = kable_table, bootstrap_options = c("striped", "hover"), full_width = FALSE, position = "center", font_size = 12)
+
+kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
+```
+
+
+We also, set up migrations between demes where each element in the matrix is a string that will be passed as R code.
 
 ```{r}
 migs['src', 'gpm'] <- "parms$import * gpm"
