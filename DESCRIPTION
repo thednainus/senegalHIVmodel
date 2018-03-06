@@ -4,17 +4,20 @@ Title: Analysis of HIV data from Senegal
 Version: 0.1.0
 Authors@R: c(
     person("Fabricia", "F. Nascimento", email = "thednainus@yahoo.com", role = c("cre", "aut")),
-    person("Erik", "Volz", email = "e.volz@imperial.ac.uk", role = "aut"))
+    person("Erik", "M. Volz", email = "e.volz@imperial.ac.uk", role = "aut"))
 Description: This is a research compendium organized as an R package to carry out
     phylodynamics models in HIV DNA sequences data from Senegal as described in 
-    XXX Nascimento (...) and Volz, 2018.
+    Nascimento et al. (In prep).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: akima,
     BayesianTools,
-    phydynR
+    phydynR,
+    treedater
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Suggests: kableExtra,
+    knitr,
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr

@@ -57,16 +57,15 @@ obj_fun <- function(parameters){
   # After changing the parameter values to the new proposals, a likelihood is
   # calculated with the funtion colik.
   # Note that this function uses several global variables, such as, dated.tree, dm, and X0
-  mll <- colik(tree = dated.tree
-               , theta = THETA.new
-               , demographic.process.model = dm
-               , x0 = X0
-               , t0 =  1978
-               , res = 1e3
-               , timeOfOriginBoundaryCondition = FALSE
-               , AgtY_penalty = 1
-               , maxHeight = 41
-  )
+  mll <- colik(tree = dated.tree,
+               theta = THETA.new,
+               demographic.process.model = dm,
+               x0 = X0,
+               t0 = 1978,
+               res = 1e3,
+               timeOfOriginBoundaryCondition = FALSE,
+               AgtY_penalty = 1,
+               maxHeight = 41)
 
   return(mll)
 

@@ -1,4 +1,4 @@
-# script used to run a Markov Chain Monte Carlo analysis to estimate the
+# Script used to run a Markov Chain Monte Carlo analysis to estimate the
 # parameters of the HIV model
 # It used the R package BayesianTools for the MCMC analysis
 # It used the R package phydynR to calculate the likelihood
@@ -68,7 +68,7 @@ prior <- createPrior(density = densities, sampler = sampler, lower = c(0.01, 0.0
 
 # After we had a run to create a z-matrix we did the follow:
 # Read a previous run for creating starting values for the Z matrix
-runZ <- readRDS("data/outDEZs_37147513_0_18000_1.rds")
+runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
