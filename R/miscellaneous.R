@@ -46,15 +46,13 @@ setup.model.equations <- function(demes, nondemes = NULL, rcpp = FALSE)
 #'
 #' This function aims to organize the HIV metadata in a format that will be more
 #' useful for the analysis of HIV transmission in Senegal using coalescent model.
-#' It mainly gets information on different dataframes format and organize them so as to
+#' It mainly gets information on different dataframes and organize them so as to
 #' create a matrix for the states (demes) on the phylogenetic tree
 #'
 #' @param metadata_CGR data.frame object that contains metadata for the CGR sequences.
 #'    These sequeces will receive the state "src", a deme in our mathematical model.
 #' @param metadata_SN data.frame object that contain all metadata for the Senegal (SN)
 #'    sequences. Sequences will receive the states: "gpf", "gpm", or "msm".
-#' @param to_remove data.frame object that contain all metadata that must be removed
-#'    from analysis because there are missing information
 #' @param tree phylogenetic tree in the class phylo in which the tips correspond to
 #'    all sequences with metadata
 #'
@@ -67,12 +65,11 @@ setup.model.equations <- function(demes, nondemes = NULL, rcpp = FALSE)
 #'
 #' @examples
 #' tree.all <- read.tree("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre")
-#' all.data.cgr <- read.csv("data/HIV_subtypes_summary_CGR.csv")
-#' all.data.SN <- read.csv("data/HIV_subtypes_summary_SENEGAL_noDups.csv")
-#' to.remove <- read.csv("data/HIV_subtypes_SENEGAL_noDups_ToDrop_fromAnalysis.csv")
+#' all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
+#' all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
 #'
-#' all_data <- organize_metadata(all.data.cgr, all.data.SN, to.remove, tree.all)
-organize_metadata <- function(metadata_CGR, metadata_SN, to_remove, tree){
+#' all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
+organize_metadata <- function(metadata_CGR, metadata_SN, tree){
 
   # Organize metadata for CGR sequences
   metadata_CGR["tip.name"] <- paste(metadata_CGR$Accession_number, "CGR", sep='_')
@@ -83,7 +80,14 @@ organize_metadata <- function(metadata_CGR, metadata_SN, to_remove, tree){
 
   # Organize metadata for the Senegal sequences
   # It creates a dataframe that will not have metadata with missing information
-  metadata_SN.2 <- metadata_SN[ ! metadata_SN$Accession_number %in% to_remove$Accession_number, ]
+  metadata_SN$Risk_group <- as.character(metadata_SN$Risk_group)
+  metadata_SN$Sex <- as.character(metadata_SN$Sex)
+
+
+  # Read all metadata that necessary information is missing
+  # These are information related to the demes of our model, for example, some sequences we don't
+  # have information whether it is a male or female from the general population, or they are from Children.
+  metadata_SN.2 <- subset(metadata_SN, is.na(Risk_group) == FALSE & Risk_group != "Children" & is.na(Sex) == FALSE)
   metadata_SN.2["tip.name"] <- paste(metadata_SN.2$Accession_number, metadata_SN.2$Subtype, "SN", metadata_SN.2$Year, sep='.')
   metadata_SN.3 <- metadata_SN.2[c("tip.name", "Risk_group", "Sex")]
   metadata_SN.3["States"] <- tolower(paste(metadata_SN.3$Risk_group, metadata_SN.3$Sex, sep = ""))

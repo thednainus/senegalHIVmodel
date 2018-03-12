@@ -1,3 +1,5 @@
+library(ape)
+
 # Reads the phylogenetic tree that will be used in the coalescent analysis.
 # This tree had removed the tips from children and tips that risk group = NA or and sex = NA
 tree.all <- read.tree(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre", package = "senegalHIVmodel"))
@@ -10,15 +12,11 @@ all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", packag
 # Reads all metadata for HIV sequences from Senegal
 all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
 
-# Read all metadata that needs to be removed because information is missing
-# These are information related to the deme, for example, some sequences we don't
-# have information whether it is a male or female from the general population
-to.remove <- read.csv(system.file("data/HIV_subtypes_SENEGAL_noDups_ToDrop_fromAnalysis.csv", package = "senegalHIVmodel"))
 
 # organize metadata in 2 columns.
 # the first column is the sequence names as in the phylogenetic tree
 # the second colum is the state (gpf, gpm, msm, or src) of each sequences
-all_data <- organize_metadata(all.data.cgr, all.data.SN, to.remove, tree.all)
+all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
 
 #create matrix to receive the information on states for each tip of the tree
 gpm <- gpf <- msm <- src <- rep(0, length(tree.all$tip.label))

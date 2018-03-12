@@ -4,7 +4,7 @@
 \alias{organize_metadata}
 \title{Organize HIV metadata}
 \usage{
-organize_metadata(metadata_CGR, metadata_SN, to_remove, tree)
+organize_metadata(metadata_CGR, metadata_SN, tree)
 }
 \arguments{
 \item{metadata_CGR}{data.frame object that contains metadata for the CGR sequences.
@@ -12,9 +12,6 @@ These sequeces will receive the state "src", a deme in our mathematical model.}
 
 \item{metadata_SN}{data.frame object that contain all metadata for the Senegal (SN)
 sequences. Sequences will receive the states: "gpf", "gpm", or "msm".}
-
-\item{to_remove}{data.frame object that contain all metadata that must be removed
-from analysis because there are missing information}
 
 \item{tree}{phylogenetic tree in the class phylo in which the tips correspond to
 all sequences with metadata}
@@ -28,14 +25,13 @@ a data.frame object containing 2 columns. The first column reprsent the
 \description{
 This function aims to organize the HIV metadata in a format that will be more
 useful for the analysis of HIV transmission in Senegal using coalescent model.
-It mainly gets information on different dataframes format and organize them so as to
+It mainly gets information on different dataframes and organize them so as to
 create a matrix for the states (demes) on the phylogenetic tree
 }
 \examples{
 tree.all <- read.tree("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre")
-all.data.cgr <- read.csv("data/HIV_subtypes_summary_CGR.csv")
-all.data.SN <- read.csv("data/HIV_subtypes_summary_SENEGAL_noDups.csv")
-to.remove <- read.csv("data/HIV_subtypes_SENEGAL_noDups_ToDrop_fromAnalysis.csv")
+all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
+all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
 
-all_data <- organize_metadata(all.data.cgr, all.data.SN, to.remove, tree.all)
+all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
 }
