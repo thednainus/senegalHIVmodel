@@ -19,7 +19,7 @@ devtools::install_github(repo = "thednainus/senegalHIVmodel", build_vignettes = 
 
 You can find the scripts used for the Senegal HIV model in the [scripts](https://github.com/thednainus/senegalHIVmodel/tree/master/analysis/scripts) directory.
 
-The [data](https://github.com/thednainus/senegalHIVmodel/tree/master/data) directory contains all the data used to estimate the epidemiological parameters in the Senegal HIV model.
+The [data](https://github.com/thednainus/senegalHIVmodel/tree/master/inst/data) directory contains all the data used to estimate the epidemiological parameters in the Senegal HIV model.
 
 After installing the research compendium, you can read the vignette for a guide on how the analysese were arried out using the R code below.
 
