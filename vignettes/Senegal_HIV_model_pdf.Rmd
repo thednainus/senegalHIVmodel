@@ -1,13 +1,17 @@
 ---
-title: "Senegal HIV model"
+title: "Senegal HIV Model"
 author: "Fabricia F. Nascimento"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_document:
-    toc: true
+  rmarkdown::pdf_document:
+    toc: TRUE
+    toc_depth: 3
+    fig_caption: true
+    df_print: kable
 bibliography: bib/senegal_HIVmodel.bib
+fontsize: 12pt
 vignette: >
-  %\VignetteIndexEntry{Senegal HIV model}
+  %\VignetteIndexEntry{Senegal HIV Model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,8 +21,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-options(knitr.table.format = "html")
+options(knitr.table.format = "latex")
 ```
+
+## Introduction
 
 This vignette will demonstrate how we estimated HIV transmission rates using DNA 
 sequences from Senegal. This also provides a guidance on how analysis described in Nascimento _et al_. 2018 (In Prep.) was carried out. 
@@ -68,7 +74,7 @@ We fit the HIV epidemic in Senegal using ordinary differential equations (ODE) a
 
 See Figure 1 for a schematic representation of the transmission model for HIV in Senegal. In this figure $gpf$, $gpm$ and $msm$ represent the infected individuals.
 
-```{r out.width = "60%", fig.align="center", fig.cap="**Figure 1.** Transmission model for HIV in Senegal. $gpf$, $gpm$ and $msm$ represent infected individuals.", echo = FALSE}
+```{r out.width = "100%", fig.align="center", fig.cap="Transmission model for HIV in Senegal. $gpf$, $gpm$ and $msm$ represent infected individuals.", echo = FALSE}
 knitr::include_graphics("images/SN_model_v2.png")
 ```
 
@@ -78,18 +84,19 @@ We also modelled the HIV incidence rate as a funtion of time ($t$) in $msm$ and 
 
 ### The $source$ compartment
 
-Finally, to model the HIV epidemic in Senegal, we also added an additional compartment named "source" ($src$), that represents the rate in which HIV lineages are imported to Senegal from other countries. We modelled this as a constant efective population size rate with two parameters to be estimeted -- $srcNe$: the effective source population size; and the $import$ rate. Because these are modeled as constant effective population size, the infected $src$ individuals along time are not represented in the ODEs. 
+Finally, to model the HIV epidemic in Senegal, we also added an additional compartment named "source" ($src$), that represents the rate in which HIV lineages are imported to Senegal from other countries. We modelled this as a constant efective population size rate with two parameters to be estimeted -- $srcNe$: the effective source population size; and the $import$ rate. Because the number of imported HIV balances the number of exported HIV, the infected $src$ individuals along time are not represented in the ODEs. 
 
 ### The ODEs or mathematical model equations
 
 Based on **Figure 1** and the parameters we would like to estimate, the ordinary differential equations (ODEs) of our model are:
 
-\begin{aligned}
-\dot{I}_{gpf} &= male_x \mu(t) I_{gpm} + (1 - p_{msm2msm}) \lambda(t) I_{msm} - \gamma I_{gpf}  \\
-\dot{I}_{gpm} &= p_{gpf2gpm} \mu(t) I_{gpf} - \gamma I_{gpm} \\
-\dot{I}_{msm} &= (1 - p_{gpf2gpm}) \mu(t) I_{gpf} + p_{msm2msm} \lambda(t) I_{msm} - \gamma I_{msm}  
+$\dot{I}_{gpf} = male_x \mu(t) I_{gpm} + (1 - p_{msm2msm}) \lambda(t) I_{msm} - \gamma I_{gpf}$
 
-\end{aligned}
+$\dot{I}_{gpm} = p_{gpf2gpm} \mu(t) I_{gpf} - \gamma I_{gpm}$
+
+$\dot{I}_{msm} = (1 - p_{gpf2gpm}) \mu(t) I_{gpf} + p_{msm2msm} \lambda(t) I_{msm} - \gamma I_{msm}$
+
+
 
 ### How to express the mathematical model in R?
 
@@ -129,12 +136,16 @@ THETA <- list(gpsp0 = 6/10,
               gpspline = function(t, parms){
                 if (t < T0) return(parms$gpsp0)
                 if (t > T1) return (parms$gpsp2)
-                with(parms, aspline(x = c(T0, gpsploc, T1), y=c(gpsp0, gpsp1, gpsp2), xout = t)$y)
+                with(parms, aspline(x = c(T0, gpsploc, T1), 
+                                    y=c(gpsp0, gpsp1, gpsp2), 
+                                    xout = t)$y)
               },
               msmspline  = function(t, parms){
                 if (t < T0) return(parms$msmsp0)
                 if (t > T1) return (parms$msmsp2)
-                with(parms, aspline(x = c(T0, msmsploc, T1), y=c(msmsp0, msmsp1, msmsp2), xout = t)$y)
+                with(parms, aspline(x = c(T0, msmsploc, T1), 
+                                    y=c(msmsp0, msmsp1, msmsp2), 
+                                    xout = t)$y)
               },
              pmsm2msm = 0.85,
              pgpf2gpm = 0.85,
@@ -161,22 +172,20 @@ Parameter = c("Spline shape gp0",
               "Initial number of infected msm",
               "Initial number of infected gp") 
 `Symbol in R` = c("gpsp0",
-           "gpsp1",
-           "gpsp2",
-           "gpsploc",
-           "msmsp0",
-           "msmsp1",
-           "msmsp2",
-           "msmsploc",
-           "maleX",
-           "import",
-           "srcNe",
-           "pmsm2msm",
-           "pgpf2gpm",
-           "initmsm",
-           "initgp"
-           ) 
-
+                  "gpsp1",
+                  "gpsp2",
+                  "gpsploc",
+                  "msmsp0",
+                  "msmsp1",
+                  "msmsp2",
+                  "msmsploc",
+                  "maleX",
+                  "import",
+                  "srcNe",
+                  "pmsm2msm",
+                  "pgpf2gpm",
+                  "initmsm",
+                  "initgp") 
 `Initial values` = c("6/10",
                    "4/10",
                    "1/10",
@@ -197,11 +206,11 @@ data_list <- as.matrix(data_list)
 colnames(data_list)<-c("Parameter","Symbol in R",
                     "Initial values")
 
-kable_table <- knitr::kable(data_list, caption = "**Table 1.** Parameter definition, values and symbols used in the R script")
+kable_table <- knitr::kable(data_list, booktabs = T, caption =  "Parameter definition, values and symbols used in the R script")
 kableExtra::kable_styling(kable_input = kable_table,
-                          bootstrap_options = "striped",
+                          latex_options = "striped",
                           full_width = FALSE, position = "center",
-                          font_size = 12)
+                           )
 
 ```
 
@@ -243,13 +252,13 @@ births['gpf', 'msm'] <- "$gpf \\to msm$"
 # f = (1/2)*(Y^2)/Ne
 births['src', 'src'] <- "$src \\to src$"
 
-kable_table <- knitr::kable(births, caption = "**Table 2.** Illustration of allowed transmissions between demes.")
+kable_table <- knitr::kable(births, booktabs = T, escape = F, caption = "Illustration of allowed transmissions between demes.")
 
 out <- kableExtra::kable_styling(kable_input = kable_table,
-                                 bootstrap_options = "striped",
+                                 latex_options = "striped",
                                  full_width = FALSE,
                                  position = "center",
-                                 font_size = 12)
+                                 )
 
 kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
 ```
@@ -273,6 +282,7 @@ births['src', 'src'] <- "0.5 * SRCSIZE^2 / parms$srcNe"
 __Setting up the migration matrix__
 
 Similar to the birth matrix, we also allow migrations from $gpf$, $gpm$, or $msm$ to the $src$; and from $src$ to $gpf$, $gpm$, or $msm$. This is modelled as a constant effective population size.
+
 ```{r echo=FALSE}
 migs['src', 'gpm'] <- "$src \\to gpm$"
 migs['src', 'gpf'] <- "$src \\to gpf$"
@@ -282,13 +292,14 @@ migs['gpm', 'src'] <- "$gpm \\to src$"
 migs['gpf', 'src'] <- "$gpf \\to src$"
 migs['msm', 'src'] <- "$msm \\to src$"
 
-kable_table <- knitr::kable(migs, caption = "**Table 3.** Illustration of allowed migrations between demes.")
+
+kable_table <- knitr::kable(migs, booktabs = T, escape = F, caption = "Illustration of allowed migrations between demes.")
 
 out <- kableExtra::kable_styling(kable_input = kable_table,
-                                 bootstrap_options = "striped",
+                                 latex_options = c("striped", "hold_position"),
                                  full_width = FALSE,
                                  position = "center",
-                                 font_size = 12)
+                                 )
 
 kableExtra::column_spec(kable_input = out, 1, bold = TRUE)
 ```
@@ -341,8 +352,9 @@ Each tree had a relaxed clock fitted using the R package [treedater](https://git
 We load the binary dated tree in R using the following:
 
 ```{r}
-tree.all <- read.tree(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre", 
-                                  package = "senegalHIVmodel"))
+tree.all <- read.tree(
+  system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre", 
+  package = "senegalHIVmodel"))
 ```
 
 
@@ -350,22 +362,23 @@ After, we should load all the information for the metadata. This aims to create 
 
 First we need to read in R all metadata as below:
 
-
 ```{r}
 # Reads metadata for the CGR (close global reference) sequences
 # CGRs are referred in the mathematical model as src (source) data
-# These are HIV sequences that are from other countries and not from Senegal
-all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", 
-                                     package = "senegalHIVmodel"))
+# src are HIV sequences that are from other countries and not from Senegal
+all.data.cgr <- read.csv(
+  system.file("data/HIV_subtypes_summary_CGR.csv", 
+  package = "senegalHIVmodel"))
 
 # Reads all metadata for HIV sequences from Senegal
-all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", 
-                                    package = "senegalHIVmodel"))
+all.data.SN <- read.csv(
+  system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", 
+  package = "senegalHIVmodel"))
 
 # organize metadata in 2 columns.
-# the first column is the sequence names
-# the second colum is the state (gpf, gpm, msm, or src) of each sequence
-# metadata from children, or risk group = NA, or sex = NA will also be removed. 
+# the 1st column is the sequence names
+# the 2nd colum is the state (gpf, gpm, msm, or src) of each sequence
+# metadata from children, or risk group or sex = NA will also be removed. 
 all_data <- senegalHIVmodel::organize_metadata(all.data.cgr, all.data.SN)
 ```
 
@@ -390,8 +403,9 @@ rownames(sampleStates) <- all_data$tip.name
 Now, we need to read the estimated times (in calendar units) for each sequence in the phylogenetic tree
 
 ```{r}
-times <- readRDS(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip_sts.RDS",
-                             package = "senegalHIVmodel"))
+times <- readRDS(
+  system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip_sts.RDS",
+  package = "senegalHIVmodel"))
 ```
 
 
@@ -474,8 +488,10 @@ Because we are using the BayesianTools R package, we need to specify the density
 ```{r}
 # Specify a density function to be used in the prior especification (see below)
 densities <-  function(par){
-  # d1 to d3 and d5 to d7 I am using a gamma distribution with mean = R0 = 1.1 and sigma = 1
-  # d4 and d8 uniform distribution between the start time and the final time of our simualtions (t0 = 1978, and t1 = 2014)
+  # d1 to d3 and d5 to d7 I am using a gamma distribution with mean = R0 = 1.1 
+  #    and sigma = 1
+  # d4 and d8 uniform distribution between the start time and the final time 
+  #    of our simualtions (t0 = 1978, and t1 = 2014)
   # d9 exponential distribution with mean around 1/30
   # d10 exponential distribution with mean around 1/20
   d1 = dgamma(par[1], shape = 3, rate = 3/1.1, log = TRUE) #gpsp0
@@ -524,17 +540,23 @@ After setting up the densities and sampler funtions we can now set up our prior 
 # Create prior (necessary for the BayesianTools package)
 prior <- createPrior(density = densities, 
                      sampler = sampler, 
-                     lower = c(0.01, 0.01, 0.01, 1978, 0.01, 0.01, 0.01, 1978, 0, 0.0001, 0.3, 0.3), 
-                     upper = c(3, 3, 3, 2014, 3, 3, 3, 2014, 0.15, 0.15, 1, 1))
+                     lower = c(0.01, 0.01, 0.01, 1978, 0.01, 0.01, 0.01, 1978, 
+                               0, 0.0001, 0.3, 0.3), 
+                     upper = c(3, 3, 3, 2014, 3, 3, 3, 2014, 
+                               0.15, 0.15, 1, 1))
 ```
 
 We now ready to estimating the parameter values using the MCMC. We chose the DEzs sampler. DEzs stands for Differential-Evolution MCMC zs and this is beyoud what will cover in this vingnette. However, if you can check Ter Braak and Vrugt [-@TerBraak2008] for more information.
 
 ```{r eval=FALSE}
 settings = list(iterations = 18000, nrChains = 1, thin = 1)
-out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
+out <- runMCMC(bayesianSetup = bayesianSetup, 
+               sampler = "DEzs", 
+               settings = settings)
 ```
 
 In our paper, we have also extended this analysis by providing a z-matrix. First we run a MCMC as above, and after having an ok run, we used that run to provided a z-matrix as explained [here]("https://github.com/florianhartig/BayesianTools/issues/79"). For details on how this was done, you can see our script _mcmc.R_ in the directory `analysis/scripts`.
 
 ## References
+
+

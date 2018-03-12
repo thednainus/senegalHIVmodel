@@ -88,7 +88,7 @@ newZ = matrix(runif(1500, rangePost[1,], rangePost[2,]), ncol = 12, byrow = T)
 pos1=4
 pos2=5
 pos3=6
-iter=18000 # number of iterations
+iter=3000 # number of iterations
 settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = iter, thin = 1)
 
 # Create bayesianSetup
