@@ -14,9 +14,9 @@ all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.cs
 
 
 # organize metadata in 2 columns.
-# the first column is the sequence names as in the phylogenetic tree
+# the first column is the sequence names
 # the second colum is the state (gpf, gpm, msm, or src) of each sequences
-all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
+all_data <- organize_metadata(all.data.cgr, all.data.SN)
 
 #create matrix to receive the information on states for each tip of the tree
 gpm <- gpf <- msm <- src <- rep(0, length(tree.all$tip.label))
@@ -35,4 +35,8 @@ times <- readRDS(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip_sts.RDS", 
 # create an object of DatedTree [phydynR package]
 # This is the tree that should be used in the calculation of the likelihood
 # to estimate parameter values
-dated.tree <- DatedTree(phylo = tree.all, sampleTimes = times, sampleStates = sampleStates, minEdgeLength = 2/52, tol = .1)
+dated.tree <- DatedTree(phylo = tree.all,
+                        sampleTimes = times,
+                        sampleStates = sampleStates,
+                        minEdgeLength = 2/52,
+                        tol = 0.1)

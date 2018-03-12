@@ -364,10 +364,10 @@ all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.cs
                                     package = "senegalHIVmodel"))
 
 # organize metadata in 2 columns.
-# the first column is the sequence names as in the phylogenetic tree
+# the first column is the sequence names
 # the second colum is the state (gpf, gpm, msm, or src) of each sequence
 # metadata from children, or risk group = NA, or sex = NA will also be removed. 
-all_data <- senegalHIVmodel::organize_metadata(all.data.cgr, all.data.SN, tree.all)
+all_data <- senegalHIVmodel::organize_metadata(all.data.cgr, all.data.SN)
 ```
 
 

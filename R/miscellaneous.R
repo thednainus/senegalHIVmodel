@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-#' demes <- c('gpm', 'gpf', 'msm', 'src')
+#' demes <- c("gpm", "gpf", "msm", "src")
 #' eqns <- setup.model.equations(demes)
 setup.model.equations <- function(demes, nondemes = NULL, rcpp = FALSE)
 {
@@ -53,23 +53,20 @@ setup.model.equations <- function(demes, nondemes = NULL, rcpp = FALSE)
 #'    These sequeces will receive the state "src", a deme in our mathematical model.
 #' @param metadata_SN data.frame object that contain all metadata for the Senegal (SN)
 #'    sequences. Sequences will receive the states: "gpf", "gpm", or "msm".
-#' @param tree phylogenetic tree in the class phylo in which the tips correspond to
-#'    all sequences with metadata
 #'
 #' @return a data.frame object containing 2 columns. The first column reprsent the
-#'    the sequences name (as in the phylogenetic tree), and second column represent
+#'    the sequences name, and second column represent
 #'    the state of the sequences. In our case, state can be any of the demes (gpf, gpm,
 #'    msm, and src).
 #'
 #' @export
 #'
 #' @examples
-#' tree.all <- read.tree("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre")
 #' all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
 #' all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
 #'
-#' all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
-organize_metadata <- function(metadata_CGR, metadata_SN, tree){
+#' all_data <- organize_metadata(all.data.cgr, all.data.SN)
+organize_metadata <- function(metadata_CGR, metadata_SN){
 
   # Organize metadata for CGR sequences
   metadata_CGR["tip.name"] <- paste(metadata_CGR$Accession_number, "CGR", sep='_')
@@ -97,11 +94,8 @@ organize_metadata <- function(metadata_CGR, metadata_SN, tree){
   # bind together both dataframes (the one containing metadata on Senegal samples,
   # and the other containing metadata on CGR sequences)
   all_data <- rbind(metadata_CGR.3, metadata_SN.4)
-  # Match the information on the tip of the tree with the dataframe containing information
-  # on all data
-  all_data.2 <- all_data[match(tree$tip.label, all_data$tip.name),]
-  all_data.2$States <- as.factor(all_data.2$States)
+  all_data$States <- as.factor(all_data$States)
 
-  return(all_data.2)
+  return(all_data)
 
 }

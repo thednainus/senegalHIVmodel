@@ -4,7 +4,7 @@
 \alias{organize_metadata}
 \title{Organize HIV metadata}
 \usage{
-organize_metadata(metadata_CGR, metadata_SN, tree)
+organize_metadata(metadata_CGR, metadata_SN)
 }
 \arguments{
 \item{metadata_CGR}{data.frame object that contains metadata for the CGR sequences.
@@ -12,13 +12,10 @@ These sequeces will receive the state "src", a deme in our mathematical model.}
 
 \item{metadata_SN}{data.frame object that contain all metadata for the Senegal (SN)
 sequences. Sequences will receive the states: "gpf", "gpm", or "msm".}
-
-\item{tree}{phylogenetic tree in the class phylo in which the tips correspond to
-all sequences with metadata}
 }
 \value{
 a data.frame object containing 2 columns. The first column reprsent the
-   the sequences name (as in the phylogenetic tree), and second column represent
+   the sequences name, and second column represent
    the state of the sequences. In our case, state can be any of the demes (gpf, gpm,
    msm, and src).
 }
@@ -29,9 +26,8 @@ It mainly gets information on different dataframes and organize them so as to
 create a matrix for the states (demes) on the phylogenetic tree
 }
 \examples{
-tree.all <- read.tree("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre")
 all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
 all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
 
-all_data <- organize_metadata(all.data.cgr, all.data.SN, tree.all)
+all_data <- organize_metadata(all.data.cgr, all.data.SN)
 }

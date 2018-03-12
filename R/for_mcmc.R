@@ -1,6 +1,6 @@
 #' Object function
 #'
-#' This object function will receive the proposals of the mcmc.
+#' This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 #' The reason of using an object function is to make it easier to change the
 #' values of the parameters to be estimated in THETA.
 #' Note that not all parameters listed in THETA will be estimated
@@ -8,10 +8,10 @@
 #' @param parameters is a vector or matrix containing the proposals o f the mcmc
 #'
 #' @return the likelihood of the model based on the new parameter values
-#'    (proposals of the mcmc)
+#'    (proposals of the MCMC)
 #'
 #' @details This object function uses a series of global variables that are declared
-#'    in \code{\link{"analysis/scripts/model.R"}} and \code{\link{"analysis/scripts/load_data.R"}}
+#'    in "analysis/scripts/model.R" and "analysis/scripts/load_data.R"
 #'    These global variables are:
 #'    \itemize{
 #'    \item \code{THETA} is a list with parameter values
@@ -23,8 +23,7 @@
 #' @export
 #'
 #' @examples
-#' #In our example we would like to estimate 12 parameters. the parameter maleX will be fixed
-#' # and the value for maleX is also changed in this obj_fun
+#' # In our example we would like to estimate 12 parameters.
 #'
 #' lnl <- obj_fun(c(0.6, 0.4, 0.1, 1987, 0.4, 0.4, 0.2, 1995, 0.05, 0.1, 0.85, 0.85))
 #'
@@ -50,9 +49,6 @@ obj_fun <- function(parameters){
   THETA.new$srcNe <- parameters[10]
   THETA.new$pmsm2msm <- parameters[11]
   THETA.new$pgpf2gpm <- parameters[12]
-
-  # maleX parameter will be fixed to 2.0
-  THETA.new$maleX <- 2.0
 
   # After changing the parameter values to the new proposals, a likelihood is
   # calculated with the funtion colik.

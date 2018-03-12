@@ -27,7 +27,7 @@ Function to setup the components of the mathematical model. See \code{\link[phyd
 for more details
 }
 \examples{
-demes <- c('gpm', 'gpf', 'msm', 'src')
+demes <- c("gpm", "gpf", "msm", "src")
 eqns <- setup.model.equations(demes)
 }
 \seealso{

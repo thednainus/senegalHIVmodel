@@ -52,7 +52,7 @@ THETA <- list(
   msmsp1 = 4/10,
   msmsp2 = 2/10,
   msmsploc = 1995,
-  maleX = 1.25,
+  maleX = 2.0,
   import = 1/20,
   srcNe = 1/10,
   gpspline = function( t, parms ){
@@ -86,7 +86,7 @@ births['gpf', 'gpm'] <- 'parms$gpspline(t, parms) * gpf * parms$pgpf2gpm'
 births['gpf', 'msm'] <- 'parms$gpspline(t, parms) * gpf * (1-parms$pgpf2gpm)'
 
 # f = (1/2)*(Y^2)/Ne
-births['src', 'src'] <- '.5*SRCSIZE^2/parms$srcNe'
+births['src', 'src'] <- '0.5 * SRCSIZE^2 / parms$srcNe'
 
 # Migrations is also a 4 x 4 matrix because we have 4 demes
 migs['src', 'gpm'] <- 'parms$import * gpm'
@@ -101,8 +101,13 @@ migs['msm', 'src'] <- 'parms$import * msm'
 deaths['msm'] <- 'GAMMA * msm'
 deaths['gpf'] <- 'GAMMA * gpf'
 deaths['gpm'] <- 'GAMMA * gpm'
-deaths['src'] <- '.5*SRCSIZE^2/parms$srcNe'
+deaths['src'] <- '0.5 * SRCSIZE^2 / parms$srcNe'
 
 #sde = FALSE means that an ordinary differential equation model will be constructed
 # build the demographic process to be used in the coalescent analysis
-dm <- build.demographic.process(births = births, deaths = deaths, migrations = migs, parameterNames = names(THETA), rcpp = FALSE, sde = FALSE)
+dm <- build.demographic.process(births = births,
+                                deaths = deaths,
+                                migrations = migs,
+                                parameterNames = names(THETA),
+                                rcpp = FALSE,
+                                sde = FALSE)
