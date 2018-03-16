@@ -1,0 +1,10 @@
+context("Model equations")
+
+demes <- c("gpm", "gpf", "msm", "src")
+eqns <- setup.model.equations(demes)
+expect_is(eqns, "list")
+expect_true(is.character(eqns$births))
+expect_true(is.character(eqns$migs))
+expect_true(is.character(eqns$demes))
+expect_true(is.numeric(eqns$m))
+expect_true(is.numeric(eqns$mm))

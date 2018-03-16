@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:
     toc: true
-bibliography: bib/senegal_HIVmodel.bib
+bibliography: bib/senegalHIVmodel.bib
 vignette: >
   %\VignetteIndexEntry{Senegal HIV model}
   %\VignetteEngine{knitr::rmarkdown}
