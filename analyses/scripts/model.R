@@ -52,7 +52,7 @@ THETA <- list(
   msmsp1 = 4/10,
   msmsp2 = 2/10,
   msmsploc = 1995,
-  maleX = 2.0,
+  maleX = 1.02,
   import = 1/20,
   srcNe = 1/10,
   gpspline = function( t, parms ){
@@ -74,7 +74,10 @@ THETA <- list(
 # arbitrary large number > A(t) forall t
 SRCSIZE <<- 1e5
 # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
-X0 <- c(gpm = unname(THETA$initgp/2), gpf = unname(THETA$initgp/2), msm = unname(THETA$initmsm) , src = SRCSIZE)
+X0 <- c(gpm = unname(THETA$initgp/2),
+        gpf = unname(THETA$initgp/2),
+        msm = unname(THETA$initmsm),
+        src = SRCSIZE)
 
 # Because there are 4 demes in this model, the birth matrix is a 4 x 4 matrix
 # Each element in the matrix is a string that will be passed as R code
