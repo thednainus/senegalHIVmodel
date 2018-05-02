@@ -30,12 +30,13 @@ obj_fun <- function(parameters){
   THETA.new$msmsp1 <- parameters[6]
   THETA.new$msmsp2 <- parameters[7]
   THETA.new$msmsploc <- parameters[8]
-  THETA.new$import <- parameters[9]
-  THETA.new$srcNe <- parameters[10]
-  THETA.new$pmsm2msm <- parameters[11]
-  THETA.new$pgpf2gpm <- parameters[12]
-  THETA.new$initmsm <- parameters[13]
-  THETA.new$initgp <- parameters[14]
+  THETA.new$maleX <- parameters[9]
+  THETA.new$import <- parameters[10]
+  THETA.new$srcNe <- parameters[11]
+  THETA.new$pmsm2msm <- parameters[12]
+  THETA.new$pgpf2gpm <- parameters[13]
+  THETA.new$initmsm <- parameters[14]
+  THETA.new$initgp <- parameters[15]
 
   # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
   X0 <- c(gpm = unname(THETA.new$initgp/2),
@@ -75,14 +76,15 @@ densities <-  function(par){
   d6 = dgamma(par[6], shape = 3, rate = 3/1.1, log = TRUE) #msmsp1
   d7 = dgamma(par[7], shape = 3, rate = 3/1.1, log = TRUE) #msmsp2
   d8 = dunif(par[8], min = 1978, max = 2014, log = TRUE) #msmsploc
-  d9 = dexp(par[9], rate = 30, log = TRUE) #import
-  d10 = dexp(par[10], rate = 20, log = TRUE) #srcNe
-  d11 = dbeta(par[11], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
-  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
-  d13 = dexp(par[13], rate = 1/10, log = TRUE) #initgp
-  d14 = dexp(par[14], rate = 1/10, log = TRUE) #initmsm
+  d9 = dunif(par[9], min = 0.5, max = 2, log = TRUE) #maleX
+  d10 = dexp(par[10], rate = 30, log = TRUE) #import
+  d11 = dexp(par[11], rate = 20, log = TRUE) #srcNe
+  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
+  d13 = dbeta(par[13], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
+  d14 = dexp(par[14], rate = 1/10, log = TRUE) #initgp
+  d15 = dexp(par[15], rate = 1/10, log = TRUE) #initmsm
 
-  return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14)
+  return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15)
 }
 
 
@@ -97,21 +99,23 @@ sampler <-  function(n=1){
   d6 = rgamma(n, shape = 3, rate = 3/1.1) #msmsp1
   d7 = rgamma(n, shape = 3, rate = 3/1.1) #msmsp2
   d8 = runif(n, min = 1978, max = 2014) #msmsploc
-  d9 = rexp(n, rate = 30) #import
-  d10 = rexp(n, rate = 20) #srcNe
-  d11 = rbeta(n, shape1 = 16, shape2 = 4) #pmsm2msm
-  d12 = rbeta(n, shape1 = 16, shape2 = 4) #pgpf2gpm
-  d13 = rexp(n, rate = 1/10) #initgp
-  d14 = rexp(n, rate = 1/10) #initmsm
+  d9 = runif(n, min = 0.5, max = 2.0) #maleX
+  d10 = rexp(n, rate = 30) #import
+  d11 = rexp(n, rate = 20) #srcNe
+  d12 = rbeta(n, shape1 = 16, shape2 = 4) #pmsm2msm
+  d13 = rbeta(n, shape1 = 16, shape2 = 4) #pgpf2gpm
+  d14 = rexp(n, rate = 1/10) #initgp
+  d15 = rexp(n, rate = 1/10) #initmsm
 
-  return(cbind(d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14))
+  return(cbind(d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15))
 }
 
 # Create prior (necessary for the BayesianTools package)
 prior <- createPrior(density = densities,
                      sampler = sampler,
-                     lower = c(0.01, 0.01, 0.01, 1978, 0.01, 0.01, 0.01, 1978, 0, 0.0001, 0.1, 0.1, 1, 1),
-                     upper = c(5, 5, 5, 2014, 5, 5, 5, 2014, 0.30, 0.30, 1, 1, 300, 300))
+                     lower = c(0.01, 0.01, 0.01, 1978, 0.01, 0.01, 0.01, 1978, 0.1, 0, 0.0001, 0.1, 0.1, 1, 1),
+                     upper = c(5, 5, 5, 2014, 5, 5, 5, 2014, 2, 0.30, 0.30, 1, 1, 300, 300))
+
 
 # Note that before proceding to reading a previous run, we first run several mcmc
 # runs in order to get an ok run to create a z-matrix (for more details see Braak and Vrugt 2008)
@@ -119,22 +123,22 @@ prior <- createPrior(density = densities,
 
 # Implementing the linear chain kebab job for the OSG
 # loads the value for the i in the while loop below
-#load("iter.rdata")
+load("iter.rdata")
 
 #while(i < 7){
 
-#  if(!file.exists("out.RDS")){
+#  if(!file.exists("out_maleX.RDS")){
 #    settings = list(iterations = 100, nrChains = 1, thin = 1)
 #    bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
 #    out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
-#    saveRDS(out, "out.RDS")
+#    saveRDS(out, "out_maleX.RDS")
 #    save(i, file="iter.rdata")
 #    i = i + 1
 #  }else{
-#    out <- readRDS("out.RDS")
+#    out <- readRDS("out_maleX.RDS")
 #    out1 <- out
 #    out <- runMCMC(bayesianSetup = out1)
-#    saveRDS(out, "out.RDS")
+#    saveRDS(out, "out_maleX.RDS")
 #    save(i, file="iter.rdata")
 #    i = i + 1
 #  }
@@ -143,14 +147,16 @@ prior <- createPrior(density = densities,
 
 
 
+# Implementing the linear chain kebab job for the OSG
+# loads the value for the i in the while loop below
 load("iter.rdata")
 
-while(i < 10){
+while(i < 201){
 
-  if(!file.exists("out.RDS")){
+  if(!file.exists("out_maleX.RDS")){
     # After we had a run to create a z-matrix we did the follow:
     # Read a previous run for creating starting values for the Z matrix
-    runZ <- readRDS("run2_with_zMatrix.RDS")
+    runZ <- readRDS("maleXforZ.RDS")
 
     # Get a good sample (the run above is not good, however it can provide a good Z matrix)
     # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
@@ -162,27 +168,29 @@ while(i < 10){
     u_x <- unique(x)
 
     #cretae new Z matrix based on previous run
-    newZ = matrix(runif(1960, rangePost[1,], rangePost[2,]), ncol = 14, byrow = T)
+    newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
 
     # Because I will run several analysis in parallel, and to avoid the initial values to be identical
     # I will provide as argument position 1 (pos1), position 2 (pos2), and position 3 (pos3)
     # from the unique values of x (u_x)
-    pos1=4
-    pos2=5
-    pos3=6
-    settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = 10, thin = 1)
+    pos1=p1
+    pos2=p2
+    pos3=p3
+    settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = 105, thin = 1)
 
     bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
     out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
-    saveRDS(out, "out.RDS")
+    saveRDS(out, "out_maleX.RDS")
     save(i, file="iter.rdata")
     i = i + 1
   }else{
-    out <- readRDS("out.RDS")
+    out <- readRDS("out_maleX.RDS")
     out1 <- out
     out <- runMCMC(bayesianSetup = out1)
-    saveRDS(out, "out.RDS")
+    saveRDS(out, "out_maleX.RDS")
     save(i, file="iter.rdata")
     i = i + 1
   }
 }
+
+

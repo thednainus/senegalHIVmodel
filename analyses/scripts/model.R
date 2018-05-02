@@ -1,6 +1,8 @@
-require(BayesianTools)
-require(akima)
-require(phydynR)
+library(BayesianTools)
+library(akima)
+library(phydynR)
+library(senegalHIVmodel)
+
 
 # print R session Info. List R version and loaded packages,
 # and information o operational sytem (OS)
@@ -114,3 +116,8 @@ dm <- build.demographic.process(births = births,
                                 parameterNames = names(THETA),
                                 rcpp = FALSE,
                                 sde = FALSE)
+
+#show.demographic.process( dm, x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )
+#o <- dm( x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )[[5]]
+#print(o)
+
