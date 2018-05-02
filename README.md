@@ -20,7 +20,7 @@ library(senegalHIVmodel)
 ```
 ## How to use it?
 
-You can find the scripts used for the Senegal HIV model in the [scripts](https://github.com/thednainus/senegalHIVmodel/tree/master/analysis/scripts) directory.
+You can find the scripts used for the Senegal HIV model in the [scripts](https://github.com/thednainus/senegalHIVmodel/tree/master/analyses/scripts) directory.
 
 The [data](https://github.com/thednainus/senegalHIVmodel/tree/master/inst/data) directory contains all the data used to estimate the epidemiological parameters in the Senegal HIV model.
 

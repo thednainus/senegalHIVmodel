@@ -14,6 +14,7 @@ LazyData: true
 Imports: ape, 
     akima,
     BayesianTools,
+    lubridate,
     phydynR,
     treedater
 RoxygenNote: 6.0.1
