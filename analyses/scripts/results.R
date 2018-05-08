@@ -16,17 +16,17 @@ GAMMA <- 1/10
 
 # MAP for parameters:
 THETA <- list(
-  gpsp0 = 0.4010222,
-  gpsp1 = 0.2137481,
-  gpsp2 = 0.6434238,
-  gpsploc = 2002.088,
-  msmsp0 = 2.999968,
-  msmsp1 = 0.1675978,
-  msmsp2 = 0.4859328,
-  msmsploc = 1987.078,
-  maleX = 2.0,
-  import = 0.008048139,
-  srcNe = 0.002983142,
+  gpsp0 = 0.56,
+  gpsp1 = 0.80,
+  gpsp2 = 0.31,
+  gpsploc = 1980.78,
+  msmsp0 = 0.91,
+  msmsp1 = 0.30,
+  msmsp2 = 0.12,
+  msmsploc = 1998.029,
+  maleX = 1.02,
+  import = 0.06,
+  srcNe = 0.29,
   gpspline = function( t, parms ){
     if (t < T0 ) return( parms$gpsp0 )
     if (t > T1) return (parms$gpsp2)
@@ -37,10 +37,10 @@ THETA <- list(
     if (t > T1) return ( parms$msmsp2 )
     with(parms, aspline( x = c(T0,msmsploc,T1), y=c(msmsp0,msmsp1,msmsp2) , xout = t)$y )
   },
-  pmsm2msm = 0.9903139,
-  pgpf2gpm = 0.9446544,
-  initmsm = 1,
-  initgp = 1
+  pmsm2msm = 0.99,
+  pgpf2gpm = 0.48,
+  initmsm = 254.83,
+  initgp = 16.37
 )
 
 
@@ -91,3 +91,4 @@ deaths['src'] <- '.5*SRCSIZE^2/parms$srcNe'
 
 dm <- build.demographic.process(births, deaths = deaths, parameterNames = names(THETA), rcpp = FALSE, sde = FALSE)
 show.demographic.process.mod( dm, x0 = X0, t0 = 1978, t1 = 2014, theta = THETA )
+quartz()
