@@ -1,4 +1,4 @@
-#Summary of each file:
+# Summary of each file
 
 **1.model.R**
 
