@@ -1,5 +1,4 @@
 # First set of results for the MCMC
-# When not estimating the initial gp and msm population size
 
 library(phydynR)
 library(akima)
