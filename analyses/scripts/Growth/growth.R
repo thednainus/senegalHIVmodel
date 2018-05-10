@@ -20,7 +20,8 @@ plot(fit)
 b0 <- BNPR(tr)
 plot_BNPR(b0)
 
-mcmcfit <- skygrowth.mcmc( tr, res = 24*13, tau0=.1 )
+mcmcfit <- skygrowth.mcmc(tr, res = 24*13, tau0=.1 )
+quartz()
 plot( mcmcfit )  + scale_y_log10(limits=c(.01, 1e5))
 
 growth.plot( mcmcfit )
@@ -58,6 +59,9 @@ plot(fit2)  + ggtitle("gp")
 
 fit3 <- skygrowth.mcmc(tree_gp_src, tau0 = 0.1)
 plot(fit3)  + ggtitle("mcmc gp and src")
+
+# double check this
+plot(fit3) + xlim(-40,0) + scale_y_log10(limits=c(1, 1e6))
 
 fit4 <- skygrowth.mcmc(tree_gp, tau0 = 0.1)
 plot(fit4)  + ggtitle("mcmc gp")
