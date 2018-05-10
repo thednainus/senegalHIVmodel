@@ -60,12 +60,12 @@ THETA <- list(
   gpspline = function( t, parms ){
     if (t < T0 ) return( parms$gpsp0 )
     if (t > T1) return (parms$gpsp2)
-    with(parms, aspline( x = c(T0, gpsploc, T1), y=c(gpsp0, gpsp1, gpsp2) , xout = t)$y)
+    with(parms, pmax(0, aspline( x = c(T0, gpsploc, T1), y=c(gpsp0, gpsp1, gpsp2) , xout = t)$y) )
   },
   msmspline  = function( t, parms){
     if (t < T0 ) return( parms$msmsp0 )
     if (t > T1) return ( parms$msmsp2 )
-    with(parms, aspline( x = c(T0, msmsploc, T1), y=c(msmsp0, msmsp1, msmsp2) , xout = t)$y)
+    with(parms, pmax(0, aspline( x = c(T0, msmsploc, T1), y=c(msmsp0, msmsp1, msmsp2) , xout = t)$y) )
   },
   pmsm2msm = 0.85,
   pgpf2gpm = 0.85,
