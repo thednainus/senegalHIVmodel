@@ -10,7 +10,7 @@ Load the necessary data for the phylodynamics analysis
 
 **3.mcmc.R**
 
-Source the files *"model.R"* and *"load_data.R"*.
+Source the files *"1.model.R"* and *"2.load_data.R"*.
 Perform the MCMC using the BayesianTools package
 
 **4. merge_trees.R**
