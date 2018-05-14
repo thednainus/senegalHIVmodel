@@ -1,7 +1,3 @@
-invisible('
-exclude all non-dakar
-')
-
 library(ape)
 
 # Reads the phylogenetic tree that will be used in the coalescent analysis.
@@ -49,22 +45,22 @@ metadata <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv",
                                  package = "senegalHIVmodel"))
 tip2isdakar <- function(tip)
 {
-	if ( ! grepl('SN' , tip )) return(FALSE)
-	ano <- strsplit( tip, '\\.') [[1]][1]
-	loc  = metadata$Location[ metadata$Accession_number == ano ]
-	if ( length( loc ) == 0 ) return(FALSE)
-	if (tolower(loc)=='dakar') return(TRUE)
-	return(FALSE)
+  if ( ! grepl('SN' , tip )) return(FALSE)
+  ano <- strsplit( tip, '\\.') [[1]][1]
+  loc  = metadata$Location[ metadata$Accession_number == ano ]
+  if ( length( loc ) == 0 ) return(FALSE)
+  if (tolower(loc)=='dakar') return(TRUE)
+  return(FALSE)
 }
 
 tip2isSenegalNotDakar <- function(tip)
 {
-	if ( ! grepl('SN' , tip )) return(FALSE)
-	ano <- strsplit( tip, '\\.') [[1]][1]
-	loc  = metadata$Location[ metadata$Accession_number == ano ]
-	if ( length( loc ) == 0 ) return(FALSE)
-	if (tolower(loc)!='dakar') return(TRUE)
-	return(FALSE)
+  if ( ! grepl('SN' , tip )) return(FALSE)
+  ano <- strsplit( tip, '\\.') [[1]][1]
+  loc  = metadata$Location[ metadata$Accession_number == ano ]
+  if ( length( loc ) == 0 ) return(FALSE)
+  if (tolower(loc)!='dakar') return(TRUE)
+  return(FALSE)
 }
 
 isdakar <- sapply( dated.tree$tip, tip2isdakar )
@@ -72,30 +68,9 @@ notdakar <- sapply( dated.tree$tip, tip2isSenegalNotDakar)
 
 tree.dakar <- drop.tip( tree.all , dated.tree$tip.label[ notdakar] )
 dated.tree.dakar <- DatedTree(phylo = tree.dakar,
-                        sampleTimes = times[ tree.dakar$tip.label ],
-                        sampleStates = sampleStates[tree.dakar$tip.label, ],
-                        minEdgeLength = 2/52,
-                        tol = 0.1)
+                              sampleTimes = times[ tree.dakar$tip.label ],
+                              sampleStates = sampleStates[tree.dakar$tip.label, ],
+                              minEdgeLength = 2/52,
+                              tol = 0.1)
 
 
-# plots
-if (TRUE)
-{
-	ecols <- rep('black', nrow(dated.tree$edge))
-	ecols <- sapply( 1:nrow(dated.tree$edge), function(iedge){
-		v <- dated.tree$edge[iedge,2]
-		if ( v > length( isdakar)) return('black')
-		if (isdakar[v])  return('red')
-		return('blue')
-	})
-	quartz(); plot( dated.tree, edge.color = ecols, show.tip.lab = FALSE, no.mar=TRUE )
-
-	ismsm <- dated.tree$sampleStates[, 'msm']==1
-	ecols2 <- sapply( 1:nrow(dated.tree$edge), function(iedge){
-		v <- dated.tree$edge[iedge,2]
-		if ( v > length( ismsm)) return('black')
-		if (ismsm[v])  return('red')
-		return('black')
-	})
-	plot( dated.tree, edge.color = ecols2, show.tip.lab = TRUE, no.mar=TRUE, cex = 0.5)
-}

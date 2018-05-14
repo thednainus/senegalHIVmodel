@@ -70,7 +70,7 @@ THETA <- list(
   pmsm2msm = 0.85,
   pgpf2gpm = 0.85,
   initmsm = 1,
-  initgp = 1
+  initgp = 2
 )
 
 # arbitrary large number > A(t) forall t
@@ -117,7 +117,7 @@ dm <- build.demographic.process(births = births,
                                 rcpp = FALSE,
                                 sde = FALSE)
 
-#show.demographic.process( dm, x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )
-#o <- dm( x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )[[5]]
-#print(o)
+show.demographic.process( dm, x0 = X0, t0 = 1980, t1 = 2015, theta = THETA )
+o <- dm( x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )[[5]]
+print(o)
 

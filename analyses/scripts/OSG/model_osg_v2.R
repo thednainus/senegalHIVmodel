@@ -1,12 +1,7 @@
-invisible('
-v2 uses linear interpolation function for transmission rates
-')
-
-library(BayesianTools)
-library(akima)
-library(phydynR)
+require(BayesianTools)
+require(akima)
+require(phydynR)
 library(senegalHIVmodel)
-
 
 # print R session Info. List R version and loaded packages,
 # and information o operational sytem (OS)
@@ -14,9 +9,9 @@ sessionInfo()
 
 # Choose and set a seed for all analysis.
 # Helpful for reproducing results
-seed <- as.integer(runif(n = 1, min = 1, max = 10000))
-message(seed)
+#seed <- as.integer(runif(n = 1, min = 1, max = 10000))
 set.seed(seed)
+message(seed)
 
 
 # gpm = general population males
@@ -120,8 +115,3 @@ dm <- build.demographic.process(births = births,
                                 parameterNames = names(THETA),
                                 rcpp = FALSE,
                                 sde = FALSE)
-
-#show.demographic.process( dm, x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )
-#o <- dm( x0 = X0, t0 = 1980, t1 = 2014, theta = THETA )[[5]]
-#print(o)
-

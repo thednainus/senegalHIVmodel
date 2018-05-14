@@ -1,2 +1,6 @@
-inst/doc
 .Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+inst/doc
+*.DS_Store

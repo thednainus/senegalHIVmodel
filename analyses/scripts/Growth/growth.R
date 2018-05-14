@@ -61,10 +61,18 @@ fit3 <- skygrowth.mcmc(tree_gp_src, tau0 = 0.1)
 plot(fit3)  + ggtitle("mcmc gp and src")
 
 # double check this
-plot(fit3) + xlim(-40,0) + scale_y_log10(limits=c(1, 1e6))
+plot(fit3) + xlim(-33,0) + scale_y_log10(limits=c(1, 1e6)) + ggtitle("mcmc gp and src")
 
 fit4 <- skygrowth.mcmc(tree_gp, tau0 = 0.1)
 plot(fit4)  + ggtitle("mcmc gp")
+
+fit5 <- skygrowth.mcmc(tree_gp)
+plot(fit5) +  xlim(-33,0) + scale_y_continuous(limits=c(0, 50000)) + ggtitle("gp only")
+
+
+# double check this
+plot(fit4)
+plot(fit4) +  xlim(-33,0) + scale_y_continuous(limits=c(0, 100000)) + ggtitle("gp only")
 
 #phylodyn
 b0 <- BNPR(tree_gp_src)
