@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/1.model.v2.R")
+source("1.model_osg.C.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/2.load_data.v2.R")
+source("2.load_data_osg.C.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -46,7 +46,7 @@ obj_fun <- function(parameters){
   # After changing the parameter values to the new proposals, a likelihood is
   # calculated with the funtion colik.
   # Note that this function uses several global variables, such as, dated.tree, dm, and X0
-  mll <- colik(tree = dated.tree.dakar,
+  mll <- colik(tree = dated.treeC,
                theta = THETA.new,
                demographic.process.model = dm,
                x0 = X0,
@@ -111,20 +111,47 @@ sampler <-  function(n=1){
 prior <- createPrior(density = densities,
                      sampler = sampler,
                      lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0, 1., 0, 0, 1, 1),
-                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 0.30, 5000, 1, 1, 5, 5))
+                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 0.30, 5000, 1, 1, 300, 300))
 
 
-load("fits.ordered.rda")
-value1 <-  fits.ordered[[1]]$par
-value2 <-  fits.ordered[[3]]$par
-value3 <-  fits.ordered[[4]]$par
-initialValues <- rbind(unname(value1), unname(value2), unname(value3))
-# We first run several mcmc runs in order to get an ok run to create a
-# z-matrix (for more details see Braak and Vrugt 2008)
-# First, we run the following lines of code and ignoring everything else:
-bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
-settings = list(iterations = 6000, nrChains = 1, startValue = initialValues, thin = 1)
-out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
-#saveRDS(runz2, "runz2.rds")
-#out2 <- runMCMC(bayesianSetup = out)
 
+load("iter.rdata")
+
+while(i < 91){
+
+  if(!file.exists("out.RDS")){
+    # After we had a run to create a z-matrix we did the follow:
+    # Read a previous run for creating starting values for the Z matrix
+    runZ <- readRDS("C_forZmatrix.rds")
+
+    # Get a good sample (the run above is not good, however it can provide a good Z matrix)
+    # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
+    x <- getSample(runZ, start=800)
+    # Get the range for the parameter estimates for the previous run
+    rangePost = apply(x, 2, range)
+
+    #get unique values of x
+    u_x <- unique(x)
+
+    #cretae new Z matrix based on previous run
+    newZ = matrix(runif(1960, rangePost[1,], rangePost[2,]), ncol = 14, byrow = T)
+
+    # Because I will run several analysis in parallel, and to avoid the initial values to be identical
+    # I will provide as argument position 1 (pos1), position 2 (pos2), and position 3 (pos3)
+    # from the unique values of x (u_x)
+    settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = 100, thin = 1)
+
+    bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
+    out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
+    saveRDS(out, "out.RDS")
+    save(i, file="iter.rdata")
+    i = i + 1
+  }else{
+    out <- readRDS("out.RDS")
+    out1 <- out
+    out <- runMCMC(bayesianSetup = out1)
+    saveRDS(out, "out.RDS")
+    save(i, file="iter.rdata")
+    i = i + 1
+  }
+}
