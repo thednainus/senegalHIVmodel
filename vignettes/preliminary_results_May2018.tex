@@ -1,0 +1,203 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Preliminary results},
+            pdfauthor={Fabricia F. Nascimento},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Preliminary results}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Fabricia F. Nascimento}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{2018-05-21}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage[normalem]{ulem}
+
+\begin{document}
+\maketitle
+
+\hypertarget{variations-of-the-model-i-tested}{%
+\section{Variations of the model I
+tested}\label{variations-of-the-model-i-tested}}
+
+\hypertarget{model-2}{%
+\subsection{Model 2:}\label{model-2}}
+
+Model modified by you. Only sequences from Dakar. Total of 10 runs, each
+ran for 9,180 iterations. I merged 7 runs into a single run to report
+the MAP. Runs, in general, are \textbf{not} great. I think it may need
+to run a much longer number of iterations
+
+\hypertarget{model-3}{%
+\subsection{Model 3:}\label{model-3}}
+
+Same as model 2, but removing from the tree sequences from self-reported
+\emph{gpm}. Total of 10 runs, each ran for 9,180 iterations. I merged
+the 10 runs into a single run to report the MAP. Runs, in general, are
+very good.
+
+\hypertarget{model-4}{%
+\subsection{Model 4:}\label{model-4}}
+
+Same as model 2, but coding self-reported \emph{gpm} as being 0.5
+\emph{gpm} and 0.5 \emph{msm}. Total of 10 runs, each ran for 9,180
+iterations. I merged 3 runs into a single run to report the MAP. Runs,
+in general, are \textbf{not} great. I have some jobs running for much
+longer number of iterations to see whether the runs improve.
+
+\hypertarget{by-subtype-02_ag-model-1}{%
+\subsection{by subtype 02\_AG model 1:}\label{by-subtype-02_ag-model-1}}
+
+All sequences from subtype 02\_AG and from Senegal, coding self-reported
+\emph{gpm} as 1.0. Total of 11 runs, each ran for 9,180 iterations. I
+merged the 11 runs into a single run to report the MAP. All runs are
+very good.
+
+\hypertarget{by-subtype-02_ag-model-2}{%
+\subsection{by subtype 02\_AG model 2:}\label{by-subtype-02_ag-model-2}}
+
+All sequences from subtype 02\_AG and from Senegal, but coding
+self-reported \emph{gpm} and being 0.5 \emph{gpm} and 0.5 \emph{msm}.
+Total of 8 runs, each ran for 9,180 iterations. I merged the 8 runs into
+a single run to report the MAP. Runs, in general, are very good.
+
+\hypertarget{by-subtype-c-model-1}{%
+\subsection{by subtype C model 1:}\label{by-subtype-c-model-1}}
+
+All sequences from subtype C and from Senegal, coding self-reported
+\emph{gpm} as 1. Total of 12 runs, each ran for 9,180 iterations. I
+merged the 12 runs into a single run to report the MAP. Runs, in
+general, are very good.
+
+\hypertarget{by-subtype-c-model-2}{%
+\subsection{by subtype C model 2:}\label{by-subtype-c-model-2}}
+
+All sequences from subtype C and from Senegal, but coding self-reported
+\emph{gpm} and being 0.5 \emph{gpm} and 0.5 \emph{msm}. Total of 12
+runs, each ran for 9,180 iterations. I merged the 12 runs into a single
+run to report the MAP. Runs, in general, are very good.
+
+\rowcolors{2}{gray!6}{white}
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-1}MAP for preliminary MCMC runs}
+\centering
+\resizebox{\linewidth}{!}{\begin{tabular}[t]{lrrrrrrr}
+\hiderowcolors
+\toprule
+  & Model 2 & Model 3 & Model 4 & 02\_AG: model 1 & 02\_AG: model 2 & C: model 1 & C: model 2\\
+\midrule
+\showrowcolors
+gpsp0 & 0.7104566 & 0.6863330 & 0.6681754 & 0.9429633 & 0.9292274 & 0.3312109 & 0.3936318\\
+gpsp1 & 0.0558640 & 0.0529674 & 0.0880483 & 0.0673370 & 0.0565960 & 0.1047985 & 0.0812447\\
+gpsp2 & 0.1885455 & 0.1043768 & 0.1368690 & 0.0546771 & 0.1042886 & 0.1856188 & 0.1578281\\
+gpsploc & 1993.2440000 & 1994.5900000 & 1997.8470000 & 2002.1910000 & 2003.0350000 & 2001.8930000 & 2002.3890000\\
+msmsp0 & 0.1278168 & 0.0804279 & 0.4381736 & 0.0681540 & 0.0778936 & 0.0627928 & 0.0633779\\
+\addlinespace
+msmsp1 & 0.4484997 & 0.3301369 & 0.1297124 & 0.4220679 & 0.3119664 & 0.3889561 & 0.3387542\\
+msmsp2 & 0.0740233 & 0.0657623 & 0.0900226 & 0.0912332 & 0.0804585 & 0.0529990 & 0.0706717\\
+msmsploc & 1984.9450000 & 1983.7560000 & 2008.3510000 & 1999.8670000 & 2000.7020000 & 1983.1110000 & 1987.4360000\\
+import & 0.0333440 & 0.0303312 & 0.0272911 & 0.0803544 & 0.0774737 & 0.0173458 & 0.0191520\\
+srcNe & 1710.7050000 & 1339.8570000 & 1765.2510000 & 658.9549000 & 688.8138000 & 152.4555000 & 165.7410000\\
+\addlinespace
+pmsm2msm & 0.7177013 & 0.8878406 & 0.8277037 & 0.8968579 & 0.8259524 & 0.8652000 & 0.9218892\\
+pgpf2gpm & 0.9950776 & 0.9926982 & 0.9980637 & 0.9999798 & 0.9999288 & 0.9293480 & 0.8959267\\
+initmsm & 1.0854540 & 1.5415510 & 1.9166510 & 1.1481440 & 1.4982430 & 1.1168210 & 1.5031660\\
+initgp & 31.5657400 & 30.6608000 & 30.7428300 & 30.4639000 & 28.9168600 & 4.9017930 & 3.5373230\\
+\bottomrule
+\end{tabular}}
+\end{table}
+\rowcolors{2}{white}{white}
+
+\hypertarget{line-plots}{%
+\section{Line Plots}\label{line-plots}}
+
+\includegraphics{preliminary_results_May2018_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\includegraphics{preliminary_results_May2018_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+
+\end{document}

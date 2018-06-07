@@ -46,7 +46,7 @@ obj_fun <- function(parameters){
   # After changing the parameter values to the new proposals, a likelihood is
   # calculated with the funtion colik.
   # Note that this function uses several global variables, such as, dated.tree, dm, and X0
-  mll <- colik(tree = dated.tree.dakar,
+  mll <- colik(tree = dated.tree.dakar.noGPM,
                theta = THETA.new,
                demographic.process.model = dm,
                x0 = X0,
@@ -157,7 +157,7 @@ bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
 outZ <- runMCMC(bayesianSetup = bayesianSetup,  sampler = "DEzs", settings = settings )
 #saveRDS(outZ, "z_andSuperHighLn2.RDS")
 outZ.2 <- runMCMC(bayesianSetup = outZ)
-
+saveRDS(outZ.2, "analyses/scripts/Model3_noGPM/Preliminary_results/Model3_noGPM_withZmatrix.rds")
 
 
 # save output file for later analysis, i.e. check convergence, plot samples, etc

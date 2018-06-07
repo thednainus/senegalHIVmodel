@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/bySubtype/02_AG/1.model.v4.R")
+source("analyses/scripts/Model3_noGPM/1.model.v3.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/bySubtype/02_AG/2.load_data.v4.R")
+source("analyses/scripts/Model3_noGPM/2.load_data.v3.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -113,7 +113,7 @@ prior <- createPrior(density = densities,
                      lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0, 1., 0, 0, 1, 1),
                      upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 0.30, 5000, 1, 1, 300, 300))
 
-
+# Initial values for the MCMC runs based on the MAP analysis Erik did.
 load("fits.ordered.rda")
 value1 <-  fits.ordered[[1]]$par
 value2 <-  fits.ordered[[2]]$par

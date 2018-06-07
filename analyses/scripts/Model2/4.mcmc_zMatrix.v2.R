@@ -125,7 +125,7 @@ initialValues <- rbind(unname(value1), unname(value2), unname(value3))
 # runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
 #runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
 # runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
-runZ <- readRDS("forZmatrix.rds")
+runZ <- readRDS("analyses/scripts/Model2/Preliminary_results/forZmatrix.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79

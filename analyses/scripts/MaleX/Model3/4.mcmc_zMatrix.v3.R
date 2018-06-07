@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/bySubtype/02_AG/1.model.02_AG.R")
+source("analyses/scripts/Model3_noGPM/1.model.v3.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/bySubtype/02_AG/2.load_data.02_AG.R")
+source("analyses/scripts/Model3_noGPM/2.load_data.v3.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -30,12 +30,13 @@ obj_fun <- function(parameters){
   THETA.new$msmsp1 <- parameters[6]
   THETA.new$msmsp2 <- parameters[7]
   THETA.new$msmsploc <- parameters[8]
-  THETA.new$import <- parameters[9]
-  THETA.new$srcNe <- parameters[10]
-  THETA.new$pmsm2msm <- parameters[11]
-  THETA.new$pgpf2gpm <- parameters[12]
-  THETA.new$initmsm <- parameters[13]
-  THETA.new$initgp <- parameters[14]
+  THETA.new$maleX <- parameters[9]
+  THETA.new$import <- parameters[10]
+  THETA.new$srcNe <- parameters[11]
+  THETA.new$pmsm2msm <- parameters[12]
+  THETA.new$pgpf2gpm <- parameters[13]
+  THETA.new$initmsm <- parameters[14]
+  THETA.new$initgp <- parameters[15]
 
   # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
   X0 <- c(gpm = unname(THETA.new$initgp/2),
@@ -46,7 +47,7 @@ obj_fun <- function(parameters){
   # After changing the parameter values to the new proposals, a likelihood is
   # calculated with the funtion colik.
   # Note that this function uses several global variables, such as, dated.tree, dm, and X0
-  mll <- colik(tree = dated.tree02_AG,
+  mll <- colik(tree = dated.tree.dakar.noGPM,
                theta = THETA.new,
                demographic.process.model = dm,
                x0 = X0,
@@ -75,14 +76,15 @@ densities <-  function(par){
   d6 = dgamma(par[6], shape = 3, rate = 3/0.1, log = TRUE) #msmsp1
   d7 = dgamma(par[7], shape = 3, rate = 3/0.1, log = TRUE) #msmsp2
   d8 = dunif(par[8], min = 1978, max = 2014, log = TRUE) #msmsploc
-  d9 = dexp(par[9], rate = 30, log = TRUE) #import
-  d10 = dexp(par[10], rate = 1/100, log = TRUE) #srcNe
-  d11 = dbeta(par[11], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
-  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
-  d13 = dexp(par[13], rate = 1/3, log = TRUE) #initmsm
-  d14 = dexp(par[14], rate = 1/3, log = TRUE) #initgp
+  d9 = dunif(par[9], min = 0.5, max = 2.0, log = TRUE) #maleX
+  d10 = dexp(par[10], rate = 30, log = TRUE) #import
+  d11 = dexp(par[11], rate = 1/100, log = TRUE) #srcNe
+  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
+  d13 = dbeta(par[13], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
+  d14 = dexp(par[14], rate = 1/3, log = TRUE) #initmsm
+  d15 = dexp(par[15], rate = 1/3, log = TRUE) #initgp
 
-  return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14)
+  return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15)
 }
 
 
@@ -97,33 +99,60 @@ sampler <-  function(n=1){
   d6 = rgamma(n, shape = 4, rate = 4/0.4) #msmsp1
   d7 = rgamma(n, shape = 4, rate = 4/0.2) #msmsp2
   d8 = runif(n, min = 1985, max = 2005) #msmsploc
-  d9 = runif(n, 1/40, 1/5) #import
-  d10 = runif(n, 5, 1000) #srcNe
-  d11 = rbeta(n, shape1 = 16, shape2 = 4) #pmsm2msm
-  d12 = rbeta(n, shape1 = 16, shape2 = 4) #pgpf2gpm
-  d13 = runif(n, 1, 3) #initmsm
-  d14 = runif(n, 1, 3) #initgp
+  d9 = runif(n, min = 0.5, max = 2.0) #maleX
+  d10 = runif(n, 1/40, 1/5) #import
+  d11 = runif(n, 5, 1000) #srcNe
+  d12 = rbeta(n, shape1 = 16, shape2 = 4) #pmsm2msm
+  d13 = rbeta(n, shape1 = 16, shape2 = 4) #pgpf2gpm
+  d14 = runif(n, 1, 3) #initmsm
+  d15 = runif(n, 1, 3) #initgp
 
-  return(cbind(d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14))
+  return(cbind(d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15))
 }
 
 # Create prior (necessary for the BayesianTools package)
 prior <- createPrior(density = densities,
                      sampler = sampler,
-                     lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0, 1., 0, 0, 1, 1),
-                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 0.30, 5000, 1, 1, 20, 20))
+                     lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0.5, 0, 1, 0, 0, 1, 1),
+                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 2, 0.30, 5000, 1, 1, 300, 300))
 
 
-load("fits.ordered.rda")
-value1 <-  fits.ordered[[1]]$par
-value2 <-  fits.ordered[[2]]$par
-value3 <-  fits.ordered[[3]]$par
-initialValues <- rbind(unname(value1), unname(value2), unname(value3))
-# We first run several mcmc runs in order to get an ok run to create a
-# z-matrix (for more details see Braak and Vrugt 2008)
-# First, we run the following lines of code and ignoring everything else:
+# After we had a run to create a z-matrix we did the follow:
+# Read a previous run for creating starting values for the Z matrix
+# runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
+#runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
+# runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
+runZ <- readRDS("analyses/scripts/MaleX/Model3/Preliminary_results/out_38564088_Model3_maleX.rds")
+
+# Get a good sample (the run above is not good, however it can provide a good Z matrix)
+# For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
+x <- getSample(runZ, start=1800)
+
+# Get the range for the parameter estimates for the previous run
+rangePost = apply(x, 2, range)
+
+#get unique values of x
+u_x <- unique(x)
+
+#cretae new Z matrix based on previous run
+# now I am estimating 14 parameters (hence ncol=14)
+newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
+
+# Because I will run several analysis in parallel, and to avoid the initial values to be identical
+# I will provide as argument position 1 (pos1), position 2 (pos2), and position 3 (pos3)
+# from the unique values of x (u_x)
+pos1=72
+pos2=73
+pos3=74
+iter=9000 # number of iterations
+settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = iter, thin = 1)
+#settings = list(Z = newZ, startValue =  initialValues, nrChains = 1, iterations = iter, thin = 1)
+
+# Create bayesianSetup
 bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
-settings = list(iterations = 6000, nrChains = 1, startValue = initialValues, thin = 1)
-out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
+
+outZ <- runMCMC(bayesianSetup = bayesianSetup,  sampler = "DEzs", settings = settings )
+#saveRDS(outZ, "z_andSuperHighLn2.RDS")
+outZ.2 <- runMCMC(bayesianSetup = outZ)
 
 

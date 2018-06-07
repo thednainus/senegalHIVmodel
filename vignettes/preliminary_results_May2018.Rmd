@@ -1,0 +1,206 @@
+---
+title: "Preliminary results"
+author: "Fabricia F. Nascimento"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::pdf_document:
+    fig_caption: true
+    df_print: kable
+    highlight: pygments
+fontsize: 12pt
+vignette: >
+  %\VignetteIndexEntry{Preliminary results}
+  %\VignetteEngine{rmarkdown::render}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "latex")
+```
+
+# Variations of the model I tested
+
+## Model 2:
+
+Model modified by you. Only sequences from Dakar.
+Total of 10 runs, each ran for 9,180 iterations. 
+I merged 7 runs into a single run to report the MAP.
+Runs, in general, are **not** great. I think it may need to run a much longer number of iterations
+
+## Model 3:
+
+Same as model 2, but removing from the tree sequences from self-reported _gpm_.
+Total of 10 runs, each ran for 9,180 iterations. 
+I merged the 10 runs into a single run to report the MAP.
+Runs, in general, are very good.
+
+## Model 4:
+
+Same as model 2, but coding self-reported _gpm_ as being 0.5 _gpm_ and 0.5 _msm_.
+Total of 10 runs, each ran for 9,180 iterations. 
+I merged 3 runs into a single run to report the MAP.
+Runs, in general, are **not** great. 
+I have some jobs running for much longer number of iterations to see whether the runs improve.
+
+
+## by subtype 02_AG model 1:
+
+All sequences from subtype 02_AG and from Senegal, coding self-reported _gpm_ as 1.0.
+Total of 11 runs, each ran for 9,180 iterations. 
+I merged the 11 runs into a single run to report the MAP.
+All runs are very good. 
+
+
+## by subtype 02_AG model 2:
+
+All sequences from subtype 02_AG and from Senegal, but coding self-reported _gpm_ and being 0.5 _gpm_ and 0.5 _msm_.
+Total of 8 runs, each ran for 9,180 iterations. 
+I merged the 8 runs into a single run to report the MAP.
+Runs, in general, are very good. 
+
+
+## by subtype C model 1:
+
+All sequences from subtype C and from Senegal, coding self-reported _gpm_ as 1.
+Total of 12 runs, each ran for 9,180 iterations. 
+I merged the 12 runs into a single run to report the MAP.
+Runs, in general, are very good.
+
+
+## by subtype C model 2:
+
+All sequences from subtype C and from Senegal, but coding self-reported _gpm_ and being 0.5 _gpm_ and 0.5 _msm_.
+Total of 12 runs, each ran for 9,180 iterations. 
+I merged the 12 runs into a single run to report the MAP.
+Runs, in general, are very good.
+
+
+```{r echo = FALSE}
+# MAP after removing first 1,500 iterations
+model2 <- c(gpsp0 = 0.7104566, gpsp1 = 0.05586399, gpsp2 = 0.1885455, gpsploc = 1993.244,
+            msmsp0 = 0.1278168, msmsp1 = 0.4484997, msmsp2 = 0.07402333, msmsploc = 1984.945,
+            import = 0.03334398, srcNe = 1710.705,
+            pmsm2msm = 0.7177013, pgpf2gpm = 0.9950776,
+            initmsm = 1.085454, initgp = 31.56574)
+# MAP after removing first 800 iterations
+model3 <- c(gpsp0 = 0.686333, gpsp1 = 0.05296735, gpsp2 = 0.1043768, gpsploc = 1994.59,
+            msmsp0 = 0.08042791, msmsp1 = 0.3301369, msmsp2 = 0.06576226, msmsploc = 1983.756,
+            import = 0.03033121, srcNe = 1339.857,
+            pmsm2msm = 0.8878406, pgpf2gpm = 0.9926982,
+            initmsm = 1.541551, initgp = 30.6608)
+# MAP after removing first 800 iterations
+model4 <- c(gpsp0 = 0.6681754, gpsp1 = 0.08804832, gpsp2 = 0.136869, gpsploc = 1997.847,
+            msmsp0 = 0.4381736, msmsp1 = 0.1297124, msmsp2 = 0.09002261, msmsploc = 2008.351,
+            import = 0.02729108, srcNe = 1765.251,
+            pmsm2msm = 0.8277037, pgpf2gpm = 0.9980637,
+            initmsm = 1.916651, initgp = 30.74283)
+# MAP after removing first 800 iter
+m02_AG_m1 <- c(gpsp0 = 0.9429633, gpsp1 = 0.06733696, gpsp2 = 0.05467714, gpsploc = 2002.191,
+            msmsp0 = 0.06815399, msmsp1 = 0.4220679, msmsp2 = 0.09123317, msmsploc = 1999.867,
+            import = 0.08035438, srcNe = 658.9549,
+            pmsm2msm = 0.8968579, pgpf2gpm = 0.9999798,
+            initmsm = 1.148144, initgp = 30.4639)
+# MAP after removing first 800 iter
+m02_AG_m2 <- c(gpsp0 = 0.9292274, gpsp1 = 0.05659603, gpsp2 = 0.1042886, gpsploc = 2003.035,
+               msmsp0 = 0.0778936, msmsp1 = 0.3119664, msmsp2 = 0.08045854, msmsploc = 2000.702,
+               import = 0.07747372, srcNe = 688.8138,
+               pmsm2msm = 0.8259524, pgpf2gpm = 0.9999288,
+               initmsm = 1.498243, initgp = 28.91686)
+# MAP after removing 800 iterations
+mC_m1 <- c(gpsp0 = 0.3312109, gpsp1 = 0.1047985, gpsp2 = 0.1856188, gpsploc = 2001.893,
+            msmsp0 = 0.06279285, msmsp1 = 0.3889561, msmsp2 = 0.05299903, msmsploc = 1983.111,
+            import = 0.01734584, srcNe = 152.4555,
+            pmsm2msm = 0.8652, pgpf2gpm = 0.929348,
+            initmsm = 1.116821, initgp = 4.901793)
+#MAP for model 2 subtype C
+mC_m2 <- c(gpsp0 = 0.3936318, gpsp1 = 0.08124474, gpsp2 = 0.1578281, gpsploc = 2002.389,
+           msmsp0 = 0.06337793, msmsp1 = 0.3387542, msmsp2 = 0.0706717, msmsploc = 1987.436,
+           import = 0.01915205, srcNe = 165.741,
+           pmsm2msm = 0.9218892, pgpf2gpm = 0.8959267,
+           initmsm = 1.503166, initgp = 3.537323)
+
+Parameter = c("Spline shape gp0",
+              "Spline shape gp1",
+              "Spline shape gp2",
+              "Spline interval gp",
+              "Spline shape msm0",
+              "Spline shape msm1",
+              "Spline shape msm2",
+              "Spline interval msm",
+              "Infectiouness ratio from male to female",
+              "Importation rate",
+              "Effective population size of src",
+              "Probability of infected msm to infect another msm",
+              "Probability of infected gpf to infect a gpm",
+              "Initial number of infected msm",
+              "Initial number of infected gp") 
+
+data_list = data.frame(model2, model3, model4, m02_AG_m1, m02_AG_m2, mC_m1, mC_m2) 
+data_list <- as.matrix(data_list)
+colnames(data_list)<-c("Model 2","Model 3",
+                       "Model 4", "02_AG: model 1", "02_AG: model 2",
+                       "C: model 1", "C: model 2")
+
+kable_table <- knitr::kable(data_list, booktabs = T, caption =  "MAP for preliminary MCMC runs")
+kableExtra::kable_styling(kable_input = kable_table,
+                          latex_options = c("striped", "scale_down", "hold_position"),
+                          full_width = FALSE, position = "center")
+
+```
+
+# Line Plots
+```{r echo = FALSE}
+library(reshape2)
+library(ggplot2)
+# create dataframe to make plots
+MAP_models <- data.frame(model2, model3, model4, m02_AG_m1, m02_AG_m2, mC_m1, mC_m2)
+
+MAP_models_t <- data.frame(t(MAP_models))
+MAP_models_t["model"] <- rownames(MAP_models_t)
+
+MAP_models_long <- melt(MAP_models_t, id.vars="model")
+
+
+#plots
+gpsp_values <- MAP_models_long[c(1:21),]
+gpsp_values$model <- as.factor(gpsp_values$model)
+
+ggplot(data=gpsp_values, aes(x=variable, y=value, group=model, shape=model, colour=model)) +
+  geom_line(aes(linetype=model), size=0.5) +     # Set linetype by sex
+  geom_point(size=2, fill="white") +         # Use larger points, fill with white
+  expand_limits(y=0) +                       # Set y range to include 0
+  scale_colour_hue(name="Model",      # Set legend title
+                   l=30)  +                  # Use darker colors (lightness=30)
+  scale_shape_manual(name="Model",
+                     values=c(2, 18, 5, 1, 16, 0, 15)) +      # Use points with a fill color
+  scale_linetype_discrete(name="Model") +
+  xlab("parameter") + ylab("value") + # Set axis labels
+  theme_bw() + ggtitle("Shape parameter for gp") +
+  theme(legend.position=c(.7, .7))           # Position legend inside
+# This must go after theme_bw
+
+```
+
+```{r echo = FALSE}
+msmsp_values <- MAP_models_long[c(29:49),]
+msmsp_values$model <- as.factor(msmsp_values$model)
+
+ggplot(data=msmsp_values, aes(x=variable, y=value, group=model, shape=model, colour=model)) +
+  geom_line(aes(linetype=model), size=0.5) +     # Set linetype by sex
+  geom_point(size=2, fill="white") +         # Use larger points, fill with white
+  expand_limits(y=0) +                       # Set y range to include 0
+  scale_colour_hue(name="Model",      # Set legend title
+                   l=30)  +                  # Use darker colors (lightness=30)
+  scale_shape_manual(name="Model",
+                     values=c(2, 18, 5, 1, 16, 0, 15)) +      # Use points with a fill color
+  scale_linetype_discrete(name="Model") +
+  xlab("parameter") + ylab("value") + # Set axis labels
+  theme_bw() + ggtitle("Shape parameter for msm") +
+  theme(legend.position=c(.85, .8))           # Position legend inside
+# This must go after theme_bw
+
+```

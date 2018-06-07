@@ -119,11 +119,11 @@ prior <- createPrior(density = densities,
 # runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
 #runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
 # runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
-runZ <- readRDS("analyses/scripts/bySubtype/C/Preliminary_results/C_forZmatrix.rds")
+runZ <- readRDS("analyses/scripts/Model4/Preliminary_results/out_38434073.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
-x <- getSample(runZ, start=800)
+x <- getSample(runZ, start=1000)
 
 # Get the range for the parameter estimates for the previous run
 rangePost = apply(x, 2, range)
@@ -138,9 +138,9 @@ newZ = matrix(runif(1960, rangePost[1,], rangePost[2,]), ncol = 14, byrow = T)
 # Because I will run several analysis in parallel, and to avoid the initial values to be identical
 # I will provide as argument position 1 (pos1), position 2 (pos2), and position 3 (pos3)
 # from the unique values of x (u_x)
-#pos1=72
-#pos2=73
-#pos3=74
+pos1=72
+pos2=73
+pos3=74
 iter=6000 # number of iterations
 settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1, iterations = iter, thin = 1)
 #settings = list(Z = newZ, startValue =  initialValues, nrChains = 1, iterations = iter, thin = 1)

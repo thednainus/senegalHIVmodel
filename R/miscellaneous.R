@@ -99,3 +99,292 @@ organize_metadata <- function(metadata_CGR, metadata_SN){
   return(all_data)
 
 }
+
+#' Calculate the trajectories using posterior distrubution
+#'
+#' Solves the demographic model for each combination of parameter values
+#'
+#' @param parameters list of parameter estimation from the posterior distribution
+#' @param THETA list of parameter values from the Model. Here the functions
+#'  for the spline function will also de loaded
+#'
+#' @return the solved object #to do
+#' @export
+#'
+#' @examples
+#' #TO DO
+post_traj <- function(parameters, THETA){
+  # we use unname here because "parameters" can be as vectors or matrix, and
+  # sometimes it comes with column names, which I chose to remove these column names
+  # in here.
+  parameters <- unname(parameters)
+
+  # add the values of THETA to a new variable named THETA.new
+  THETA.new <- THETA
+
+  # change the values in THETA.new to the new proposals that will be evaluated
+  THETA.new$gpsp0 <- parameters[1]
+  THETA.new$gpsp1 <- parameters[2]
+  THETA.new$gpsp2 <- parameters[3]
+  THETA.new$gpsploc <- parameters[4]
+  THETA.new$msmsp0 <- parameters[5]
+  THETA.new$msmsp1 <- parameters[6]
+  THETA.new$msmsp2 <- parameters[7]
+  THETA.new$msmsploc <- parameters[8]
+  THETA.new$import <- parameters[9]
+  THETA.new$srcNe <- parameters[10]
+  THETA.new$pmsm2msm <- parameters[11]
+  THETA.new$pgpf2gpm <- parameters[12]
+  THETA.new$initmsm <- parameters[13]
+  THETA.new$initgp <- parameters[14]
+
+  # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
+  X0 <- c(gpm = unname(THETA.new$initgp/2),
+          gpf = unname(THETA.new$initgp/2),
+          msm = unname(THETA.new$initmsm) ,
+          src = 1e5)
+
+  o <- dm(x0 = X0, t0 = 1980, t1 = 2014, theta = THETA.new, integrationMethod='lsoda')
+
+  return(o)
+}
+
+#' Calculate the trajectories using posterior distrubution when also estimating
+#'  maleX
+#'
+#' Solves the demographic model for each combination of parameter values
+#'
+#' @param parameters list of parameter estimation from the posterior distribution
+#' @param THETA list of parameter values from the Model. Here the functions
+#'  for the spline function will also de loaded
+#'
+#' @return the solved object #to do
+#' @export
+#'
+#' @examples
+#' #TO DO
+post_traj_mx <- function(parameters, THETA){
+  # we use unname here because "parameters" can be as vectors or matrix, and
+  # sometimes it comes with column names, which I chose to remove these column names
+  # in here.
+  parameters <- unname(parameters)
+
+  # add the values of THETA to a new variable named THETA.new
+  THETA.new <- THETA
+
+  # change the values in THETA.new to the new proposals that will be evaluated
+  THETA.new$gpsp0 <- parameters[1]
+  THETA.new$gpsp1 <- parameters[2]
+  THETA.new$gpsp2 <- parameters[3]
+  THETA.new$gpsploc <- parameters[4]
+  THETA.new$msmsp0 <- parameters[5]
+  THETA.new$msmsp1 <- parameters[6]
+  THETA.new$msmsp2 <- parameters[7]
+  THETA.new$msmsploc <- parameters[8]
+  THETA.new$maleX <- parameters[9]
+  THETA.new$import <- parameters[10]
+  THETA.new$srcNe <- parameters[11]
+  THETA.new$pmsm2msm <- parameters[12]
+  THETA.new$pgpf2gpm <- parameters[13]
+  THETA.new$initmsm <- parameters[14]
+  THETA.new$initgp <- parameters[15]
+
+  # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
+  X0 <- c(gpm = unname(THETA.new$initgp/2),
+          gpf = unname(THETA.new$initgp/2),
+          msm = unname(THETA.new$initmsm) ,
+          src = 1e5)
+
+  o <- dm(x0 = X0, t0 = 1980, t1 = 2014, theta = THETA.new, integrationMethod='lsoda')
+
+  return(o)
+}
+
+
+#' Reorganize by deme size
+#'
+#' Reorganizes by deme based on the element size in the solved demographic model
+#'
+#' @param Nrep integer for the number of replicates (number of combination of
+#'  parameter values based on the posterior distribution)
+#' @param Ntime integer for the number of time points
+#' @param sizes list with the sizes from the solved demographic model (TO DO)
+#'
+#' @return a list for each deme (gpm, gpf, and msm)
+#' @export
+#'
+#' @examples
+#'  #TO DO
+reorganize_deme_sizes <- function(Nrep, Ntime, sizes){
+  Ntime <- Ntime; Nrep <- Nrep
+  gpm.v <- gpf.v <- msm.v <- matrix(0, nrow=Nrep, ncol=Ntime)
+
+  for (i in 1:Nrep) {
+    for (j in 1:Ntime)
+    {
+      gpm.v[i,j] <- sizes[[i]][[j]][[1]]
+      gpf.v[i,j] <- sizes[[i]][[j]][[2]]
+      msm.v[i,j] <- sizes[[i]][[j]][[3]]
+    }
+  }
+  return(list(gpm = gpm.v, gpf = gpf.v, msm = msm.v))
+}
+
+#' Calculates the median and quantiles for each deme size
+#'
+#' Calculates the median and quantiles (0.25 and 0.975) for each deme
+#'
+#' @param sizes_list list containg the size element from each element
+#'  size is the 4th element of the solved demographic model (#to do)
+#' @param times vector containig the time points used in the simulations
+#'
+#' @return dataframe for median and quantiles for each deme (gpm, gpmf and msm)
+#' @export
+#'
+#' @examples
+#' #TO DO
+median_and_quantiles <- function(sizes_list, times){
+  # after mapping the gpm, gpf and src
+  # get the median by column
+  median.gpm <- as.data.frame(apply(sizes_list[["gpm"]], 2, median))
+  names(median.gpm) <- "median"
+  median.gpf <- as.data.frame(apply(sizes_list[["gpf"]], 2, median))
+  names(median.gpf) <- "median"
+  median.msm <- as.data.frame(apply(sizes_list[["msm"]], 2, median))
+  names(median.msm) <- "median"
+
+  #get quantiles
+  quantiles.gpm <- as.data.frame(t(apply(sizes_list[["gpm"]], 2,
+                                         function(x)
+                                           quantile(x, probs=c(0.025, 0.975)))))
+  names(quantiles.gpm) <- c("lower", "upper")
+  quantiles.gpf <- as.data.frame(t(apply(sizes_list[["gpf"]], 2,
+                                         function(x)
+                                           quantile(x, probs=c(0.025, 0.975)))))
+  names(quantiles.gpf) <- c("lower", "upper")
+  quantiles.msm <- as.data.frame(t(apply(sizes_list[["msm"]], 2,
+                                         function(x)
+                                           quantile(x, probs=c(0.025, 0.975)))))
+  names(quantiles.msm) <- c("lower", "upper")
+
+  gpm.c <- cbind(median.gpm, quantiles.gpm)
+  gpm.c["group"] <- "gpm"
+  gpf.c <- cbind(median.gpf, quantiles.gpf)
+  gpf.c["group"] <- "gpf"
+  msm.c <- cbind(median.msm, quantiles.msm)
+  msm.c["group"] <- "msm"
+
+  all.c <- rbind(gpm.c, gpf.c, msm.c)
+  all.c <- cbind(times, all.c)
+
+  all.c$group <- as.factor(all.c$group)
+
+  return(all.c)
+}
+
+#' Organizes the solved births and calculate pafs
+#'
+#' @param birth_list list for births
+#' @param times time points associated to the birth list
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples
+#' # TO DO
+births_pafs <- function(birth_list, times){
+
+  #calculate pafs
+  pafs <- lapply(birth_list, function(f) t(sapply(f, calculate_pafs)))
+  all_data <- births_mq(pafs, times)
+
+  return(all_data)
+
+}
+
+
+#' Organizes the solved births and calculate new cases
+#'
+#' @param birth_list list for births
+#' @param times time points associated to the birth list
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples
+#' # TO DO
+births_newCases <- function(birth_list, times){
+
+  #calculate pafs
+  new_cases <- lapply(birth_list, function(f) t(sapply(f, calculate_newCases)))
+  all_data <- births_mq(new_cases, times)
+
+  return(all_data)
+
+}
+
+#' Calculate median and quantiles when using births
+#'
+#' @param birth_list list for births
+#' @param times time points associated to the birth list
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples
+#' # TO DO
+births_mq <- function(birth_list, times){
+  #calculate median
+  median.b <- apply(simplify2array(birth_list), 1:2, median)
+  #calculate quantiles
+  b.q.025 <- apply(simplify2array(birth_list), 1:2, function(x) quantile(x, probs=0.025))
+  b.q.975 <- apply(simplify2array(birth_list), 1:2, function(x) quantile(x, probs=0.975))
+
+  gpm <- data.frame(median=median.b[,1], lower=b.q.025[,1], upper=b.q.975[,1])
+  gpm["group"] <- "gpm"
+  gpm["group2"] <- "gp"
+
+  gpf <- data.frame(median=median.b[,2], lower=b.q.025[,2], upper=b.q.975[,2])
+  gpf["group"] <- "gpf"
+  gpf["group2"] <- "gp"
+
+  msm <- data.frame(median=median.b[,3], lower=b.q.025[,3], upper=b.q.975[,3])
+  msm["group"] <- "msm"
+  msm["group2"] <- "msm"
+
+  all.data <- rbind(gpm, gpf, msm)
+  all.data["times"] <-times
+
+  return(all.data)
+}
+
+
+#' Calculate PAFs
+#'
+#' @param f list of births
+#'
+#' @return pafs
+#' @export
+#'
+#' @examples
+#' # TO DO
+calculate_pafs <- function(f){
+  paf <- rowSums(f)[1:3]; paf <- paf /sum(paf)
+}
+
+
+#' Calculate new cases
+#'
+#' @param f list of births
+#'
+#' @return new cases
+#' @export
+#'
+#' @examples
+#' # TO DO
+calculate_newCases <- function(f){
+  newCases <- colSums(f)[1:3]
+  #newCases <- newCases /sum(newCases)
+}
+
+

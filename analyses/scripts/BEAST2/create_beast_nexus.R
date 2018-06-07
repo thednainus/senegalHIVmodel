@@ -1,8 +1,11 @@
 library(ape)
 
-# Reading metadata for Senegal only samples and close global reference (CGR) samples
-SN.data <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
-CGR.data <-  read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
+# Reading metadata for Senegal only samples
+# and close global reference (CGR) samples
+SN.data <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv",
+                                package = "senegalHIVmodel"))
+CGR.data <-  read.csv(system.file("data/HIV_subtypes_summary_CGR.csv",
+                                  package = "senegalHIVmodel"))
 
 all_data_list <- organize_metadata_bySubtype(SN.data, CGR.data, code = 2)
 
@@ -10,14 +13,17 @@ all_data_SN_CGR <- all_data_list$SN_df
 all_data_missingSample <- all_data_list$missing_sample
 
 # Drop rows in which sex or Risk Group is NA, or Risk Group = Children
-all_data_SN_CGR.2 <- subset(all_data_SN_CGR, is.na(Risk_group) == FALSE & Risk_group != "Children" &
+all_data_SN_CGR.2 <- subset(all_data_SN_CGR, is.na(Risk_group) == FALSE &
+                              Risk_group != "Children" &
                               (is.na(Sex) & Risk_group != "CGR")  == FALSE)
 all_data_SN_CGR.2["lower"] <- NA
 all_data_SN_CGR.2["upper"] <- NA
 
 
-all_data_missingSample.2 <- subset(all_data_missingSample, is.na(Risk_group) == FALSE & Risk_group != "Children" &
-                                     (is.na(Sex) & Risk_group != "CGR")  == FALSE)
+all_data_missingSample.2 <- subset(all_data_missingSample,
+                                   is.na(Risk_group) == FALSE &
+                                   Risk_group != "Children" &
+                                   (is.na(Sex) & Risk_group != "CGR")  == FALSE)
 
 dec.na <- is.na(all_data_SN_CGR.2$decimal)
 all_data_SN_CGR.2$lower[is.na(all_data_SN_CGR.2$decimal)] <- all_data_missingSample.2$lower[match(all_data_SN_CGR.2$tip[dec.na], all_data_missingSample.2$tip)]
@@ -29,14 +35,18 @@ all_data_SN_CGR.2["phydyn_tip"] <- all_info$phydyn_tip[match(all_data_SN_CGR.2$t
 
 
 #### READ FASTA file with alignment #######
+# for all subtypes
 library(seqinr)
-all.seq <- read.fasta(system.file("data/alignments/all_subtypes_phydyn_NAremoved.fasta", package = "senegalHIVmodel"))
+all.seq <- read.fasta(system.file("data/alignments/all_subtypes_phydyn_NAremoved.fasta",
+                                  package = "senegalHIVmodel"))
 
 names(all.seq)
 
-all_data_SN_CGR.3 <- all_data_SN_CGR.2[order(match(all_data_SN_CGR.2$phydyn_tip, names(all.seq))), ]
+all_data_SN_CGR.3 <- all_data_SN_CGR.2[order(match(all_data_SN_CGR.2$phydyn_tip,
+                                                   names(all.seq))), ]
 
-write.nexus.data(all.seq, file="~/Desktop/teste.nexus", format="dna", interleaved = FALSE)
+write.nexus.data(all.seq, file="~/Desktop/teste.nexus", format="dna",
+                 interleaved = FALSE)
 
 fileConn<-file("~/Desktop/teste.nexus", open="a")
 writeLines("begin assumptions;", fileConn)
@@ -85,9 +95,88 @@ writeLines("end;", fileConn)
 close(fileConn)
 
 ## READ NEWICK TREE ###
-all_tree <- read.tree(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre", package = "senegalHIVmodel"))
+all_tree <- read.tree(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre",
+                                  package = "senegalHIVmodel"))
 old <- all_tree$tip.label
 
-all_tree$tip.label <- all_data_SN_CGR.2$phydyn_tip[match(all_tree$tip.label, all_data_SN_CGR.2$tip)]
+all_tree$tip.label <- all_data_SN_CGR.2$phydyn_tip[match(all_tree$tip.label,
+                                                         all_data_SN_CGR.2$tip)]
 
 write.tree(all_tree, "inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast.tre")
+
+
+# for subtype 02_AG
+library(seqinr)
+seq_02_AG <- read.fasta(system.file("data/alignments/AG_SN_CGRphydyn_noNA.fasta",
+                                  package = "senegalHIVmodel"))
+
+names(seq_02_AG)
+
+SN_CGR_02_AG <- all_data_SN_CGR.2[order(match(all_data_SN_CGR.2$phydyn_tip,
+                                                   names(seq_02_AG))), ]
+# separetes only sequences from subtype 02_AG
+# after ordering these are the first 355 sequences
+SN_CGR_02_AG <- SN_CGR_02_AG[c(1:355),c(1:8)]
+
+write.nexus.data(seq_02_AG, file="~/Desktop/SN_02_AG.nexus", format="dna",
+                 interleaved = FALSE)
+
+fileConn<-file("~/Desktop/SN_02_AG.nexus", open="a")
+writeLines("begin assumptions;", fileConn)
+writeLines("\t charset partition1 = 1-1302\\3,2-1302\\3;", fileConn)
+writeLines("\t charset partition2 = 3-1302\\3;", fileConn)
+writeLines("end;", fileConn)
+writeLines("\n", fileConn)
+
+writeLines("begin assumptions;", fileConn)
+writeLines("\t OPTIONS SCALE = years;", fileConn)
+writeLines("\n", fileConn)
+
+
+i=1
+n=355 #number of sequences in the nexus file
+metadata <- SN_CGR_02_AG
+while(i < n+1){
+  if(i == n){
+    if(is.na(metadata["decimal"][i,])){
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("uniform(", as.character(metadata["lower"][i,]), ", ",
+                                   as.character(metadata["upper"][i,]), ")", ";", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+
+    }else{
+      text.to.write <- paste("\t CALIBRATE", all_data_SN_CGR.3["phydyn_tip"][i,], "=",
+                             paste("fixed(", as.character(all_data_SN_CGR.3["decimal"][i,]), ")", ";", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+    }
+  }else{
+    if(is.na(metadata["decimal"][i,])){
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("uniform(", as.character(metadata["lower"][i,]), ", ",
+                                   as.character(metadata["upper"][i,]), ")", ",", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+
+    }else{
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("fixed(", as.character(metadata["decimal"][i,]), ")", ",", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+    }
+  }
+  i = i + 1
+}
+
+writeLines("end;", fileConn)
+
+close(fileConn)
+
+## READ NEWICK TREE ###
+# all subtypes
+all_tree <- read.tree(system.file("data/bindTree_CGR_GTR+Gp12+3_droppedTip.tre",
+                                  package = "senegalHIVmodel"))
+old <- all_tree$tip.label
+
+all_tree$tip.label <- all_data_SN_CGR.2$phydyn_tip[match(all_tree$tip.label,
+                                                         all_data_SN_CGR.2$tip)]
+
+write.tree(all_tree, "inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast.tre")
+

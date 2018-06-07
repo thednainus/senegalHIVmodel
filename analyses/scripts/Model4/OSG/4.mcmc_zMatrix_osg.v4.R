@@ -4,7 +4,7 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("2.load_data.v4.R")
+source("1.model_osg.v4.R")
 #load the data that will be used in the subsequent analysis
 source("2.load_data.v4.R")
 

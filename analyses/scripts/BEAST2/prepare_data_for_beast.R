@@ -117,7 +117,8 @@ names(AG.seq_mod) <- AG.info$phydyn_tip[match(names(AG.seq) , AG.info$tip)]
 
 # do the same type of name manipulation with the datedtree estimated for
 # subtype B
-#B.dtr <- readRDS(system.file("data/trees_by_subtype/dtr.B.CGR.GTR_Gp12+3_byCodon.RDS", package = "senegalHIVmodel"))
+#B.dtr <- readRDS(system.file("data/trees_by_subtype/dtr.B.CGR.GTR_Gp12+3_byCodon.RDS",
+#                             package = "senegalHIVmodel"))
 
 #B.dtr_mod <- B.dtr
 
@@ -126,3 +127,27 @@ names(AG.seq_mod) <- AG.info$phydyn_tip[match(names(AG.seq) , AG.info$tip)]
 # Dated tree estimated with treedater
 #write.tree(B.dtr_mod2, file = "inst/data/trees_by_subtype/dtr.B.CGR.GTR_Gp12+3_byCodon.tre")
 
+
+# subtype 02_AG
+AG.dtr <- readRDS(system.file("data/trees_by_subtype/dtr.AG.CGR.GTR_Gp12+3_byCodon.RDS",
+                             package = "senegalHIVmodel"))
+AG.dtr_mod <- AG.dtr
+
+AG.dtr_mod$tip.label <- AG.info$phydyn_tip[match(AG.dtr_mod$tip.label, AG.info$tip)]
+
+# get the tips that is NA (does not have a compartment associated to it)
+tip2isNA <- function(tip)
+{
+  if ( ! grepl('SN' , tip )) return(FALSE)
+  ano <- strsplit( tip, '\\_')[[1]][4]
+  print(ano)
+  if(ano == "NA") return(TRUE)
+  return(FALSE)
+}
+
+tipisNA <- sapply( AG.dtr_mod$tip.label, tip2isNA )
+
+AG.dtr_mod2 <- drop.tip(AG.dtr_mod, AG.dtr_mod$tip.label[tipisNA] )
+
+# Dated tree estimated with treedater
+write.tree(AG.dtr_mod2, file = "inst/data/trees_by_subtype/dtr.AG.CGR.GTR_Gp12+3_byCodon.tre")

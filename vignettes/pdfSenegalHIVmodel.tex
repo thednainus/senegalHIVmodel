@@ -121,7 +121,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2018-03-16}
+  \date{2018-05-04}
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -787,8 +787,60 @@ For this example, we decided to estimate the following parameters:
   \emph{pgpf2gpm}
 \end{itemize}
 
-We can now estimate this parameters using the MCMC. For that we need to
-decided the priors -- our best knowledge on the parameter value before
+To estimate these parameters we should set up an object function. This
+object function will receive the proposals of the MCMC. The reason of
+using an object function is to make it easier to change the values of
+the parameters to be estimated in THETA (our parameter template as
+explained before). Note that not all parameters listed in THETA will be
+estimated.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{obj_fun <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(parameters)\{}
+  \CommentTok{# we use unname here because "parameters" can be a vector or matrix, and}
+  \CommentTok{# sometimes it comes with column names, which I chose to remove these names}
+  \CommentTok{# in here.}
+\NormalTok{  parameters <-}\StringTok{ }\KeywordTok{unname}\NormalTok{(parameters)}
+
+  \CommentTok{# add the values of THETA to a new variable named THETA.new}
+\NormalTok{  THETA.new <-}\StringTok{ }\NormalTok{THETA}
+
+  \CommentTok{# change the values in THETA.new to the new proposals that will be evaluated}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{gpsp0 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{gpsp1 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{gpsp2 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{3}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{gpsploc <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{4}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{msmsp0 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{5}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{msmsp1 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{6}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{msmsp2 <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{7}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{msmsploc <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{8}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{import <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{9}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{srcNe <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{10}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{pmsm2msm <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{11}\NormalTok{]}
+\NormalTok{  THETA.new}\OperatorTok{$}\NormalTok{pgpf2gpm <-}\StringTok{ }\NormalTok{parameters[}\DecValTok{12}\NormalTok{]}
+
+  \CommentTok{# After changing the parameter values to the new proposals, a likelihood is}
+  \CommentTok{# calculated with the funtion colik.}
+  \CommentTok{# Note that this function uses several global variables, such as, }
+  \CommentTok{# dated.tree, dm, and X0}
+\NormalTok{  mll <-}\StringTok{ }\NormalTok{phydyn}\OperatorTok{::}\KeywordTok{colik}\NormalTok{(}\DataTypeTok{tree =}\NormalTok{ dated.tree,}
+               \DataTypeTok{theta =}\NormalTok{ THETA.new,}
+               \DataTypeTok{demographic.process.model =}\NormalTok{ dm,}
+               \DataTypeTok{x0 =}\NormalTok{ X0,}
+               \DataTypeTok{t0 =} \DecValTok{1978}\NormalTok{,}
+               \DataTypeTok{res =} \FloatTok{1e3}\NormalTok{,}
+               \DataTypeTok{timeOfOriginBoundaryCondition =} \OtherTok{FALSE}\NormalTok{,}
+               \DataTypeTok{AgtY_penalty =} \DecValTok{1}\NormalTok{,}
+               \DataTypeTok{maxHeight =} \DecValTok{41}\NormalTok{)}
+
+  \KeywordTok{return}\NormalTok{(mll)}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We can now estimate these parameters using the MCMC. For that we need to
+decide the priors -- our best knowledge on the parameter value before
 the data is analysed -- on each parameter that will be estimated.
 
 Because we are using the BayesianTools R package, we need to specify the
