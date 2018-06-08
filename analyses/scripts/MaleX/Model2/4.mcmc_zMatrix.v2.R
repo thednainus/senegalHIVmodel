@@ -30,12 +30,13 @@ obj_fun <- function(parameters){
   THETA.new$msmsp1 <- parameters[6]
   THETA.new$msmsp2 <- parameters[7]
   THETA.new$msmsploc <- parameters[8]
-  THETA.new$import <- parameters[9]
-  THETA.new$srcNe <- parameters[10]
-  THETA.new$pmsm2msm <- parameters[11]
-  THETA.new$pgpf2gpm <- parameters[12]
-  THETA.new$initmsm <- parameters[13]
-  THETA.new$initgp <- parameters[14]
+  THETA.new$maleX <- parameters[9]
+  THETA.new$import <- parameters[10]
+  THETA.new$srcNe <- parameters[11]
+  THETA.new$pmsm2msm <- parameters[12]
+  THETA.new$pgpf2gpm <- parameters[13]
+  THETA.new$initmsm <- parameters[14]
+  THETA.new$initgp <- parameters[15]
 
   # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
   X0 <- c(gpm = unname(THETA.new$initgp/2),

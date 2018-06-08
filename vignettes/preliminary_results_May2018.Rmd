@@ -80,6 +80,7 @@ Runs, in general, are very good.
 
 
 ```{r echo = FALSE}
+
 # MAP after removing first 1,500 iterations
 model2 <- c(gpsp0 = 0.7104566, gpsp1 = 0.05586399, gpsp2 = 0.1885455, gpsploc = 1993.244,
             msmsp0 = 0.1278168, msmsp1 = 0.4484997, msmsp2 = 0.07402333, msmsploc = 1984.945,
