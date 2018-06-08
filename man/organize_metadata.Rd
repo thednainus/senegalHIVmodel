@@ -26,8 +26,10 @@ It mainly gets information on different dataframes and organize them so as to
 create a matrix for the states (demes) on the phylogenetic tree
 }
 \examples{
-all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
-all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
+all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv",
+                                     package = "senegalHIVmodel"))
+all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv",
+                                     package = "senegalHIVmodel"))
 
 all_data <- organize_metadata(all.data.cgr, all.data.SN)
 }

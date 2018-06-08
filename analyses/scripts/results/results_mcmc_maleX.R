@@ -1,8 +1,14 @@
 # Summary of MCMC runs when also estimating maleX parameter
+# Total of 15 parameters estimated
+
+# For these analysis I have initially added an upper bound for the estimation
+# of maleX to 2. However, posterior distribution was around 2.
+# For second round of runs, I increased the upper bound for maleX. This will be
+# eventually the set of runs I will leave in this script
 
 library(BayesianTools)
 
-########
+###########################################################################
 #Model2
 m2.r1.mx <- readRDS("analyses/scripts/MaleX/Model2/Preliminary_results/withZmatrix/out_38577460_Model2_maleX.rds")
 m2.r2.mx <- readRDS("analyses/scripts/MaleX/Model2/Preliminary_results/withZmatrix/out_38577461_Model2_maleX.rds")
@@ -36,7 +42,7 @@ names(model2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
                        "initmsm", "initgp"))
 
 
-#merge runs second round of runs and MAP
+#merge runs: second round of runs and MAP
 m2.mx.m_rd2 <- createMcmcSamplerList(list(m2.mx.r1, m2.mx.r2, m2.mx.r3, m2.mx.r4,
                                           m2.mx.r5, m2.mx.r6))
 
@@ -51,7 +57,7 @@ names(model2_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
                        "initmsm", "initgp"))
 
 
-#########
+###########################################################################
 # Model 3
 m3.r1.mx <- readRDS("analyses/scripts/MaleX/Model3/Preliminary_results/withZmatrix/out_38578203_Model3_maleX.rds")
 m3.r2.mx <- readRDS("analyses/scripts/MaleX/Model3/Preliminary_results/withZmatrix/out_38578206_Model3_maleX.rds")
@@ -103,7 +109,7 @@ names(model3_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
                        "initmsm", "initgp"))
 
 
-###########
+###########################################################################
 #Model 4
 
 m4.r1.mx <- readRDS("analyses/scripts/MaleX/Model4/Preliminary_results/withZmatrix/out_38578371_Model4_maleX.rds")
@@ -149,7 +155,7 @@ names(model4_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
                        "initmsm", "initgp"))
 
 
-#########
+###########################################################################
 # by subtype: 02_AG model 1
 
 m02_AG.r1.mx <- readRDS("analyses/scripts/MaleX/bySubtype/02_AG_m1/Preliminary_results/withZmatrix/out_38578491_02_AG_m1_maleX.rds")
@@ -203,7 +209,7 @@ names(m02_AG_m1_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
                           "initmsm", "initgp"))
 
 
-#########
+###########################################################################
 # by subtype: 02_AG model 2
 
 m2.m02_AG.r1.mx <- readRDS("analyses/scripts/MaleX/bySubtype/02_AG_m2/Preliminary_results/withZmatrix/out_38578647_02_AG_m2_maleX.rds")
@@ -259,7 +265,7 @@ names(m2.m02_AG_m1_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 
 
 
-#########################
+###########################################################################
 #Subtype C: model 1: round 1
 
 mC.r1.mx <- readRDS("analyses/scripts/MaleX/bySubtype/C_m1/Preliminary_results/withZmatrix/out_38578724_C_m1_maleX.rds")
@@ -305,7 +311,7 @@ names(mC_m1_map_rd2.mx) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 
 
 
-#######################
+###########################################################################
 # Subtype C: model 2:round 1
 
 m2.mC.r1.mx <- readRDS("analyses/scripts/MaleX/bySubtype/C_m2/Preliminary_results/withZmatrix/out_38578859_C_m2_maleX.rds")

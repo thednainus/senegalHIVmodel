@@ -2,20 +2,25 @@
 % Please edit documentation in R/miscellaneous.R
 \name{births_newCases}
 \alias{births_newCases}
-\title{Organizes the solved births and calculate new cases}
+\title{Organize the solved "births" objects and calculate new HIV cases}
 \usage{
 births_newCases(birth_list, times)
 }
 \arguments{
-\item{birth_list}{list for births}
+\item{birth_list}{list containg the object "births" from the solved demographic
+model.}
 
 \item{times}{time points associated to the birth list}
 }
 \value{
-data.frame
+data.frame object in which columns correspond to times, median,
+  upper and lower quantiles for the new HIV cases.
 }
 \description{
-Organizes the solved births and calculate new cases
+Funtion that get the list of "births" for more than one combination of
+parameter values and caculate the new HIV cases for each of these combinations.
+It calls another function that will calculate the median, upper and lower
+quantiles for each time point. See \code{\link{births_mq}}
 }
 \examples{
 # TO DO

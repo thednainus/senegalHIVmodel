@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscellaneous.R
 \name{post_traj}
 \alias{post_traj}
-\title{Calculate the trajectories using posterior distrubution}
+\title{Calculate the trajectories using posterior distribution}
 \usage{
 post_traj(parameters, THETA)
 }

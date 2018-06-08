@@ -10,8 +10,6 @@ load("analyses/plots/solved_objects_Malex_1000reps.rda")
 load("analyses/plots/solved_objects_Malex_maps.rda")
 
 
-
-
 ### Model 2 ######
 # gets the element births. Births are the number of new HIV cases
 bm2_1000 <- m2_o.1000[2,]

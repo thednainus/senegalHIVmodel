@@ -14,8 +14,10 @@ setup.model.equations(demes, nondemes = NULL, rcpp = FALSE)
 \item{rcpp}{if TRUE, the expressions are interpreted as C code using the Rcpp package.}
 }
 \value{
-this function returns a list containing the empty components (represented by zeros) to build the mathematical model.
- These components are the birth, death, migrations, total number of demes and non-demes of the model.
+this function returns a list containing the empty components
+ (represented by zeros) to build the mathematical model.
+ These components are the birth, death, migrations, total number of demes and
+ non-demes of the model.
  \itemize{
      \item Birth is a matrix describing the model birth rates;
      \item Death is a vector describing the model death rates;

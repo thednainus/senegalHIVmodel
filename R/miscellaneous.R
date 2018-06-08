@@ -7,8 +7,10 @@
 #' @param nondemes a character vector naming the non demes of the mathematical model.
 #' @param rcpp if TRUE, the expressions are interpreted as C code using the Rcpp package.
 #'
-#' @return this function returns a list containing the empty components (represented by zeros) to build the mathematical model.
-#'  These components are the birth, death, migrations, total number of demes and non-demes of the model.
+#' @return this function returns a list containing the empty components
+#'  (represented by zeros) to build the mathematical model.
+#'  These components are the birth, death, migrations, total number of demes and
+#'  non-demes of the model.
 #'  \itemize{
 #'      \item Birth is a matrix describing the model birth rates;
 #'      \item Death is a vector describing the model death rates;
@@ -62,8 +64,10 @@ setup.model.equations <- function(demes, nondemes = NULL, rcpp = FALSE)
 #' @export
 #'
 #' @examples
-#' all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv", package = "senegalHIVmodel"))
-#' all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv", package = "senegalHIVmodel"))
+#' all.data.cgr <- read.csv(system.file("data/HIV_subtypes_summary_CGR.csv",
+#'                                      package = "senegalHIVmodel"))
+#' all.data.SN <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv",
+#'                                      package = "senegalHIVmodel"))
 #'
 #' all_data <- organize_metadata(all.data.cgr, all.data.SN)
 organize_metadata <- function(metadata_CGR, metadata_SN){
@@ -82,8 +86,9 @@ organize_metadata <- function(metadata_CGR, metadata_SN){
 
 
   # Read all metadata that necessary information is missing
-  # These are information related to the demes of our model, for example, some sequences we don't
-  # have information whether it is a male or female from the general population, or they are from Children.
+  # These are information related to the demes of our model, for example,
+  # some sequences we don't have information whether it is a male or female from
+  # the general population, or they are from Children.
   metadata_SN.2 <- subset(metadata_SN, is.na(Risk_group) == FALSE & Risk_group != "Children" & is.na(Sex) == FALSE)
   metadata_SN.2["tip.name"] <- paste(metadata_SN.2$Accession_number, metadata_SN.2$Subtype, "SN", metadata_SN.2$Year, sep='.')
   metadata_SN.3 <- metadata_SN.2[c("tip.name", "Risk_group", "Sex")]
@@ -100,7 +105,7 @@ organize_metadata <- function(metadata_CGR, metadata_SN){
 
 }
 
-#' Calculate the trajectories using posterior distrubution
+#' Calculate the trajectories using posterior distribution
 #'
 #' Solves the demographic model for each combination of parameter values
 #'
@@ -303,19 +308,26 @@ births_pafs <- function(birth_list, times){
 }
 
 
-#' Organizes the solved births and calculate new cases
+#' Organize the solved "births" objects and calculate new HIV cases
 #'
-#' @param birth_list list for births
+#' Funtion that get the list of "births" for more than one combination of
+#' parameter values and caculate the new HIV cases for each of these combinations.
+#' It calls another function that will calculate the median, upper and lower
+#' quantiles for each time point. See \code{\link{births_mq}}
+#'
+#' @param birth_list list containg the object "births" from the solved demographic
+#'   model.
 #' @param times time points associated to the birth list
 #'
-#' @return data.frame
+#' @return data.frame object in which columns correspond to times, median,
+#'   upper and lower quantiles for the new HIV cases.
 #' @export
 #'
 #' @examples
 #' # TO DO
 births_newCases <- function(birth_list, times){
 
-  #calculate pafs
+  #calculate new HIV cases
   new_cases <- lapply(birth_list, function(f) t(sapply(f, calculate_newCases)))
   all_data <- births_mq(new_cases, times)
 
@@ -323,12 +335,17 @@ births_newCases <- function(birth_list, times){
 
 }
 
-#' Calculate median and quantiles when using births
+#' Calculate median and quantiles when using processed object "births".
 #'
-#' @param birth_list list for births
+#' @param birth_list list for information processed from births object from the
+#'   solved demographic object. This can be processed either
+#'   by \code{\link{calculate_pafs}} or \code{\link{calculate_newCases}}
 #' @param times time points associated to the birth list
 #'
-#' @return data.frame
+#' @return data.frame object in which columns correspond to times, median,
+#'   lower and upper quantiles. Two additional columns are also provided
+#'   to group data by gpm, gpmf, and msm; and by gp and msm (for plotting
+#'   purposes)
 #' @export
 #'
 #' @examples
@@ -340,14 +357,17 @@ births_mq <- function(birth_list, times){
   b.q.025 <- apply(simplify2array(birth_list), 1:2, function(x) quantile(x, probs=0.025))
   b.q.975 <- apply(simplify2array(birth_list), 1:2, function(x) quantile(x, probs=0.975))
 
+  #create dataframe for gpm (general population males)
   gpm <- data.frame(median=median.b[,1], lower=b.q.025[,1], upper=b.q.975[,1])
   gpm["group"] <- "gpm"
   gpm["group2"] <- "gp"
 
+  #create dataframe for gpf (general population females)
   gpf <- data.frame(median=median.b[,2], lower=b.q.025[,2], upper=b.q.975[,2])
   gpf["group"] <- "gpf"
   gpf["group2"] <- "gp"
 
+  #create dataframe for msm (men that have sex with other men)
   msm <- data.frame(median=median.b[,3], lower=b.q.025[,3], upper=b.q.975[,3])
   msm["group"] <- "msm"
   msm["group2"] <- "msm"
@@ -359,11 +379,15 @@ births_mq <- function(birth_list, times){
 }
 
 
-#' Calculate PAFs
+#' Calculate population attributable fraction (PAF) of transmissions.
 #'
-#' @param f list of births
 #'
-#' @return pafs
+#' @param f list of object "births" as returned by the solved demographic model.
+#'   (see dm function in phydynR)
+#'
+#' @return the sum of rows in each matrix, which will correspond to PAFs.
+#'   Here "births" object is a list in which each element correspont to a time
+#'   point and is a 4 by 4 matrix. See vignette for more details.
 #' @export
 #'
 #' @examples
@@ -375,9 +399,12 @@ calculate_pafs <- function(f){
 
 #' Calculate new cases
 #'
-#' @param f list of births
+#' @param f list of object "births" as returned by the solved demographic model.
+#'   (see dm function in phydynR)
 #'
-#' @return new cases
+#' @return the sum of columns in each matrix, which will correspond to new HIV
+#'   cases. Here "births" object is a list in which each element correspont to
+#'   a time point and is a 4 by 4 matrix. See vignette for more details.
 #' @export
 #'
 #' @examples
@@ -386,5 +413,3 @@ calculate_newCases <- function(f){
   newCases <- colSums(f)[1:3]
   #newCases <- newCases /sum(newCases)
 }
-
-

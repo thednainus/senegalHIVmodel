@@ -7,10 +7,13 @@
 calculate_newCases(f)
 }
 \arguments{
-\item{f}{list of births}
+\item{f}{list of object "births" as returned by the solved demographic model.
+(see dm function in phydynR)}
 }
 \value{
-new cases
+the sum of columns in each matrix, which will correspond to new HIV
+  cases. Here "births" object is a list in which each element correspont to
+  a time point and is a 4 by 4 matrix. See vignette for more details.
 }
 \description{
 Calculate new cases
