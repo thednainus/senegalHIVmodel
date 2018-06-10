@@ -352,6 +352,8 @@ births_newCases <- function(birth_list, times){
 #' # TO DO
 births_mq <- function(birth_list, times){
   #calculate median
+  # I used the rationale descrbed here
+  # https://stackoverflow.com/questions/19218475/element-wise-mean-over-list-of-matrices/19218617#19218617
   median.b <- apply(simplify2array(birth_list), 1:2, median)
   #calculate quantiles
   b.q.025 <- apply(simplify2array(birth_list), 1:2, function(x) quantile(x, probs=0.025))
