@@ -4,13 +4,13 @@
 
 This directory contains the plots for PAFs, sizes (prevalence), 
 and new cases (incidence) for HIV in Senegal. 
-To generate this plots, maleX parameter was also estimated.
+To generate these plots, maleX parameter was also estimated.
 
 **plots_withoutMaleX**
 
 This directory contains the plots for PAFs, sizes (prevalence), 
 and new cases (incidence) for HIV in Senegal. 
-To generate this plots, maleX parameter was fixed to 1.02.
+To generate these plots, maleX parameter was fixed to 1.02.
 
 **scripts**
 
