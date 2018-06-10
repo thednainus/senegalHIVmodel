@@ -197,7 +197,7 @@ post_traj_mx <- function(parameters, THETA){
   # X0 is the initial conditions for the 4 demes (gpf, gpm, msm, src)
   X0 <- c(gpm = unname(THETA.new$initgp/2),
           gpf = unname(THETA.new$initgp/2),
-          msm = unname(THETA.new$initmsm) ,
+          msm = unname(THETA.new$initmsm),
           src = 1e5)
 
   o <- dm(x0 = X0, t0 = 1980, t1 = 2014, theta = THETA.new, integrationMethod='lsoda')
