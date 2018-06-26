@@ -5,8 +5,8 @@ library(reshape2)
 
 
 # Load solved objects
-load("analyses/plots/solved_objects_noMalex_1000reps.rda")
-load("analyses/plots/solved_objects_noMalex_maps.rda")
+load("analyses/plots/solved_objects/solved_objects_noMalex_1000reps.rda")
+load("analyses/plots/solved_objects/solved_objects_noMalex_maps.rda")
 
 
 # gets the element sizes. Sizes are the number of HIV cases
