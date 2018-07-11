@@ -176,6 +176,8 @@ C.dtr_mod2 <- drop.tip(C.dtr_mod, C.dtr_mod$tip.label[tipisNA] )
 names(C.dtr_mod2$sts) <- C.dtr_mod2$tip.label
 
 # Dated tree estimated with treedater
-write.tree(C.dtr_mod2, file = "inst/data/trees_by_subtype/dtr.C.CGR.GTR_Gp12+3_byCodon.tre")
+write.tree(C.dtr_mod2,
+           file = "~/Box Sync/my_R_packages/senegalHIVmodel/inst/data/trees_by_subtype/dtr.C.CGR.GTR_Gp12+3_byCodon.tre")
+
 
 
