@@ -38,14 +38,22 @@ tfgy2prevalenceStat <- function(tfgy)
 #'
 #' @examples
 #' #TO DO
-set_prev_state_parameters <- function()
+set_prev_state_parameters <- function(n = 1e6)
 {
-  n <- 1e4
-  q <- rnorm(n, 0.012, sd = (0.023 - 0.008) / 3.92)
-  #p_msm <- rnorm(n, 0.202, sd = (0.237 - 0.168) / 3.92) #for 2007
+  # q = proportion of males who are msm
+  q <- 0.012
+
+  # p_msm = msm HIV prevalence
   p_msm <- rnorm(n, 0.297, sd = (0.381 - 0.213) / 3.92) #for 2016
+  p_msm <- pmin( pmax( p_msm, .213 ), .381)
+
+  # p_m = male HIV prevalence
   p_m <- rnorm(n, 0.004, sd = (0.008 - 0.0014) / 3.92) #for 2010
+  p_m <- pmin( pmax(p_m, .0014), .008)
+
+  # X = proportion of infected men who are msm
   X <- q * p_msm / (q * p_msm + (1-q) * p_m)
+
   MEAN_PREV_STAT <<- mean(X)
   SD_PREV_STAT <<- sd(X)
 }

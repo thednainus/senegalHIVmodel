@@ -180,3 +180,73 @@ all_tree$tip.label <- all_data_SN_CGR.2$phydyn_tip[match(all_tree$tip.label,
 
 write.tree(all_tree, "inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast.tre")
 
+##########################################
+
+# for subtype C
+library(seqinr)
+seq_C <- read.fasta(system.file("data/alignments/C_SN_CGRphydyn_noNA.fasta",
+                                    package = "senegalHIVmodel"))
+
+names(seq_C)
+
+SN_CGR_C <- all_data_SN_CGR.2[order(match(all_data_SN_CGR.2$phydyn_tip,
+                                              names(seq_C))), ]
+# separetes only sequences from subtype C
+# after ordering these are the first 116 sequences
+SN_CGR_C <- SN_CGR_C[c(1:116),]
+
+write.nexus.data(seq_C, file="~/Desktop/SN_C.nexus", format="dna",
+                 interleaved = FALSE)
+
+fileConn<-file("~/Desktop/SN_C.nexus", open="a")
+writeLines("begin assumptions;", fileConn)
+writeLines("\t charset partition1 = 1-1302\\3,2-1302\\3;", fileConn)
+writeLines("\t charset partition2 = 3-1302\\3;", fileConn)
+writeLines("end;", fileConn)
+writeLines("\n", fileConn)
+
+writeLines("begin assumptions;", fileConn)
+writeLines("\t OPTIONS SCALE = years;", fileConn)
+writeLines("\n", fileConn)
+
+
+i=1
+n=116 #number of sequences in the nexus file
+metadata <- SN_CGR_C
+while(i < n+1){
+  if(i == n){
+    if(is.na(metadata["decimal"][i,])){
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("uniform(", as.character(metadata["lower"][i,]), ", ",
+                                   as.character(metadata["upper"][i,]), ")", ";", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+
+    }else{
+      text.to.write <- paste("\t CALIBRATE", all_data_SN_CGR.3["phydyn_tip"][i,], "=",
+                             paste("fixed(", as.character(all_data_SN_CGR.3["decimal"][i,]), ")", ";", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+    }
+  }else{
+    if(is.na(metadata["decimal"][i,])){
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("uniform(", as.character(metadata["lower"][i,]), ", ",
+                                   as.character(metadata["upper"][i,]), ")", ",", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+
+    }else{
+      text.to.write <- paste("\t CALIBRATE", metadata["phydyn_tip"][i,], "=",
+                             paste("fixed(", as.character(metadata["decimal"][i,]), ")", ",", sep = ""), sep = " ")
+      writeLines(text.to.write, fileConn)
+    }
+  }
+  i = i + 1
+}
+
+writeLines("end;", fileConn)
+
+close(fileConn)
+
+
+
+
+

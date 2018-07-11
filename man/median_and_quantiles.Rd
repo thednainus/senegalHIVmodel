@@ -16,7 +16,7 @@ size is the 4th element of the solved demographic model (#to do)}
 dataframe for median and quantiles for each deme (gpm, gpmf and msm)
 }
 \description{
-Calculates the median and quantiles (0.25 and 0.975) for each deme
+Calculates the median and quantiles (0.025 and 0.975) for each deme
 }
 \examples{
 #TO DO

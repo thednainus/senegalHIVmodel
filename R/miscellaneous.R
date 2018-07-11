@@ -237,7 +237,7 @@ reorganize_deme_sizes <- function(Nrep, Ntime, sizes){
 
 #' Calculates the median and quantiles for each deme size
 #'
-#' Calculates the median and quantiles (0.25 and 0.975) for each deme
+#' Calculates the median and quantiles (0.025 and 0.975) for each deme
 #'
 #' @param sizes_list list containg the size element from each element
 #'  size is the 4th element of the solved demographic model (#to do)
@@ -414,4 +414,26 @@ calculate_pafs <- function(f){
 calculate_newCases <- function(f){
   newCases <- colSums(f)[1:3]
   #newCases <- newCases /sum(newCases)
+}
+
+#' Read MCMC runs that is saved as RDS
+#'
+#' Read the MCMC runs
+#'
+#' @param fileNames vector containg the file names
+#'
+#' @return as global variables the rds files assigned to a r object
+#' @export
+#'
+#' @examples
+#' #TO DO
+read_mcmc_rds <- function(fileNames){
+  n = 1
+  while (n < length(fileNames) + 1){
+    print(n)
+    # read data:
+    job <- readRDS(fileNames[n])
+    assign(paste("r", n, sep=""), job, envir = .GlobalEnv)
+    n = n + 1
+  }
 }

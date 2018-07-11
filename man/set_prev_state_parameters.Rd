@@ -4,7 +4,7 @@
 \alias{set_prev_state_parameters}
 \title{Set states for prevalence values}
 \usage{
-set_prev_state_parameters()
+set_prev_state_parameters(n = 1e+06)
 }
 \value{
 mean (MEAN_PREV_STAT) and standard deviation (SD_PREV_STAT)

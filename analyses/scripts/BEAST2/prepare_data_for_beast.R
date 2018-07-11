@@ -151,3 +151,31 @@ AG.dtr_mod2 <- drop.tip(AG.dtr_mod, AG.dtr_mod$tip.label[tipisNA] )
 
 # Dated tree estimated with treedater
 write.tree(AG.dtr_mod2, file = "inst/data/trees_by_subtype/dtr.AG.CGR.GTR_Gp12+3_byCodon.tre")
+
+
+# subtype C
+C.dtr <- readRDS(system.file("data/trees_by_subtype/dtr.C.CGR.GTR_Gp12+3_byCodon.RDS",
+                              package = "senegalHIVmodel"))
+C.dtr_mod <- C.dtr
+
+C.dtr_mod$tip.label <- C.info$phydyn_tip[match(C.dtr_mod$tip.label, C.info$tip)]
+names(C.dtr_mod$sts) <- C.dtr_mod$tip.label
+# get the tips that is NA (does not have a compartment associated to it)
+tip2isNA <- function(tip)
+{
+  if ( ! grepl('SN' , tip )) return(FALSE)
+  ano <- strsplit( tip, '\\_')[[1]][3]
+  print(ano)
+  if(ano == "NA") return(TRUE)
+  return(FALSE)
+}
+
+tipisNA <- sapply( C.dtr_mod$tip.label, tip2isNA )
+
+C.dtr_mod2 <- drop.tip(C.dtr_mod, C.dtr_mod$tip.label[tipisNA] )
+names(C.dtr_mod2$sts) <- C.dtr_mod2$tip.label
+
+# Dated tree estimated with treedater
+write.tree(C.dtr_mod2, file = "inst/data/trees_by_subtype/dtr.C.CGR.GTR_Gp12+3_byCodon.tre")
+
+
