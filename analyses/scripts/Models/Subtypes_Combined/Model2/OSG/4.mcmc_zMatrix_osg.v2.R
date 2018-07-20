@@ -114,7 +114,7 @@ sampler <-  function(n=1){
 prior <- createPrior(density = densities,
                      sampler = sampler,
                      lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0.5, 0, 1, 0, 0, 1, 1),
-                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 2, 0.30, 5000, 1, 1, 300, 300))
+                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 10, 0.30, 5000, 1, 1, 300, 300))
 
 load("iter.rdata")
 
@@ -123,11 +123,11 @@ while(i < 101){
   if(!file.exists("out.RDS")){
     # After we had a run to create a z-matrix we did the follow:
     # Read a previous run for creating starting values for the Z matrix
-    runZ <- readRDS("out_38563803_Model2_maleX.rds")
+    runZ <- readRDS("out_41477935_m2.rds")
 
     # Get a good sample (the run above is not good, however it can provide a good Z matrix)
     # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
-    x <- getSample(runZ, start=2000)
+    x <- getSample(runZ, start=2500)
     # Get the range for the parameter estimates for the previous run
     rangePost = apply(x, 2, range)
 

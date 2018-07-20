@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/bySubtype/C_m3/1.model.C_m3.R")
+source("analyses/scripts/Models/BySubtype/C_m3/1.model.C_m3.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/MaleX/bySubtype/C_m3/2.load_data.C_m3.R")
+source("analyses/scripts/Models/BySubtype/C_m3/2.load_data.C_m3.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -123,7 +123,8 @@ prior <- createPrior(density = densities,
 # z-matrix (for more details see Braak and Vrugt 2008)
 # First, we run the following lines of code and ignoring everything else:
 bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
-settings = list(iterations = 6000, nrChains = 1, startValue = initialValues, thin = 1)
+#settings = list(iterations = 100, nrChains = 1, startValue = initialValues, thin = 1)
+settings = list(iterations = 100, nrChains = 1, thin = 1)
 out_C <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
 
 

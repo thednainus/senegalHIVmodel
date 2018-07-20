@@ -2,11 +2,12 @@
 library(ggplot2)
 library(phydynR)
 library(reshape2)
-
+library(senegalHIVmodel)
 
 # Load solved objects
-load("analyses/plots/solved_objects/solved_objects_prevalence_1000reps.rda")
-load("analyses/plots/solved_objects/solved_objects_prevalence_maps.rda")
+load("analyses/plots/solved_objects/solved_objects_prevalence_1000reps_new.rda")
+load("analyses/plots/solved_objects/solved_objects_prevalence_maps_new.rda")
+
 
 
 # gets the element sizes. Sizes are the number of HIV cases
@@ -37,7 +38,38 @@ m5.map.df.m <- melt(m5.map.df)
 m5_1000.mq["MAP"] <- m5.map.df.m$value
 
 
-### Model 3 ########
+### Model 6 ########
+# gets the element sizes
+sizes_m6_1000 <- m6_o.1000[4,]
+
+#re-organize demes by sizes element
+o.sizes_m6_1000 <- reorganize_deme_sizes(Nrep = 1000, Ntime = 1000,
+                                         sizes = sizes_m6_1000)
+
+times.m6 <- m6_o.1000[[1]]
+
+# get the dataframe to plot tajectories for sizes (median and quantiles)
+m6_1000.mq <- median_and_quantiles(o.sizes_m6_1000, times.m6)
+m6_1000.mq["group2"] <- ifelse(m6_1000.mq$group == "msm", "msm", "gp")
+
+# calculate sizes for MAP
+m6_sizes_map <- reorganize_deme_sizes(Nrep = 1, Ntime = 1000,
+                                      m6_map_o[4])
+
+#convert it to dataframe and transform to long format
+m6.map.df <- data.frame(gpm=m6_sizes_map[[1]][1:1000],
+                        gpf=m6_sizes_map[[2]][1:1000],
+                        msm=m6_sizes_map[[3]][1:1000])
+m6.map.df.m <- melt(m6.map.df)
+
+#add map to dataframe
+m6_1000.mq["MAP"] <- m6.map.df.m$value
+
+
+
+
+
+### Model 7 ########
 # gets the element sizes
 sizes_m7_1000 <- m7_o.1000[4,]
 
@@ -192,47 +224,55 @@ p1 <- ggplot(m5_1000.mq, aes(x=times)) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("All subtypes: Model 5") + ylab("sizes") + theme_bw()
+  ggtitle("All subtypes: Model 5") + ylab("Effective number of infections") + theme_bw()
 
-p2 <- ggplot(m7_1000.mq, aes(x=times)) +
+p2 <- ggplot(m6_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("All subtypes: Model 7") + ylab("sizes") + theme_bw()
+  ggtitle("All subtypes: Model 6") + ylab("Effective number of infections") + theme_bw()
 
-p3 <- ggplot(m02_AGm3_1000.mq, aes(x=times)) +
+
+p3 <- ggplot(m7_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype 02_AG: Model 3") + ylab("sizes") + theme_bw()
+  ggtitle("All subtypes: Model 7") + ylab("Effective number of infections") + theme_bw()
 
-p4 <- ggplot(m02_AGm4_1000.mq, aes(x=times)) +
+p4 <- ggplot(m02_AGm3_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype 02_AG: Model 4") + ylab("sizes") + theme_bw()
+  ggtitle("Subtype 02_AG: Model 3") + ylab("Effective number of infections") + theme_bw()
 
-p5 <- ggplot(m3_C_1000.mq, aes(x=times)) +
+p5 <- ggplot(m02_AGm4_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype C: Model 3") + ylab("sizes") + theme_bw()
+  ggtitle("Subtype 02_AG: Model 4") + ylab("Effective number of infections") + theme_bw()
 
-p6 <- ggplot(m4_C_1000.mq, aes(x=times)) +
+p6 <- ggplot(m3_C_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype C: Model 4") + ylab("sizes") + theme_bw()
+  ggtitle("Subtype C: Model 3") + ylab("Effective number of infections") + theme_bw()
+
+p7 <- ggplot(m4_C_1000.mq, aes(x=times)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
+  geom_line(aes(y = median, colour=group), linetype="solid") +
+  geom_line(aes(y = MAP, colour=group), linetype="longdash") +
+  facet_wrap(~ group2, scales = "free") +
+  ggtitle("Subtype C: Model 4") + ylab("Effective number of infections") + theme_bw()
 
 quartz()
 multiplot(p1, p2, cols=1)
-multiplot(p3, p4, cols=1)
-multiplot(p5, p6, cols=1)
+multiplot(p4, p5, cols=1)
+multiplot(p6, p7, cols=1)
 
 # from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 # Multiple plot function

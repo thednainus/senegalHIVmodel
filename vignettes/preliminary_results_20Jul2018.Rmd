@@ -1,0 +1,237 @@
+---
+title: "Preliminary results"
+author: "Fabricia F. Nascimento"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::pdf_document:
+    fig_caption: true
+    df_print: kable
+    highlight: pygments
+fontsize: 12pt
+vignette: >
+  %\VignetteIndexEntry{Preliminary results}
+  %\VignetteEngine{rmarkdown::render}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "latex")
+```
+
+# Variations of the model I tested
+
+## All subtypes - Model 2:
+
+Model modified by you without adding surveillance data. Only sequences from Dakar.
+
+## All subtypes - Model 3:
+
+Same as model 2, but removing from the tree sequences from self-reported _gpm_.
+
+## All subtypes - Model 4:
+
+Same as model 2, but coding self-reported _gpm_ as 0.5 _gpm_ and 0.5 _msm_.
+
+## by subtype 02_AG model 1:
+
+All sequences from subtype 02_AG and from Senegal, coding self-reported _gpm_ as 1.0.
+
+## by subtype 02_AG model 2:
+
+All sequences from subtype 02_AG and from Senegal, but coding self-reported _gpm_ as 0.5 _gpm_ and 0.5 _msm_.
+
+## by subtype 02_AG model 3:
+
+All sequences from subtype 02_AG and from Senegal, coding self-reported _gpm_ as 1.0.
+Adding information on surveillance data.
+
+## by subtype 02_AG model 4:
+
+All sequences from subtype 02_AG and from Senegal, but coding self-reported _gpm_ as 0.5 _gpm_ and 0.5 _msm_.
+Adding information on surveillance data.
+
+## by subtype C model 1:
+
+All sequences from subtype C and from Senegal, coding self-reported _gpm_ as 1.
+
+## by subtype C model 2:
+
+All sequences from subtype C and from Senegal, but coding self-reported _gpm_ as 0.5 _gpm_ and 0.5 _msm_.
+
+## by subtype C model 3:
+
+All sequences from subtype C and from Senegal, coding self-reported _gpm_ as 1.
+Adding information on surveillance data.
+
+## by subtype C model 4:
+
+All sequences from subtype C and from Senegal, but coding self-reported _gpm_ as 0.5 _gpm_ and 0.5 _msm_.
+Adding information on surveillance data.
+
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/new_mcmc_results.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/mergedRuns_newModels_maleX_rd2.rda",
+                 package = "senegalHIVmodel"))
+
+#Model 2
+model2.mx <- BayesianTools::MAP(m2, start=1000)
+model2.mx.p <- as.numeric(format(round(model2.mx$parametersMAP, 3), nsmall = 3))
+model2.mx.p[[16]] <- model2.mx$valuesMAP[[1]]
+names(model2.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                         "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                         "maleX", "import", "srcNe",
+                         "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+# MAP after removing first 1,200 iterations
+model5.mx <- BayesianTools::MAP(m5, start=1200)
+model5.mx.p <- as.numeric(format(round(model5.mx$parametersMAP, 3), nsmall = 3))
+model5.mx.p[[16]] <- model5.mx$valuesMAP[[1]]
+names(model5.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                         "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                         "maleX", "import", "srcNe",
+                         "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+#Model 4
+model4.mx <- BayesianTools::MAP(m4, start=1200)
+model4.mx.p <- as.numeric(format(round(model4.mx$parametersMAP, 3), nsmall = 3))
+model4.mx.p[[16]] <- model4.mx$valuesMAP[[1]]
+names(model4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                         "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                         "maleX", "import", "srcNe",
+                         "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+# Model 6
+model6.mx <- BayesianTools::MAP(m6, start=1200)
+model6.mx.p <- as.numeric(format(round(model6.mx$parametersMAP, 3), nsmall = 3))
+model6.mx.p[[16]] <- model6.mx$valuesMAP[[1]]
+names(model6.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                         "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                         "maleX", "import", "srcNe",
+                         "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+#All subtypes
+data_list.mx1 = data.frame(model2.mx.p, model5.mx.p, model4.mx.p, model6.mx.p) 
+data_list.mx1 <- as.matrix(data_list.mx1)
+colnames(data_list.mx1)<-c("M2","M5=M2 prevalence", "M4", "M6 prevalence")
+
+kable_table.mx1 <- knitr::kable(data_list.mx1, booktabs = T, 
+                               caption = "MAP for all subtypes")
+kableExtra::kable_styling(kable_input = kable_table.mx1,
+                          latex_options = c("striped", "scale_down"),
+                          full_width = FALSE, position = "center")
+
+```
+
+```{r echo = FALSE}
+#subtype 02_AG: model 1
+m02_AG_m1.mx <- BayesianTools::MAP(m02_AG.mx.m_rd2, start=1300)
+m02_AG_m1.mx.p <- as.numeric(format(round(m02_AG_m1.mx$parametersMAP, 3), nsmall = 3))
+m02_AG_m1.mx.p[[16]] <- m02_AG_m1.mx$valuesMAP[[1]]
+names(m02_AG_m1.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                            "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                            "maleX", "import", "srcNe",
+                            "pmsm2msm", "pgpf2gpm",
+                            "initmsm", "initgp", "Lposterior"))
+#subtype 02_AG: model 3
+# MAP after removing first 1,000 iter
+m02_AG_m3.mx <- BayesianTools::MAP(AG_m3, start=1000)
+m02_AG_m3.mx.p <- as.numeric(format(round(m02_AG_m3.mx$parametersMAP, 3), nsmall = 3))
+m02_AG_m3.mx.p[[16]] <- m02_AG_m3.mx$valuesMAP[[1]]
+names(m02_AG_m3.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                            "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                            "maleX", "import", "srcNe",
+                            "pmsm2msm", "pgpf2gpm",
+                            "initmsm", "initgp", "Lposterior"))
+
+#subtype 02_AG: model 2
+# MAP after removing first 1,500 iter
+m02_AG_m2.mx <- BayesianTools::MAP(m2.m02_AG.mx.m_rd2, start=1500)
+m02_AG_m2.mx.p <- as.numeric(format(round(m02_AG_m2.mx$parametersMAP, 3), nsmall = 3))
+m02_AG_m2.mx.p[[16]] <- m02_AG_m2.mx$valuesMAP[[1]]
+names(m02_AG_m2.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                            "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                            "maleX", "import", "srcNe",
+                            "pmsm2msm", "pgpf2gpm",
+                            "initmsm", "initgp", "Lposterior"))
+
+
+#subtype 02_AG: model 4
+# MAP after removing first 1,000 iter
+m02_AG_m4.mx <- BayesianTools::MAP(AG_m4.2, start=1000)
+m02_AG_m4.mx.p <- as.numeric(format(round(m02_AG_m4.mx$parametersMAP, 3), nsmall = 3))
+m02_AG_m4.mx.p[[16]] <- m02_AG_m4.mx$valuesMAP[[1]]
+names(m02_AG_m4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                            "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                            "maleX", "import", "srcNe",
+                            "pmsm2msm", "pgpf2gpm",
+                            "initmsm", "initgp", "Lposterior"))
+
+#Subtype 02_AG
+data_list.mx2 = data.frame(m02_AG_m1.mx.p, m02_AG_m3.mx.p, m02_AG_m2.mx.p, m02_AG_m4.mx.p) 
+data_list.mx2 <- as.matrix(data_list.mx2)
+colnames(data_list.mx2)<-c("M1","M3=M1 prevalence", "M2", "M4=M2 prevalence")
+
+kable_table.mx2 <- knitr::kable(data_list.mx2, booktabs = T, 
+                               caption = "MAP for subtype 02AG")
+kableExtra::kable_styling(kable_input = kable_table.mx2,
+                          latex_options = c("striped", "scale_down"),
+                          full_width = FALSE, position = "center")
+
+```
+
+```{r echo = FALSE}
+
+#subtype C: model 1
+# MAP after removing 1000 iterations
+mC_m1.mx <- BayesianTools::MAP(C_m1.m, start=1000)
+mC_m1.mx.p <- as.numeric(format(round(mC_m1.mx$parametersMAP, 3), nsmall = 3))
+mC_m1.mx.p[[16]] <- mC_m1.mx$valuesMAP[[1]]
+names(mC_m1.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                        "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                        "maleX", "import", "srcNe",
+                        "pmsm2msm", "pgpf2gpm",
+                        "initmsm", "initgp", "Lposterior"))
+
+#subtype C: model 3
+# MAP after removing 1,000 iterations
+mC_m3.mx <- BayesianTools::MAP(C_m3.m, start=1000)
+mC_m3.mx.p <- as.numeric(format(round(mC_m3.mx$parametersMAP, 3), nsmall = 3))
+mC_m3.mx.p[[16]] <- mC_m3.mx$valuesMAP[[1]]
+names(mC_m3.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                        "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                        "maleX", "import", "srcNe",
+                        "pmsm2msm", "pgpf2gpm",
+                        "initmsm", "initgp", "Lposterior"))
+
+#MAP for model 4 subtype C
+mC_m4.mx <- BayesianTools::MAP(C_m4.m, start=1000)
+mC_m4.mx.p <- as.numeric(format(round(mC_m4.mx$parametersMAP, 3), nsmall = 3))
+mC_m4.mx.p[[16]] <- mC_m4.mx$valuesMAP[[1]]
+names(mC_m4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp", "Lposterior"))
+
+#Subtype C
+data_list.mx3 = data.frame(mC_m1.mx.p, mC_m3.mx.p, mC_m4.mx.p) 
+data_list.mx3 <- as.matrix(data_list.mx3)
+colnames(data_list.mx3)<-c("M1","M3=M1 prevalence", "M4 prevalence")
+
+kable_table.mx3 <- knitr::kable(data_list.mx3, booktabs = T, 
+                               caption = "MAP for subtype C")
+kableExtra::kable_styling(kable_input = kable_table.mx3,
+                          latex_options = c("striped", "scale_down"),
+                          full_width = FALSE, position = "center")
+```

@@ -5,9 +5,12 @@ library(reshape2)
 
 
 # Load solved objects
-#load("analyses/plots/solved_objects_noMalex.rda")
-load("analyses/plots/solved_objects_Malex_1000reps.rda")
-load("analyses/plots/solved_objects_Malex_maps.rda")
+#load("analyses/plots/solved_objects/solved_objects_Malex_1000reps.rda")
+#load("analyses/plots/solved_objects/solved_objects_Malex_maps.rda")
+
+load("analyses/plots/solved_objects/solved_objects_1000reps_new.rda")
+load("analyses/plots/solved_objects/solved_objects_maps_new.rda")
+
 
 
 ### Model 2 ######
@@ -141,6 +144,8 @@ all_m2_C["MAP"] <- m2_C.map.df.m$value
 head(all_m2)
 
 # PLOTTING
+#colour blind friendly pallete
+cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 p1 <- ggplot(all_m2, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
@@ -168,21 +173,29 @@ p4 <- ggplot(all_m1_02AG, aes(x=times)) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("PAF - 02_AG: Model 1") + ylab("PAF") + theme_bw()
+  ggtitle("PAF - 02_AG: Model 1") + ylab("PAF") +
+  xlab("Time") + theme_bw() +
+  scale_fill_manual(values=cbPalette) +
+  scale_colour_manual(values=cbPalette)
 
 p5 <- ggplot(all_m2_02AG, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("PAF - 02_AG: Model 2") + ylab("PAF") + theme_bw()
+  ggtitle("PAF - 02_AG: Model 2") +
+  ylab("PAF") +
+  xlab("Time") + theme_bw()
 
 p6 <- ggplot(all_m1_C, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("PAF - C: Model 1") + ylab("PAF") + theme_bw()
+  ggtitle("PAF - C: Model 1") + ylab("PAF") +
+  xlab("Time") + theme_bw()
+  scale_fill_manual(values=cbPalette) +
+  scale_colour_manual(values=cbPalette)
 
 p7 <- ggplot(all_m2_C, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
@@ -192,7 +205,7 @@ p7 <- ggplot(all_m2_C, aes(x=times)) +
   ggtitle("PAF - C: Model 2") + ylab("PAF") + theme_bw()
 
 quartz()
-multiplot(p1, p2, p3, cols=1)
+multiplot(p1, p3, cols=1)
 multiplot(p4, p5, cols=1)
 multiplot(p6, p7, cols=1)
 

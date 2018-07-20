@@ -1,4 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 analyses/
-inst/data/alignments
+inst/data/alignments/by_codon/masked_02_AG_plus_additional_seq_noDups_CGR_ali_mod.fasta
+inst/data/alignments/by_codon/masked_C_plus_additional_seq_andCGR_noDups_ali_mod.fasta

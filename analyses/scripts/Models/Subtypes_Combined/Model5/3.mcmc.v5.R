@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/Model2/1.model.v2.R")
+source("analyses/scripts/Models/Subtypes_Combined/Model5/1.model.v5.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/Model2/2.load_data.v2.R")
+source("analyses/scripts/Models/Subtypes_Combined/Model5/2.load_data.v5.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -17,6 +17,7 @@ obj_fun <- function(parameters){
   # sometimes it comes with column names, which I chose to remove these column names
   # in here.
   parameters <- unname(parameters)
+  print(parameters)
 
   # add the values of THETA to a new variable named THETA.new
   THETA.new <- THETA
@@ -64,6 +65,8 @@ obj_fun <- function(parameters){
 }
 
 
+
+
 # Specify a density function to be used in the prior especification (see below)
 densities <-  function(par){
   # d1 to d3 and d5 to d7 I am using a lognormal distribution with mean = R0 = 1.1 and sigma = 1
@@ -79,12 +82,12 @@ densities <-  function(par){
   d7 = dgamma(par[7], shape = 3, rate = 3/0.1, log = TRUE) #msmsp2
   d8 = dunif(par[8], min = 1978, max = 2014, log = TRUE) #msmsploc
   d9 = dunif(par[9], min = 0.5, max = 2.0, log = TRUE) #maleX
-  d10 = dexp(par[9], rate = 30, log = TRUE) #import
-  d11 = dexp(par[10], rate = 1/100, log = TRUE) #srcNe
-  d12 = dbeta(par[11], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
-  d13 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
-  d14 = dexp(par[13], rate = 1/3, log = TRUE) #initmsm
-  d15 = dexp(par[14], rate = 1/3, log = TRUE) #initgp
+  d10 = dexp(par[10], rate = 30, log = TRUE) #import
+  d11 = dexp(par[11], rate = 1/100, log = TRUE) #srcNe
+  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
+  d13 = dbeta(par[13], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
+  d14 = dexp(par[14], rate = 1/3, log = TRUE) #initmsm
+  d15 = dexp(par[15], rate = 1/3, log = TRUE) #initgp
 
   return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15)
 }
@@ -93,15 +96,15 @@ densities <-  function(par){
 # Create sampling, this is optional but recommended because the MCMCs can generate automatic starting
 # conditions if this is provided
 sampler <-  function(n=1){
-  d1 = rgamma(n, shape = 4, rate = 4/0.6) #gpsp0
-  d2 = rgamma(n, shape = 4, rate = 4/0.4) #gpsp1
-  d3 = rgamma(n, shape = 4, rate = 4/0.1) #gpsp2
+  d1 = rgamma(n, shape = 3, rate = 3/0.1) #gpsp0
+  d2 = rgamma(n, shape = 3, rate = 3/0.1) #gpsp1
+  d3 = rgamma(n, shape = 3, rate = 3/0.1) #gpsp2
   d4 = runif(n, min = 1985, max = 2000) #gpsploc
-  d5 = rgamma(n, shape = 4, rate = 4/0.4) #msmsp0
-  d6 = rgamma(n, shape = 4, rate = 4/0.4) #msmsp1
-  d7 = rgamma(n, shape = 4, rate = 4/0.2) #msmsp2
-  d8 = runif(n, min = 1985, max = 2005) #msmsploc
-  d9 = runif(n, min = 0.5, max = 2.0) #maleX
+  d5 = rgamma(n, shape = 3, rate = 3/0.1) #msmsp0
+  d6 = rgamma(n, shape = 3, rate = 3/0.1) #msmsp1
+  d7 = rgamma(n, shape = 3, rate = 3/0.1) #msmsp2
+  d8 = runif(n, min = 1980, max = 2000) #msmsploc
+  d9 = runif(n, min = 0.5, max = 3.0) #maleX
   d10 = runif(n, 1/40, 1/5) #import
   d11 = runif(n, 5, 1000) #srcNe
   d12 = rbeta(n, shape1 = 16, shape2 = 4) #pmsm2msm

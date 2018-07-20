@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/bySubtype/C_m1/1.model.C.R")
+source("analyses/scripts/Models/BySubtype/C_m1/1.model.C.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/MaleX/bySubtype/C_m1/2.load_data.C.R")
+source("analyses/scripts/Models/BySubtype/C_m1/2.load_data.C.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -120,8 +120,35 @@ prior <- createPrior(density = densities,
 # We first run several mcmc runs in order to get an ok run to create a
 # z-matrix (for more details see Braak and Vrugt 2008)
 # First, we run the following lines of code and ignoring everything else:
-bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
-settings = list(iterations = 6000, nrChains = 1, startValue = initialValues, thin = 1)
+bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior, parallel = 4)
+#settings = list(iterations = 6000, nrChains = 1, startValue = initialValues, thin = 1)
+settings = list(iterations = 100, nrChains = 1, thin = 1)
 out_C <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
 saveRDS(out_C, "analyses/scripts/bySubtype/C/Preliminary_results/C_forZmatrix.rds")
+
+
+
+while(i < 3){
+
+  if(!file.exists("out.RDS")){
+    print("here")
+    bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior, parallel = 4)
+    settings = list(iterations = 100, nrChains = 1, thin = 1)
+    out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
+    saveRDS(out, "out.RDS")
+    save(i, file="iter.rdata")
+    i = i + 1
+    stopParallel(bayesianSetup)
+  }else{
+    print("here else")
+    out <- readRDS("out.RDS")
+    out1 <- out
+    bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior, parallel = 4)
+    out <- runMCMC(bayesianSetup = out1)
+    saveRDS(out, "out.RDS")
+    save(i, file="iter.rdata")
+    i = i + 1
+    stopParallel(bayesianSetup)
+  }
+}
 

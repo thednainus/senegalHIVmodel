@@ -5,8 +5,8 @@ library(reshape2)
 
 
 # Load solved objects
-load("analyses/plots/solved_objects_Malex_1000reps.rda")
-load("analyses/plots/solved_objects_Malex_maps.rda")
+load("analyses/plots/solved_objects/solved_objects_1000reps_new.rda")
+load("analyses/plots/solved_objects/solved_objects_maps_new.rda")
 
 
 # gets the element sizes. Sizes are the number of HIV cases
@@ -214,7 +214,8 @@ m2_C_1000.mq["MAP"] <- mCm2.map.df.m$value
 
 quartz()
 
-
+#colour blind friendly pallete
+cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 p1 <- ggplot(m2_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
@@ -241,7 +242,11 @@ p4 <- ggplot(m02_AGm1_1000.mq, aes(x=times)) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype 02_AG: Model 1") + ylab("sizes") + theme_bw()
+  ggtitle("Subtype 02_AG: Model 1") +
+  ylab("Effective number of infections") +
+  xlab("Time") + theme_bw() +
+  scale_fill_manual(values=cbPalette) +
+  scale_colour_manual(values=cbPalette)
 
 p5 <- ggplot(m02_AGm2_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
@@ -255,7 +260,12 @@ p6 <- ggplot(m1_C_1000.mq, aes(x=times)) +
   geom_line(aes(y = median, colour=group), linetype="solid") +
   geom_line(aes(y = MAP, colour=group), linetype="longdash") +
   facet_wrap(~ group2, scales = "free") +
-  ggtitle("Subtype C: Model 1") + ylab("sizes") + theme_bw()
+  ggtitle("Subtype C: Model 1") +
+  ylab("Effective number of infections") +
+  xlab("Time") + theme_bw()
+  scale_fill_manual(values=cbPalette) +
+  scale_colour_manual(values=cbPalette)
+
 
 p7 <- ggplot(m2_C_1000.mq, aes(x=times)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = group), alpha=0.3) +
@@ -266,6 +276,11 @@ p7 <- ggplot(m2_C_1000.mq, aes(x=times)) +
 
 quartz()
 multiplot(p1, p2, p3, cols=1)
+multiplot(p4, p5, cols=1)
+multiplot(p6, p7, cols=1)
+
+
+multiplot(p1, p3, cols=1)
 multiplot(p4, p5, cols=1)
 multiplot(p6, p7, cols=1)
 
