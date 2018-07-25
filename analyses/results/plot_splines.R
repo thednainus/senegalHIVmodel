@@ -43,7 +43,7 @@ names(model2.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m2.gp <- sapply(times,gpspline,parms=as.list(model2.mx.p[1:4]))
 m2.msm <- sapply(times,msmspline,parms=as.list(model2.mx.p[5:8]))
 
-m2.sp <- as.data.frame(cbind(times, m2.gp, m2.msm))
+m2.sp <- as.data.frame(cbind(times, m2.gp=m2.gp/GAMMA, m2.msm=m2.msm/GAMMA))
 m2.sp.l <- melt(m2.sp, id.vars="times")
 
 
@@ -62,7 +62,7 @@ names(model5.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m5.gp <- sapply(times,gpspline,parms=as.list(model5.mx.p[1:4]))
 m5.msm <- sapply(times,msmspline,parms=as.list(model5.mx.p[5:8]))
 
-m5.sp <- as.data.frame(cbind(times, m5.gp, m5.msm))
+m5.sp <- as.data.frame(cbind(times, m5.gp=m5.gp/GAMMA, m5.msm=m5.msm/GAMMA))
 m5.sp.l <- melt(m5.sp, id.vars="times")
 
 #Model 4
@@ -77,7 +77,7 @@ names(model4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m4.gp <- sapply(times,gpspline,parms=as.list(model4.mx.p[1:4]))
 m4.msm <- sapply(times,msmspline,parms=as.list(model4.mx.p[5:8]))
 
-m4.sp <- as.data.frame(cbind(times, m4.gp, m4.msm))
+m4.sp <- as.data.frame(cbind(times, m4.gp=m4.gp/GAMMA, m4.msm=m4.msm/GAMMA))
 m4.sp.l <- melt(m4.sp, id.vars="times")
 
 # Model 6
@@ -92,7 +92,7 @@ names(model6.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m6.gp <- sapply(times,gpspline,parms=as.list(model6.mx.p[1:4]))
 m6.msm <- sapply(times,msmspline,parms=as.list(model6.mx.p[5:8]))
 
-m6.sp <- as.data.frame(cbind(times, m6.gp, m6.msm))
+m6.sp <- as.data.frame(cbind(times, m6.gp=m6.gp/GAMMA, m6.msm=m6.msm/GAMMA))
 m6.sp.l <- melt(m6.sp, id.vars="times")
 
 
@@ -108,7 +108,7 @@ names(m02_AG_m1.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m02AG_m1.gp <- sapply(times,gpspline,parms=as.list(m02_AG_m1.mx.p[1:4]))
 m02AG_m1.msm <- sapply(times,msmspline,parms=as.list(m02_AG_m1.mx.p[5:8]))
 
-m02AG_m1.sp <- as.data.frame(cbind(times, m02AG_m1.gp, m02AG_m1.msm))
+m02AG_m1.sp <- as.data.frame(cbind(times, m02AG_m1.gp=m02AG_m1.gp/GAMMA, m02AG_m1.msm=m02AG_m1.msm/GAMMA))
 m02AG_m1.sp.l <- melt(m02AG_m1.sp, id.vars="times")
 
 
@@ -125,7 +125,7 @@ names(m02_AG_m3.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m02AG_m3.gp <- sapply(times,gpspline,parms=as.list(m02_AG_m3.mx.p[1:4]))
 m02AG_m3.msm <- sapply(times,msmspline,parms=as.list(m02_AG_m3.mx.p[5:8]))
 
-m02AG_m3.sp <- as.data.frame(cbind(times, m02AG_m3.gp, m02AG_m3.msm))
+m02AG_m3.sp <- as.data.frame(cbind(times, m02AG_m3.gp=m02AG_m3.gp/GAMMA, m02AG_m3.msm=m02AG_m3.msm/GAMMA))
 m02AG_m3.sp.l <- melt(m02AG_m3.sp, id.vars="times")
 
 #subtype 02_AG: model 2
@@ -141,7 +141,7 @@ names(m02_AG_m2.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m02AG_m2.gp <- sapply(times,gpspline,parms=as.list(m02_AG_m2.mx.p[1:4]))
 m02AG_m2.msm <- sapply(times,msmspline,parms=as.list(m02_AG_m2.mx.p[5:8]))
 
-m02AG_m2.sp <- as.data.frame(cbind(times, m02AG_m2.gp, m02AG_m2.msm))
+m02AG_m2.sp <- as.data.frame(cbind(times, m02AG_m2.gp=m02AG_m2.gp/GAMMA, m02AG_m2.msm=m02AG_m2.msm/GAMMA))
 m02AG_m2.sp.l <- melt(m02AG_m2.sp, id.vars="times")
 
 
@@ -158,7 +158,7 @@ names(m02_AG_m4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 m02AG_m4.gp <- sapply(times,gpspline,parms=as.list(m02_AG_m4.mx.p[1:4]))
 m02AG_m4.msm <- sapply(times,msmspline,parms=as.list(m02_AG_m4.mx.p[5:8]))
 
-m02AG_m4.sp <- as.data.frame(cbind(times, m02AG_m4.gp, m02AG_m4.msm))
+m02AG_m4.sp <- as.data.frame(cbind(times, m02AG_m4.gp=m02AG_m4.gp/GAMMA, m02AG_m4.msm=m02AG_m4.msm/GAMMA))
 m02AG_m4.sp.l <- melt(m02AG_m4.sp, id.vars="times")
 
 #subtype C: model 1
@@ -174,7 +174,7 @@ names(mC_m1.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 mC_m1.gp <- sapply(times,gpspline,parms=as.list(mC_m1.mx.p[1:4]))
 mC_m1.msm <- sapply(times,msmspline,parms=as.list(mC_m1.mx.p[5:8]))
 
-mC_m1.sp <- as.data.frame(cbind(times, mC_m1.gp, mC_m1.msm))
+mC_m1.sp <- as.data.frame(cbind(times, mC_m1.gp=mC_m1.gp/GAMMA, mC_m1.msm=mC_m1.msm/GAMMA))
 mC_m1.sp.l <- melt(mC_m1.sp, id.vars="times")
 
 #subtype C: model 3
@@ -190,7 +190,7 @@ names(mC_m3.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 mC_m3.gp <- sapply(times,gpspline,parms=as.list(mC_m3.mx.p[1:4]))
 mC_m3.msm <- sapply(times,msmspline,parms=as.list(mC_m3.mx.p[5:8]))
 
-mC_m3.sp <- as.data.frame(cbind(times, mC_m3.gp, mC_m3.msm))
+mC_m3.sp <- as.data.frame(cbind(times, mC_m3.gp=mC_m3.gp/GAMMA, mC_m3.msm=mC_m3.msm/GAMMA))
 mC_m3.sp.l <- melt(mC_m3.sp, id.vars="times")
 
 
@@ -206,63 +206,64 @@ names(mC_m4.mx.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
 mC_m4.gp <- sapply(times,gpspline,parms=as.list(mC_m4.mx.p[1:4]))
 mC_m4.msm <- sapply(times,msmspline,parms=as.list(mC_m4.mx.p[5:8]))
 
-mC_m4.sp <- as.data.frame(cbind(times, mC_m4.gp, mC_m4.msm))
+mC_m4.sp <- as.data.frame(cbind(times, mC_m4.gp=mC_m4.gp/GAMMA, mC_m4.msm=mC_m4.msm/GAMMA))
 mC_m4.sp.l <- melt(mC_m4.sp, id.vars="times")
-
 
 
 p1 <- ggplot(m2.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("Model 2") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("Model 2") + ylab("R") + theme_bw()
 
 
 p2 <- ggplot(m5.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("Model 5:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("Model 5:prevalence") + ylab("R") + theme_bw()
 
 p3 <- ggplot(m4.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("Model 4") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("Model 4") + ylab("R") + theme_bw()
 
 p4 <- ggplot(m6.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("Model 6:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("Model 6:prevalence") + ylab("R") + theme_bw()
 
 
 p5 <- ggplot(m02AG_m1.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("02AG Model1") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("02AG Model1") + ylab("R") + theme_bw()
 
 
 p6 <- ggplot(m02AG_m3.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("02AG Model3:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("02AG Model3:prevalence") + ylab("R") + theme_bw()
 
 
 p7 <- ggplot(m02AG_m2.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("02AG Model2") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("02AG Model2") + ylab("R") + theme_bw()
 
 
 p8 <- ggplot(m02AG_m4.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("02AG Model4:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("02AG Model4:prevalence") + ylab("R") + theme_bw()
 
 
 p9 <- ggplot(mC_m1.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("C Model1") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("C Model1") + ylab("R") + theme_bw()
 
 
 p10 <- ggplot(mC_m3.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("C Model3:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("C Model3:prevalence") + ylab("R") + theme_bw()
 
 
 p11 <- ggplot(mC_m4.sp.l, aes(x=times)) +
   geom_line(aes(y = value, colour=variable)) +
-  ggtitle("C Model4:prevalence") + ylab("transmissions/infected individuals") + theme_bw()
+  ggtitle("C Model4:prevalence") + ylab("R") + theme_bw()
 
+
+quartz()
 multiplot(p1,p3,p2,p4, cols=2)
 multiplot(p5,p7,p6,p8, cols=2)
 multiplot(p9,p11,p10, cols=2)
