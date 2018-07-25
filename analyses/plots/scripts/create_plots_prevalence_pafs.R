@@ -27,6 +27,14 @@ m5.map.df.m <- melt(m5.map.df)
 #add map to dataframe
 all_m5["MAP"] <- m5.map.df.m$value
 
+m5.1995 <- subset(all_m5, times >= 1995 & times < 1996 & group == "msm")
+summary(m5.1995)
+
+m5.2005 <- subset(all_m5, times >= 2005 & times < 2006 & group == "msm")
+summary(m5.2005)
+
+m5.2013 <- subset(all_m5, times >= 2013 & times <= 2014 & group == "msm")
+summary(m5.2013)
 
 ### Model 6 ######
 # gets the element births. Births are the number of new HIV cases
@@ -34,7 +42,7 @@ bm6_1000 <- m6_o.1000[2,]
 times_m6 <- m6_o.1000[[1]]
 
 # calculate the median and quantiles for pafs
-all_m6 <- births_pafs(bm5_1000, times_m6)
+all_m6 <- births_pafs(bm6_1000, times_m6)
 # calculate pafs for MAP
 m6_pafs_map <- t(sapply(m6_map_o[[2]], calculate_pafs))
 
@@ -44,6 +52,15 @@ m6.map.df.m <- melt(m6.map.df)
 
 #add map to dataframe
 all_m6["MAP"] <- m6.map.df.m$value
+
+m6.1995 <- subset(all_m6, times >= 1995 & times < 1996 & group == "msm")
+summary(m6.1995)
+
+m6.2005 <- subset(all_m6, times >= 2005 & times < 2006 & group == "msm")
+summary(m6.2005)
+
+m6.2013 <- subset(all_m6, times >= 2013 & times <= 2014 & group == "msm")
+summary(m6.2013)
 
 ### Model 7 ######
 # gets the element births. Births are the number of new HIV cases
