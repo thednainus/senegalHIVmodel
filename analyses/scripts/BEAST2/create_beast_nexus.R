@@ -45,10 +45,10 @@ names(all.seq)
 all_data_SN_CGR.3 <- all_data_SN_CGR.2[order(match(all_data_SN_CGR.2$phydyn_tip,
                                                    names(all.seq))), ]
 
-write.nexus.data(all.seq, file="~/Desktop/teste.nexus", format="dna",
+write.nexus.data(all.seq, file="~/Desktop/allSubtypes.nexus", format="dna",
                  interleaved = FALSE)
 
-fileConn<-file("~/Desktop/teste.nexus", open="a")
+fileConn<-file("~/Desktop/allSubtypes.nexus", open="a")
 writeLines("begin assumptions;", fileConn)
 writeLines("\t charset partition1 = 1-1302\\3,2-1302\\3;", fileConn)
 writeLines("\t charset partition2 = 3-1302\\3;", fileConn)
@@ -61,8 +61,8 @@ writeLines("\n", fileConn)
 
 
 i=1
-while(i < 517){
-  if(i == 516){
+while(i < 513){
+  if(i == 512){
     if(is.na(all_data_SN_CGR.3["decimal"][i,])){
       text.to.write <- paste("\t CALIBRATE", all_data_SN_CGR.3["phydyn_tip"][i,], "=",
                              paste("uniform(", as.character(all_data_SN_CGR.3["lower"][i,]), ", ",
@@ -102,8 +102,13 @@ old <- all_tree$tip.label
 all_tree$tip.label <- all_data_SN_CGR.2$phydyn_tip[match(all_tree$tip.label,
                                                          all_data_SN_CGR.2$tip)]
 
+
+
 write.tree(all_tree, "inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast.tre")
 
+#all_tree <- read.tree("inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast.tre")
+#all_tree <- drop.tip(all_tree, "FN599688.C.SN_1999.784_gpm")
+#write.tree(all_tree, "inst/data/bindTree_CGR_GTR+Gp12+3_droppedTip_phydynBeast2.tre")
 
 # for subtype 02_AG
 library(seqinr)
