@@ -1,0 +1,507 @@
+---
+title: "MAP and ESS for all models"
+author: "Fabrícia F. Nascimento"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::pdf_document:
+    fig_caption: true
+    df_print: kable
+    highlight: pygments
+fontsize: 12pt
+vignette: >
+  %\VignetteIndexEntry{MAP and ESS for all models}
+  %\VignetteEngine{rmarkdown::render}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(knitr.table.format = "latex")
+```
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/Model2.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/Model5.rda",
+                  package = "senegalHIVmodel"))
+
+#Model 2
+m2 <- BayesianTools::MAP(m2.2, start = 2000)
+m2.p <- as.numeric(format(round(m2$parametersMAP, 2), nsmall = 2))
+m2.p[[16]] <- as.numeric(format(round(m2$valuesMAP[[1]], 2), nsmall = 2))
+names(m2.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m2.s <- BayesianTools::getSample(m2.2, start = 2000, coda = TRUE)
+m2.ESS <- as.numeric(format(round(coda::effectiveSize(m2.s), 0)))
+names(m2.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp"))
+
+# Model 5
+m5 <- BayesianTools::MAP(m5.1, start=4000)
+m5.p <- as.numeric(format(round(m5$parametersMAP, 2), nsmall = 2))
+m5.p[[16]] <- as.numeric(format(round(m5$valuesMAP[[1]], 2), nsmall = 2))
+names(m5.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m5.s <- BayesianTools::getSample(m5.1, start = 4000, coda = TRUE)
+m5.ESS <- as.numeric(format(round(coda::effectiveSize(m5.s), 0)))
+names(m5.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp"))
+
+# Model 2 = Model 5 (prevalence)
+m25 = data.frame(m2.p, m5.p) 
+m25 <- as.matrix(m25)
+colnames(m25)<-c("Model 2", "Model 5")
+
+kable_table.m25 <- knitr::kable(m25, booktabs = TRUE, 
+                               caption = "MAP for Models 2 and Model 5 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m25,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+m25.ESS = data.frame(m2.ESS, m5.ESS) 
+m25.ESS <- as.matrix(m25.ESS)
+colnames(m25.ESS)<-c("Model 2", "Model 5")
+
+kable_table.m25.ESS <- knitr::kable(m25.ESS, booktabs = TRUE, 
+                                    caption = "Effective sample size (ESS) for Models 2 and Model 5 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m25.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/Model3.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/Model6.rda",
+                  package = "senegalHIVmodel"))
+
+#Model 3
+m3 <- BayesianTools::MAP(m3.2, start = 1200)
+m3.p <- as.numeric(format(round(m3$parametersMAP, 2), nsmall = 2))
+m3.p[[16]] <- as.numeric(format(round(m3$valuesMAP[[1]], 2), nsmall = 2))
+names(m3.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m3.s <- BayesianTools::getSample(m3.2, start = 1200, coda = TRUE)
+m3.ESS <- as.numeric(format(round(coda::effectiveSize(m3.s), 0)))
+names(m3.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp"))
+
+# Model 6
+m6 <- BayesianTools::MAP(m6.1, start=1200)
+m6.p <- as.numeric(format(round(m6$parametersMAP, 2), nsmall = 2))
+m6.p[[16]] <- as.numeric(format(round(m6$valuesMAP[[1]], 2), nsmall = 2))
+names(m6.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m6.s <- BayesianTools::getSample(m6.1, start = 1200, coda = TRUE)
+m6.ESS <- as.numeric(format(round(coda::effectiveSize(m6.s), 0)))
+names(m6.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp"))
+
+# Model 3 = Model 6 (prevalence)
+m36 = data.frame(m3.p, m6.p) 
+m36 <- as.matrix(m36)
+colnames(m36) <- c("Model 3", "Model 6")
+
+kable_table.m36 <- knitr::kable(m36, booktabs = TRUE, 
+                                caption = "MAP for Models 3 and Model 6 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m36,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+m36.ESS = data.frame(m3.ESS, m6.ESS) 
+m36.ESS <- as.matrix(m36.ESS)
+colnames(m36.ESS) <- c("Model 3", "Model 6")
+
+kable_table.m36.ESS <- knitr::kable(m36.ESS, booktabs = TRUE, 
+                                    caption = "ESS for Models 3 and Model 6 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m36.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/Model4.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/Model7.rda",
+                  package = "senegalHIVmodel"))
+
+#Model 4
+m4 <- BayesianTools::MAP(m4.2, start = 4000)
+m4.p <- as.numeric(format(round(m4$parametersMAP, 2), nsmall = 2))
+m4.p[[16]] <- as.numeric(format(round(m4$valuesMAP[[1]], 2), nsmall = 2))
+names(m4.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m4.s <- BayesianTools::getSample(m4.2, start = 4000, coda = TRUE)
+m4.ESS <- as.numeric(format(round(coda::effectiveSize(m4.s), 0)))
+names(m4.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp"))
+
+# Model 7
+m7 <- BayesianTools::MAP(m7.2, start=2100)
+m7.p <- as.numeric(format(round(m7$parametersMAP, 2), nsmall = 2))
+m7.p[[16]] <- as.numeric(format(round(m7$valuesMAP[[1]], 2), nsmall = 2))
+names(m7.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                         "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+m7.s <- BayesianTools::getSample(m7.2, start = 2100, coda = TRUE)
+m7.ESS <- as.numeric(format(round(coda::effectiveSize(m7.s), 0)))
+names(m7.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp"))
+
+# Model 4 = Model 7 (prevalence)
+m47 = data.frame(m4.p, m7.p) 
+m47 <- as.matrix(m47)
+colnames(m47) <- c("Model 4", "Model 7")
+
+kable_table.m47 <- knitr::kable(m47, booktabs = TRUE, 
+                               caption = "MAP for Models 4 and Model 7 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m47,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+m47.ESS = data.frame(m4.ESS, m7.ESS) 
+m47.ESS <- as.matrix(m47.ESS)
+colnames(m47.ESS) <- c("Model 4", "Model 7")
+
+kable_table.m47.ESS <- knitr::kable(m47.ESS, booktabs = TRUE, 
+                                    caption = "ESS for Models 4 and Model 7 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.m47.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/C_m1.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
+                  package = "senegalHIVmodel"))
+
+# Subtype C model 1
+Cm1 <- BayesianTools::MAP(C_m1.2, start = 1200)
+Cm1.p <- as.numeric(format(round(Cm1$parametersMAP, 2), nsmall = 2))
+Cm1.p[[16]] <- as.numeric(format(round(Cm1$valuesMAP[[1]], 2), nsmall = 2))
+names(Cm1.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+Cm1.s <- BayesianTools::getSample(C_m1.2, start = 1200, coda = TRUE)
+Cm1.ESS <- as.numeric(format(round(coda::effectiveSize(Cm1.s), 0)))
+names(Cm1.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                     "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                     "maleX", "import", "srcNe",
+                     "pmsm2msm", "pgpf2gpm",
+                     "initmsm", "initgp"))
+
+# Subtype C model 3
+Cm3 <- BayesianTools::MAP(C_m3.1, start = 1000)
+Cm3.p <- as.numeric(format(round(Cm3$parametersMAP, 2), nsmall = 2))
+Cm3.p[[16]] <- as.numeric(format(round(Cm3$valuesMAP[[1]], 2), nsmall = 2))
+names(Cm3.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                   "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                   "maleX", "import", "srcNe",
+                   "pmsm2msm", "pgpf2gpm",
+                   "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+Cm3.s <- BayesianTools::getSample(C_m3.1, start = 1000, coda = TRUE)
+Cm3.ESS <- as.numeric(format(round(coda::effectiveSize(Cm3.s), 0)))
+names(Cm3.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                     "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                     "maleX", "import", "srcNe",
+                     "pmsm2msm", "pgpf2gpm",
+                     "initmsm", "initgp"))
+
+
+
+# Model 1 = Model 3 (prevalence)
+Cm13 = data.frame(Cm1.p, Cm3.p) 
+Cm13 <- as.matrix(Cm13)
+colnames(Cm13) <- c("Model 1", "Model 3")
+
+kable_table.Cm13 <- knitr::kable(Cm13, booktabs = TRUE, 
+                               caption = "MAP for subtype C Models 1 and Model 3 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.Cm13,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+Cm13.ESS = data.frame(Cm1.ESS, Cm3.ESS) 
+Cm13.ESS <- as.matrix(Cm13.ESS)
+colnames(Cm13.ESS) <- c("Model 1", "Model 3")
+
+kable_table.Cm13.ESS <- knitr::kable(Cm13.ESS, booktabs = TRUE, 
+                                    caption = "ESS for subtype C Models 1 and Model 3 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.Cm13.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/C_m2.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
+                  package = "senegalHIVmodel"))
+
+# Subtype C model 2
+Cm2 <- BayesianTools::MAP(C_m2.2, start = 1500)
+Cm2.p <- as.numeric(format(round(Cm2$parametersMAP, 2), nsmall = 2))
+Cm2.p[[16]] <- as.numeric(format(round(Cm2$valuesMAP[[1]], 2), nsmall = 2))
+names(Cm2.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                  "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                  "maleX", "import", "srcNe",
+                  "pmsm2msm", "pgpf2gpm",
+                  "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+Cm2.s <- BayesianTools::getSample(C_m2.2, start = 1500, coda = TRUE)
+Cm2.ESS <- as.numeric(format(round(coda::effectiveSize(Cm2.s), 0)))
+names(Cm2.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                     "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                     "maleX", "import", "srcNe",
+                     "pmsm2msm", "pgpf2gpm",
+                     "initmsm", "initgp"))
+
+# Subtype C model 4
+Cm4 <- BayesianTools::MAP(C_m4.2, start = 1200)
+Cm4.p <- as.numeric(format(round(Cm4$parametersMAP, 2), nsmall = 2))
+Cm4.p[[16]] <- as.numeric(format(round(Cm4$valuesMAP[[1]], 2), nsmall = 2))
+names(Cm4.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                   "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                   "maleX", "import", "srcNe",
+                   "pmsm2msm", "pgpf2gpm",
+                   "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+Cm4.s <- BayesianTools::getSample(C_m4.2, start = 1200, coda = TRUE)
+Cm4.ESS <- as.numeric(format(round(coda::effectiveSize(Cm4.s), 0)))
+names(Cm4.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                     "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                     "maleX", "import", "srcNe",
+                     "pmsm2msm", "pgpf2gpm",
+                     "initmsm", "initgp"))
+
+
+
+# Model 1 = Model 3 (prevalence)
+Cm24 = data.frame(Cm2.p, Cm4.p) 
+Cm24 <- as.matrix(Cm24)
+colnames(Cm24) <- c("Model 2", "Model 4")
+
+kable_table.Cm24 <- knitr::kable(Cm24, booktabs = TRUE, 
+                               caption = "MAP for subtype C Models 2 and Model 4 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.Cm24,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+Cm24.ESS = data.frame(Cm2.ESS, Cm4.ESS) 
+Cm24.ESS <- as.matrix(Cm24.ESS)
+colnames(Cm24.ESS) <- c("Model 2", "Model 4")
+
+kable_table.Cm24.ESS <- knitr::kable(Cm24.ESS, booktabs = TRUE, 
+                                    caption = "ESS for subtype C Models 2 and Model 4 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.Cm24.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/AG_m1.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/AG_m3.rda",
+                  package = "senegalHIVmodel"))
+
+# Subtype 02_AG model 1
+AGm1 <- BayesianTools::MAP(AG_m1.1, start = 4000)
+AGm1.p <- as.numeric(format(round(AGm1$parametersMAP, 2), nsmall = 2))
+AGm1.p[[16]] <- as.numeric(format(round(AGm1$valuesMAP[[1]], 2), nsmall = 2))
+names(AGm1.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+AGm1.s <- BayesianTools::getSample(AG_m1.1, start = 4000, coda = TRUE)
+AGm1.ESS <- as.numeric(format(round(coda::effectiveSize(AGm1.s), 0)))
+names(AGm1.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                      "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                      "maleX", "import", "srcNe",
+                      "pmsm2msm", "pgpf2gpm",
+                      "initmsm", "initgp"))
+
+# Subtype 02_AG model 3
+AGm3 <- BayesianTools::MAP(AG_m3.2, start = 1000)
+AGm3.p <- as.numeric(format(round(AGm3$parametersMAP, 2), nsmall = 2))
+AGm3.p[[16]] <- as.numeric(format(round(AGm3$valuesMAP[[1]], 2), nsmall = 2))
+names(AGm3.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+AGm3.s <- BayesianTools::getSample(AG_m3.2, start = 1000, coda = TRUE)
+AGm3.ESS <- as.numeric(format(round(coda::effectiveSize(AGm3.s), 0)))
+names(AGm3.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                      "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                      "maleX", "import", "srcNe",
+                      "pmsm2msm", "pgpf2gpm",
+                      "initmsm", "initgp"))
+
+
+
+# Model 1 = Model 3 (prevalence)
+AGm13 = data.frame(AGm1.p, AGm3.p) 
+AGm13 <- as.matrix(AGm13)
+colnames(AGm13) <- c("Model 1", "Model 3")
+
+kable_table.AGm13 <- knitr::kable(AGm13, booktabs = TRUE, 
+                               caption = "MAP for subtype 02\\_AG Models 1 and Model 3 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.AGm13,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+AGm13.ESS = data.frame(AGm1.ESS, AGm3.ESS) 
+AGm13.ESS <- as.matrix(AGm13.ESS)
+colnames(AGm13.ESS) <- c("Model 1", "Model 3")
+
+kable_table.AGm13.ESS <- knitr::kable(AGm13.ESS, booktabs = TRUE, 
+                                    caption = "ESS for subtype 02\\_AG Models 1 and Model 3 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.AGm13.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
+
+
+```{r echo = FALSE}
+load(system.file("data/mcmc_runs/FINAL/AG_m2.rda",
+                  package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/FINAL/AG_m4.rda",
+                  package = "senegalHIVmodel"))
+
+# Subtype 02_AG model 2
+AGm2 <- BayesianTools::MAP(AG_m2.1, start = 4000)
+AGm2.p <- as.numeric(format(round(AGm2$parametersMAP, 2), nsmall = 2))
+AGm2.p[[16]] <- as.numeric(format(round(AGm2$valuesMAP[[1]], 2), nsmall = 2))
+names(AGm2.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+AGm2.s <- BayesianTools::getSample(AG_m2.1, start = 4000, coda = TRUE)
+AGm2.ESS <- as.numeric(format(round(coda::effectiveSize(AGm2.s), 0)))
+names(AGm2.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                      "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                      "maleX", "import", "srcNe",
+                      "pmsm2msm", "pgpf2gpm",
+                      "initmsm", "initgp"))
+
+# Subtype 02_AG model 4
+AGm4 <- BayesianTools::MAP(AG_m4.2, start = 1000)
+AGm4.p <- as.numeric(format(round(AGm4$parametersMAP, 2), nsmall = 2))
+AGm4.p[[16]] <- as.numeric(format(round(AGm4$valuesMAP[[1]], 2), nsmall = 2))
+names(AGm4.p) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                    "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                    "maleX", "import", "srcNe",
+                    "pmsm2msm", "pgpf2gpm",
+                    "initmsm", "initgp", "Lposterior"))
+
+# Get ESS for each parameter
+AGm4.s <- BayesianTools::getSample(AG_m4.2, start = 1000, coda = TRUE)
+AGm4.ESS <- as.numeric(format(round(coda::effectiveSize(AGm4.s), 0)))
+names(AGm4.ESS) <- (c("gpsp0", "gpsp1", "gpsp2", "gpsploc",
+                      "msmsp0", "msmsp1", "msmsp2", "msmsploc",
+                      "maleX", "import", "srcNe",
+                      "pmsm2msm", "pgpf2gpm",
+                      "initmsm", "initgp"))
+
+
+
+# Model 1 = Model 3 (prevalence)
+AGm24 = data.frame(AGm2.p, AGm4.p) 
+AGm24 <- as.matrix(AGm24)
+colnames(AGm24) <- c("Model 2", "Model 4")
+
+kable_table.AGm24 <- knitr::kable(AGm24, booktabs = TRUE, 
+                               caption = "MAP for subtype 02\\_AG Models 2 and Model 4 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.AGm24,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+# ESS table
+AGm24.ESS = data.frame(AGm2.ESS, AGm4.ESS) 
+AGm24.ESS <- as.matrix(AGm24.ESS)
+colnames(AGm24.ESS) <- c("Model 2", "Model 4")
+
+kable_table.AGm24.ESS <- knitr::kable(AGm24.ESS, booktabs = TRUE, 
+                                    caption = "ESS for subtype 02\\_AG Models 2 and Model 4 (prevalence)")
+kableExtra::kable_styling(kable_input = kable_table.AGm24.ESS,
+                          latex_options = "striped",
+                          full_width = FALSE, position = "center")
+
+```
