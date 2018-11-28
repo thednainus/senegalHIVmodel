@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscellaneous.R
 \name{calculate_newCases}
 \alias{calculate_newCases}
-\title{Calculate new cases}
+\title{Calculate the proportion of new cases}
 \usage{
 calculate_newCases(f)
 }
@@ -12,11 +12,11 @@ calculate_newCases(f)
 }
 \value{
 the sum of columns in each matrix, which will correspond to new HIV
-  cases. Here "births" object is a list in which each element correspont to
+  cases. Here "births" object is a list in which each element corresponts to
   a time point and is a 4 by 4 matrix. See vignette for more details.
 }
 \description{
-Calculate new cases
+Calculate the proportion of new cases
 }
 \examples{
 # TO DO

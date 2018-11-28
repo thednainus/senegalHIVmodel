@@ -2,16 +2,16 @@
 % Please edit documentation in R/dating.R
 \name{data_format}
 \alias{data_format}
-\title{To format collection dates for samples}
+\title{Reformat collection dates of HIV samples}
 \usage{
 data_format(metadata, country)
 }
 \arguments{
-\item{metadata}{Object of class dataframe. It will contain information
-about collection dates for the sequences}
+\item{metadata}{Object of class dataframe. It contains information
+on collection dates for HIV sequences in YYYY-MM-DD format.}
 
 \item{country}{Object of class character. It should be in the form of
-"SN" or "SN.CGR"}
+"SN" or "SN.CGR".}
 }
 \value{
 A list in which the first element contain information in which the
@@ -19,15 +19,17 @@ A list in which the first element contain information in which the
     elements that have missing dating information
 }
 \description{
-This function formats the dates in the form of YYYY-MM-DD to a decimal year to
-be used in tip dating analysis.
+This function formats dates in YYYY-MM-DD to decimal format. Decimal
+format is used in tip dating analysis.
 }
 \details{
-The returned elements in the list will contain 2 dataframes. The
-    first dataframe will have NA for collection dates that is only known
-    from some parts (I mean, it is only know the YYYY.MM, or only YYYY). The
-    second dataframe will have the upper and lower bound for the samples
-    that we only partally know the collection dates.
+The returned elements in the list contains 2 dataframes. The
+    first dataframe have all information of collection dates in decimal
+    format, and NA is used for dates in which only part of
+    the collection date is available . For example, when we only know
+    collection date by year and month (YYYY.MM), or year only (YYYY). The
+    second dataframe in the list will have the upper and lower bounds
+    for the samples that we only partially know the collection dates.
 }
 \examples{
 # write example here

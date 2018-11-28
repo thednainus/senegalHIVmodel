@@ -19,9 +19,10 @@ this function returns a list containing the empty components
  These components are the birth, death, migrations, total number of demes and
  non-demes of the model.
  \itemize{
-     \item Birth is a matrix describing the model birth rates;
+     \item Birth is a vector or matrix describing the model birth rates;
      \item Death is a vector describing the model death rates;
-     \item Migration is a matrix describing the model migration rates.
+     \item Migration is a vector or matrix describing the model migration
+               rates.
  }
 }
 \description{

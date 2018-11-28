@@ -2,21 +2,35 @@
 % Please edit documentation in R/miscellaneous.R
 \name{post_traj}
 \alias{post_traj}
-\title{Calculate the trajectories using posterior distribution}
+\title{Calculates trajectories using the posterior distribution}
 \usage{
 post_traj(parameters, THETA)
 }
 \arguments{
-\item{parameters}{list of parameter estimation from the posterior distribution}
+\item{parameters}{list of parameter estimations from the posterior distribution}
 
-\item{THETA}{list of parameter values from the Model. Here the functions
-for the spline function will also de loaded}
+\item{THETA}{list of parameter values from the Model. Here functions
+for the linear functions will also de loaded}
 }
 \value{
 the solved object #to do
 }
 \description{
 Solves the demographic model for each combination of parameter values
+}
+\details{
+Note that this function uses dm as an internal object, and this
+object is used in this function, but I did not pass it as an argument to this
+function.
+dm was generated using the function build.demographic.process in the phydynR
+package. For the function described here we need to source the code for
+model for any of the subtypes of interest, such as in
+analyses/scripts/Models/BySubtype/02_AG_m1/1.model.02_AG.R
+Note that in this example I am also extimating the parameter maleX
+so the script as it stands here would not work with this example.
+Initially I was fixing maleX and this function (post_traj) was useful.
+However, when estimating maleX, the function post_traj_mx should be used
+instead.
 }
 \examples{
 #TO DO

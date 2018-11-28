@@ -7,22 +7,24 @@
 organize_metadata_bySubtype(all_data_SN, all_data_CGR, code)
 }
 \arguments{
-\item{all_data_SN}{Dataframe object of metadata for the Senegal only sequences}
+\item{all_data_SN}{Object of class dataframe. This dataframe contains
+metadata for Senegal sequences}
 
-\item{all_data_CGR}{Dataframe object of metadata for the CGR sequences}
+\item{all_data_CGR}{Object of class dataframe. This dataframe contains
+metadata for CGR sequences}
 
-\item{code}{If code = 1, it will return as a list dataframes for each subtype
-but with dating formatted to decimal. If code = 2, it will return a list
-of dataframes in which collection date is missing, and a dataframe with all
-SN only available sequences}
+\item{code}{If code = 1, it will return as a list dataframes for each subtype,
+and collection dates are formatted to decimal. If code = 2, it will return
+a list of dataframes for (1) all Senegal and CGR sequences and (2) samples
+in which collection date is missing.}
 }
 \value{
 a list of dataframes
 }
 \description{
-This function will organize metadata for dating analysis purpose.
-It will subset data for subtypes B, C and 02_AG, and have the collection
-date formated as decimal for tip dating analysis
+Function that organizes metadata for dating analysis purpose.
+It will subset data for subtypes B, C and CRF 02_AG, and collection
+date will be formated as decimal for tip dating analysis
 }
 \examples{
 TO DO

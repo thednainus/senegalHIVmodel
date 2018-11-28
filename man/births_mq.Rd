@@ -16,7 +16,7 @@ by \code{\link{calculate_pafs}} or \code{\link{calculate_newCases}}}
 \value{
 data.frame object in which columns correspond to times, median,
   lower and upper quantiles. Two additional columns are also provided
-  to group data by gpm, gpmf, and msm; and by gp and msm (for plotting
+  to group data by gpm, gpf, and msm; and by gp and msm (for plotting
   purposes)
 }
 \description{

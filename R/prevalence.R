@@ -1,5 +1,7 @@
 # Functions to allow to add a likelihood term to the Senegal model
 # by adding information on prevalence used in Christine's paper
+
+
 #' Converts size for point estimate 2010 to prevalence of males that are msm
 #'
 #' @param tfgy object of class tfgy. See demographic function (TO DO)
@@ -26,11 +28,14 @@ tfgy2prevalenceStat <- function(tfgy)
 #'
 #' Function that sets the states for the prevalence values to calculate mean
 #' and standard deviation to be used in MCMC runs
-#' q = proportion of males who are msm
-#' p_msm = msm HIV prevalence
-#' p_m = heterosexual male (gpm) prevalence
-#' X = proportion of infected gpm who are msm (assumes that the estimation
+#'
+#' @details \itemize{
+#'    \item q = proportion of males who are msm
+#'    \item p_msm = msm HIV prevalence
+#'    \item p_m = heterosexual male (gpm) prevalence
+#'    \item X = proportion of infected gpm who are msm (assumes that the estimation
 #' of p_msm is independent of estimated prevalence )
+#' }
 #'
 #' @return mean (MEAN_PREV_STAT) and standard deviation (SD_PREV_STAT)
 #' for prevalence

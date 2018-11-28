@@ -7,21 +7,23 @@
 organize_metadata(metadata_CGR, metadata_SN)
 }
 \arguments{
-\item{metadata_CGR}{data.frame object that contains metadata for the CGR sequences.
-These sequeces will receive the state "src", a deme in our mathematical model.}
+\item{metadata_CGR}{data.frame object that contains metadata for the
+CGR (close global reference) sequences. These sequeces will receive
+the state "src", a deme in our mathematical model.}
 
-\item{metadata_SN}{data.frame object that contain all metadata for the Senegal (SN)
-sequences. Sequences will receive the states: "gpf", "gpm", or "msm".}
+\item{metadata_SN}{data.frame object that contains all metadata for the
+Senegal (SN) sequences. Sequences will receive the states: "gpf", "gpm",
+or "msm".}
 }
 \value{
-a data.frame object containing 2 columns. The first column reprsent the
-   the sequences name, and second column represent
-   the state of the sequences. In our case, state can be any of the demes (gpf, gpm,
-   msm, and src).
+a data.frame object containing 2 columns. The first column represents
+   the sequences name, and second column represents the state of the
+   sequences. In our case, state can be any of the demes (gpf, gpm, msm,
+   and src).
 }
 \description{
 This function aims to organize the HIV metadata in a format that will be more
-useful for the analysis of HIV transmission in Senegal using coalescent model.
+useful for the analysis of HIV transmissions in Senegal using coalescent model.
 It mainly gets information on different dataframes and organize them so as to
 create a matrix for the states (demes) on the phylogenetic tree
 }

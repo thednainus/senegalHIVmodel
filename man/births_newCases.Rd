@@ -18,7 +18,7 @@ data.frame object in which columns correspond to times, median,
 }
 \description{
 Funtion that get the list of "births" for more than one combination of
-parameter values and caculate the new HIV cases for each of these combinations.
+parameter values and calculate the new HIV cases for each of these combinations.
 It calls another function that will calculate the median, upper and lower
 quantiles for each time point. See \code{\link{births_mq}}
 }

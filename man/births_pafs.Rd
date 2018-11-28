@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscellaneous.R
 \name{births_pafs}
 \alias{births_pafs}
-\title{Organizes the solved births and calculate pafs}
+\title{Organizes the solved birth element and calculate pafs}
 \usage{
 births_pafs(birth_list, times)
 }
@@ -15,7 +15,7 @@ births_pafs(birth_list, times)
 data.frame
 }
 \description{
-Organizes the solved births and calculate pafs
+Organizes the solved birth element and calculate pafs
 }
 \examples{
 # TO DO

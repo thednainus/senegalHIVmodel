@@ -12,13 +12,17 @@ parameter values based on the posterior distribution)}
 
 \item{Ntime}{integer for the number of time points}
 
-\item{sizes}{list with the sizes from the solved demographic model (TO DO)}
+\item{sizes}{list with sizes (effective number of infections) from the
+solved demographic model. This is the 4th element of the solved
+demographic model. Each element of the list is a list of vectors.
+Each row is a mcmc replicate and each column is a time point.}
 }
 \value{
-a list for each deme (gpm, gpf, and msm)
+a list for each deme (gpm, gpf and msm)
 }
 \description{
-Reorganizes by deme based on the element size in the solved demographic model
+Reorganizes by deme (gpm, gpf and msms) the element size (effective
+number of infections) in the solved demographic model
 }
 \examples{
  #TO DO

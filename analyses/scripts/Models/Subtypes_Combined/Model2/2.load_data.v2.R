@@ -99,3 +99,46 @@ if (FALSE)
 	})
 	plot( dated.tree, edge.color = ecols2, show.tip.lab = TRUE, no.mar=TRUE, cex = 0.5)
 }
+
+
+
+tipisCGR <- function(tip)
+{
+  if ( ! grepl('CGR' , tip )) return(FALSE)
+  else return(TRUE)
+}
+
+tipis02AG <- function(tip)
+{
+  if ( ! grepl('02_AG.SN' , tip )) return(FALSE)
+  else return(TRUE)
+}
+
+tipisB <- function(tip)
+{
+  if ( ! grepl('.B.SN' , tip )) return(FALSE)
+  else return(TRUE)
+}
+
+tipisC <- function(tip)
+{
+  if ( ! grepl('.C.SN' , tip )) return(FALSE)
+  else return(TRUE)
+}
+
+
+#how many sequences from gpm, gpf, msm?
+Dakar_only <- sapply(all_data$tip, tip2isdakar)
+
+Dakar_data <- all_data[Dakar_only,]
+Dakar_data["Subtype"] <- sapply(Dakar_data$tip, function(x)
+                                                strsplit(x, '\\.')[[1]][2])
+Dakar_data$States <- as.character(Dakar_data$States)
+Dakar_data$States <- as.factor(Dakar_data$States)
+
+
+table(Dakar_data$State, Dakar_data$Subtype)
+
+all_data[Dakar_only,]
+isdakar <- sapply( dated.tree$tip, tip2isdakar )
+notdakar <- sapply( dated.tree$tip, tip2isSenegalNotDakar)

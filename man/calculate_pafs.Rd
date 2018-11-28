@@ -2,21 +2,23 @@
 % Please edit documentation in R/miscellaneous.R
 \name{calculate_pafs}
 \alias{calculate_pafs}
-\title{Calculate population attributable fraction (PAF) of transmissions.}
+\title{Calculate the proportion of population attributable fraction (PAF) of
+transmissions.}
 \usage{
 calculate_pafs(f)
 }
 \arguments{
 \item{f}{list of object "births" as returned by the solved demographic model.
-(see dm function in phydynR)}
+(see build.demographic.process function in phydynR)}
 }
 \value{
 the sum of rows in each matrix, which will correspond to PAFs.
-  Here "births" object is a list in which each element correspont to a time
+  Here "births" object is a list in which each element corresponts to a time
   point and is a 4 by 4 matrix. See vignette for more details.
 }
 \description{
-Calculate population attributable fraction (PAF) of transmissions.
+Calculate the proportion of population attributable fraction (PAF) of
+transmissions.
 }
 \examples{
 # TO DO

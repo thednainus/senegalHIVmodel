@@ -8,16 +8,16 @@ beast_phydyn(m.df1, m.cgr.df2, df3, df4, all_data)
 }
 \arguments{
 \item{m.df1}{Dataframe object containig information for the Senegal HIV
-samples that metadata associated to it is missing.}
+samples in which metadata associated to it is missing.}
 
 \item{m.cgr.df2}{Dataframe object containing information for the CGR sequences
 that metadata associated to it is missing.}
 
-\item{df3}{Dataframe object for all the Senegal sequences}
+\item{df3}{Dataframe object for all Senegal sequences}
 
 \item{df4}{Dataframe object for all CGR sequences}
 
-\item{all_data}{Dataframe containing all trait associated to each tip in the
+\item{all_data}{Dataframe containing all traits associated to each tip in the
 phylogenetic tree}
 }
 \value{

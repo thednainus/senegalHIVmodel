@@ -2,7 +2,7 @@
 % Please edit documentation in R/dating.R
 \name{replace_values}
 \alias{replace_values}
-\title{Replace values in sequence tip name}
+\title{Replace tip names used in a phylogentic tree}
 \usage{
 replace_values(metadata)
 }
@@ -10,13 +10,14 @@ replace_values(metadata)
 \item{metadata}{Object of class dataframe.}
 }
 \value{
-Return the sample names by replacing the last bit separeted by a
-   dash (_) which represents the year of sample collection to the decimal
-   representing the collection date.
+Return HIV sample names by replacing to decimal format the part
+   of the name separeted by a dash (_) which contains only the year of
+   sample collection.
 }
 \description{
-It replaces values in sample sequence name to reflect the input as expected
-by BEAST.
+It replaces sample sequence names to reflect the input as expected
+by PhyDyn in BEAST. This is an internal function used by other functions
+in this package.
 }
 \examples{
 To do

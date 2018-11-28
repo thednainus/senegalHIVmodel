@@ -7,8 +7,8 @@
 median_and_quantiles(sizes_list, times)
 }
 \arguments{
-\item{sizes_list}{list containg the size element from each element
-size is the 4th element of the solved demographic model (#to do)}
+\item{sizes_list}{list containg the reorganized element size (effective number
+of infections).}
 
 \item{times}{vector containig the time points used in the simulations}
 }
@@ -16,7 +16,9 @@ size is the 4th element of the solved demographic model (#to do)}
 dataframe for median and quantiles for each deme (gpm, gpmf and msm)
 }
 \description{
-Calculates the median and quantiles (0.025 and 0.975) for each deme
+Calculates the median and quantiles (0.025 and 0.975) for each deme for the
+reorganized element size (effective number of infections) of the solved
+demographic model. See \code{\link{reorganize_deme_sizes}}.
 }
 \examples{
 #TO DO

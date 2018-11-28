@@ -1,7 +1,7 @@
 # 09 July 2018
 # After checking if all HIV sequences were corecttly subtyped, I found that
 # sequence FM210705 is from subtype G NOT subtype C
-# Stpes to be completed:
+# Steps to be completed:
 # 1. Remove sequence FM210705 from the raxml phylogenetic tree
 # 2. Check the src sequence associated to FM210705 and check its subtype (2nd
 # best hit was a sequence also from Senegal, so additional G sequence was
