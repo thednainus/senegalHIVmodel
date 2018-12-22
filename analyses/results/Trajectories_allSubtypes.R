@@ -9,14 +9,9 @@
 library(BayesianTools)
 
 # load data for subtypes combined
-load(system.file("data/mcmc_runs/FINAL/Model2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model4.rda", package = "senegalHIVmodel"))
 
 
 # source model.R script to have access to the values of THETA
@@ -79,14 +74,9 @@ rm(list=ls())
 detach(eqns)
 
 
-load(system.file("data/mcmc_runs/FINAL/Model5.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model6.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model7.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model5.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model6.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model7.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 source("analyses/scripts/Models/Subtypes_Combined/Model5/1.model.v5.R")

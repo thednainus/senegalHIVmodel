@@ -16,16 +16,12 @@ times <- seq(1978, 2014, length.out = 1000)
 
 ###############################################################################
 # SUBTYPE C
-load(system.file("data/mcmc_runs/FINAL/C_m1.rda",
-                 package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/C_m2.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m2.rda", package = "senegalHIVmodel"))
 
 # PREVALENCE
-load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
-                 package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m4.rda", package = "senegalHIVmodel"))
 
 ##############################################################################
 # Subtype C MODEL 1
@@ -42,6 +38,9 @@ C_m1_r0 <- df_r0(run = C_m1.2,
                GAMMA = GAMMA)
 C_m1_r0["Model"] <- "Model 1"
 
+# get values for 2014
+Cm1_R0_2014 <- C_m1_r0[C_m1_r0$times >= 2014,]
+
 ##############################################################################
 # Subtype C MODEL 2
 C_m2_r0 <- df_r0(run = C_m2.2,
@@ -56,6 +55,9 @@ C_m2_r0 <- df_r0(run = C_m2.2,
                  T1 = T1,
                  GAMMA = GAMMA)
 C_m2_r0["Model"] <- "Model 2"
+
+# get values for 2014
+Cm2_R0_2014 <- C_m2_r0[C_m2_r0$times >= 2014,]
 
 ##############################################################################
 # Subtype C MODEL 3
@@ -72,6 +74,9 @@ C_m3_r0 <- df_r0(run = C_m3.1,
                  GAMMA = GAMMA)
 C_m3_r0["Model"] <- "Model 3"
 
+# get values for 2014
+Cm3_R0_2014 <- C_m3_r0[C_m3_r0$times >= 2014,]
+
 ##############################################################################
 # Subtype C MODEL 4
 C_m4_r0 <- df_r0(run = C_m4.2,
@@ -87,12 +92,19 @@ C_m4_r0 <- df_r0(run = C_m4.2,
                  GAMMA = GAMMA)
 C_m4_r0["Model"] <- "Model 4"
 
+# get values for 2014
+Cm4_R0_2014 <- C_m4_r0[C_m4_r0$times >= 2014,]
+
 ###############################################################################
-#merge dataframes
-r0_C <- rbind(C_m1_r0, C_m2_r0, C_m3_r0, C_m4_r0)
+#merge dataframes for plotting
+r0_C_2014 <- rbind(C_m1_r0, C_m2_r0, C_m3_r0, C_m4_r0)
 r0_C$Model <- as.factor(r0_C$Model)
 r0_C.l <- melt(r0_C, id.vars = c("times", "lower", "upper", "group",
                                            "Model"))
+
+#merge dataframes for 2014 values
+r0_C_2014 <- rbind(Cm1_R0_2014, Cm2_R0_2014, Cm3_R0_2014, Cm4_R0_2014)
+
 
 #############################################################################
 #PLOT
@@ -108,16 +120,12 @@ Cr0.p1 <- ggplot(r0_C.l, aes(x=times)) +
 ###############################################################################
 ###############################################################################
 # SUBTYPE 02_AG
-load(system.file("data/mcmc_runs/FINAL/AG_m1.rda",
-                 package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/AG_m2.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m2.rda", package = "senegalHIVmodel"))
 
 # PREVALENCE
-load(system.file("data/mcmc_runs/FINAL/AG_m3.rda",
-                 package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/AG_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m4.rda", package = "senegalHIVmodel"))
 
 ##############################################################################
 # Subtype 02_AG MODEL 1
@@ -134,6 +142,9 @@ AG_m1_r0 <- df_r0(run = AG_m1.1,
                  GAMMA = GAMMA)
 AG_m1_r0["Model"] <- "Model 1"
 
+# get values for 2014
+AG1_R0_2014 <- AG_m1_r0[AG_m1_r0$times >= 2014,]
+
 ##############################################################################
 # Subtype 02_AG MODEL 2
 AG_m2_r0 <- df_r0(run = AG_m2.1,
@@ -148,6 +159,9 @@ AG_m2_r0 <- df_r0(run = AG_m2.1,
                   T1 = T1,
                   GAMMA = GAMMA)
 AG_m2_r0["Model"] <- "Model 2"
+
+# get values for 2014
+AG2_R0_2014 <- AG_m2_r0[AG_m2_r0$times >= 2014,]
 
 ##############################################################################
 # Subtype 02_AG MODEL 3
@@ -164,6 +178,9 @@ AG_m3_r0 <- df_r0(run = AG_m3.2,
                   GAMMA = GAMMA)
 AG_m3_r0["Model"] <- "Model 3"
 
+# get values for 2014
+AG3_R0_2014 <- AG_m3_r0[AG_m3_r0$times >= 2014,]
+
 ##############################################################################
 # Subtype 02_AG MODEL 4
 AG_m4_r0 <- df_r0(run = AG_m4.2,
@@ -179,12 +196,18 @@ AG_m4_r0 <- df_r0(run = AG_m4.2,
                   GAMMA = GAMMA)
 AG_m4_r0["Model"] <- "Model 4"
 
+# get values for 2014
+AG4_R0_2014 <- AG_m4_r0[AG_m4_r0$times >= 2014,]
+
 ###############################################################################
 #merge dataframes
 r0_AG <- rbind(AG_m1_r0, AG_m2_r0, AG_m3_r0, AG_m4_r0)
 r0_AG$Model <- as.factor(r0_AG$Model)
 r0_AG.l <- melt(r0_AG, id.vars = c("times", "lower", "upper", "group",
                                    "Model"))
+
+#merge dataframes for 2014 values
+r0_AG_2014 <- rbind(AG1_R0_2014, AG2_R0_2014, AG3_R0_2014, AG4_R0_2014)
 
 #############################################################################
 #PLOT
@@ -201,24 +224,14 @@ AGr0.p1 <- ggplot(r0_AG.l, aes(x=times)) +
 ###############################################################################
 # ALL SUBTYPES
 # load data for subtypes combined
-load(system.file("data/mcmc_runs/FINAL/Model2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model3.rda",package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model4.rda", package = "senegalHIVmodel"))
 
 # PREVALENCE
-load(system.file("data/mcmc_runs/FINAL/Model5.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model6.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model7.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model5.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model6.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model7.rda", package = "senegalHIVmodel"))
 
 ##############################################################################
 # MODEL 2
@@ -235,6 +248,9 @@ m2_r0 <- df_r0(run = m2.2,
               GAMMA = GAMMA)
 m2_r0["Model"] <- "Model 2"
 
+# get values for 2014
+m2_R0_2014 <- m2_r0[m2_r0$times >= 2014,]
+
 ##############################################################################
 # MODEL 3
 m3_r0 <- df_r0(run = m3.2,
@@ -249,6 +265,9 @@ m3_r0 <- df_r0(run = m3.2,
                T1 = T1,
                GAMMA = GAMMA)
 m3_r0["Model"] <- "Model 3"
+
+# get values for 2014
+m3_R0_2014 <- m3_r0[m3_r0$times >= 2014,]
 
 ##############################################################################
 # MODEL 4
@@ -265,6 +284,9 @@ m4_r0 <- df_r0(run = m4.2,
                GAMMA = GAMMA)
 m4_r0["Model"] <- "Model 4"
 
+# get values for 2014
+m4_R0_2014 <- m4_r0[m4_r0$times >= 2014,]
+
 ##############################################################################
 # MODEL 5: PREVALENCE
 m5_r0 <- df_r0(run = m5.1,
@@ -279,6 +301,9 @@ m5_r0 <- df_r0(run = m5.1,
                T1 = T1,
                GAMMA = GAMMA)
 m5_r0["Model"] <- "Model 5"
+
+# get values for 2014
+m5_R0_2014 <- m5_r0[m5_r0$times >= 2014,]
 
 ##############################################################################
 # MODEL 6: PREVALENCE
@@ -295,6 +320,9 @@ m6_r0 <- df_r0(run = m6.1,
                GAMMA = GAMMA)
 m6_r0["Model"] <- "Model 6"
 
+# get values for 2014
+m6_R0_2014 <- m6_r0[m6_r0$times >= 2014,]
+
 ##############################################################################
 # MODEL 7: PREVALENCE
 m7_r0 <- df_r0(run = m7.2,
@@ -309,6 +337,9 @@ m7_r0 <- df_r0(run = m7.2,
                T1 = T1,
                GAMMA = GAMMA)
 m7_r0["Model"] <- "Model 7"
+
+# get values for 2014
+m7_R0_2014 <- m7_r0[m7_r0$times >= 2014,]
 
 ###############################################################################
 #merge dataframes
@@ -326,6 +357,10 @@ r0_m4and7 <- rbind(m4_r0, m7_r0)
 r0_m4and7$Model <- as.factor(r0_m4and7$Model)
 r0_m4and7.l <- melt(r0_m4and7, id.vars = c("times", "lower", "upper", "group",
                                            "Model"))
+
+#merge dataframes for 2014 values
+r0_combined_2014 <- rbind(m2_R0_2014, m3_R0_2014, m4_R0_2014,
+                          m5_R0_2014, m6_R0_2014, m7_R0_2014)
 
 #############################################################################
 #PLOT
@@ -356,3 +391,8 @@ m4and7.r0 <- ggplot(r0_m4and7.l, aes(x=times)) +
   xlab("Time (years)") +
   ylab("Basic reproduction number") +
   theme_bw()
+
+
+###############
+# save results for 2014
+save(r0_C_2014, r0_AG_2014, r0_combined_2014, file = "reproduction_number_2014.rda")

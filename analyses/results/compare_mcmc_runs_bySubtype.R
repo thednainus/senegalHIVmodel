@@ -11,17 +11,10 @@ library(ggplot2)
 
 
 # load data for subtype C
-load(system.file("data/mcmc_runs/FINAL/C_m1.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m4.rda", package = "senegalHIVmodel"))
 
 
 # get samples for each merged runs
@@ -157,17 +150,10 @@ p4 <- ggplot(Cm4.l, aes(value, colour=Rep)) +
 
 # SUBTYPE 02_AG
 # load data for subtype 02_AG
-load(system.file("data/mcmc_runs/FINAL/AG_m1.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/AG_m2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/AG_m3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/AG_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m4.rda", package = "senegalHIVmodel"))
 
 
 # get samples for each merged runs

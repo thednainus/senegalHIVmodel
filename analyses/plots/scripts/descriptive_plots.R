@@ -31,3 +31,17 @@ SN_plot <- ggplot(data=SN.data.2, aes(x=Location)) +
   geom_bar(stat="count")
 
 SN_plot + facet_grid(Risk_group ~ .)
+
+# getting quantiles for the whole Senegal data, removing NA
+SN.data.2$Age <- as.character(SN.data.2$Age)
+SN.data.2$Age <- as.numeric(SN.data.2$Age)
+quantile(SN.data.2$Age, na.rm = TRUE)
+
+quantile(SN.data.2$Age, na.rm = TRUE, probs=c(0.025, 0.975))
+median(SN.data.2$Age, na.rm = TRUE)
+
+# get number of males and females
+table(SN.data.2$Sex)
+
+#get number of individuals by Location
+table(SN.data.2$Location)

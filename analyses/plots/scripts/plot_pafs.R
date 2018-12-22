@@ -6,8 +6,8 @@ library(senegalHIVmodel)
 
 # SUBTYPE C
 # Load solved objects
-load("analyses/plots/solved_objects/FINAL/dmC_m1.2.rda")
-load("analyses/plots/solved_objects/FINAL/dmC_m2.rda")
+load("analyses/plots/solved_objects/dmC_m1.2.rda")
+load("analyses/plots/solved_objects/dmC_m2.rda")
 
 # MODEL 1
 Cm1_pafs <- df_pafs(births.p = dmC_m1.2$run[2,],
@@ -24,8 +24,8 @@ Cm2_pafs["Model"] <- "Model 2"
 
 # PREVALENCE
 # Load solved objects
-load("analyses/plots/solved_objects/FINAL/dmC_m3.rda")
-load("analyses/plots/solved_objects/FINAL/dmC_m4.2.rda")
+load("analyses/plots/solved_objects/dmC_m3.rda")
+load("analyses/plots/solved_objects/dmC_m4.2.rda")
 
 # MODEL 3
 Cm3_pafs <- df_pafs(births.p = dmC_m3.1$run[2,],
@@ -56,8 +56,8 @@ C_pafs.p1 <- ggplot(SN_C.paf.l, aes(x=times)) +
 ###############################################################################
 # SUBTYPE 02AG
 # Load solved objects
-load("analyses/plots/solved_objects/FINAL/dmAG_m1.rda")
-load("analyses/plots/solved_objects/FINAL/dmAG_m2.rda")
+load("analyses/plots/solved_objects/dmAG_m1.rda")
+load("analyses/plots/solved_objects/dmAG_m2.rda")
 
 # MODEL 1
 AGm1_pafs <- df_pafs(births.p = dmAG_m1.1$run[2,],
@@ -74,8 +74,8 @@ AGm2_pafs["Model"] <- "Model 2"
 
 # PREVALENCE
 # Load solved objects
-load("analyses/plots/solved_objects/FINAL/dmAG_m3.2.rda")
-load("analyses/plots/solved_objects/FINAL/dmAG_m4.2.rda")
+load("analyses/plots/solved_objects/dmAG_m3.2.rda")
+load("analyses/plots/solved_objects/dmAG_m4.2.rda")
 
 # MODEL 3
 AGm3_pafs <- df_pafs(births.p = dmAG_m3.2$run[2,],

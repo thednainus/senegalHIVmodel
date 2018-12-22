@@ -9,17 +9,10 @@
 library(BayesianTools)
 
 # load data for subtype C
-load(system.file("data/mcmc_runs/FINAL/C_m1.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m4.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 # and to dm object (which builds the demographic process)
@@ -64,11 +57,8 @@ rm(list=ls())
 detach(eqns)
 
 
-load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/C_m4.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 source("analyses/scripts/Models/BySubtype/C_m3/1.model.C_m3.R")
@@ -107,11 +97,8 @@ rm(list=ls())
 detach(eqns)
 
 # load data for subtype 02_AG
-load(system.file("data/mcmc_runs/FINAL/AG_m1.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/AG_m2.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m1.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m2.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 source("analyses/scripts/Models/BySubtype/02_AG_m1/1.model.02_AG.R")
@@ -140,11 +127,8 @@ save(dmAG_m2.1, file="dmAG_m2.rda")
 rm(list=ls())
 detach(eqns)
 
-load(system.file("data/mcmc_runs/FINAL/AG_m3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/AG_m4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/AG_m4.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 source("analyses/scripts/Models/BySubtype/02_AG_m3/1.model.02_AG_m3.R")

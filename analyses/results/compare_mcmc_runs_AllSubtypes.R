@@ -11,14 +11,9 @@ library(ggplot2)
 
 
 # load data for combined subtypes
-load(system.file("data/mcmc_runs/FINAL/Model2.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model3.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model4.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model2.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model3.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model4.rda", package = "senegalHIVmodel"))
 
 
 
@@ -132,14 +127,9 @@ p3 <- ggplot(m4.l, aes(value, colour=Rep)) +
 # PREVALENCE
 
 # load data for combined subtypes
-load(system.file("data/mcmc_runs/FINAL/Model5.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model6.rda",
-                 package = "senegalHIVmodel"))
-
-load(system.file("data/mcmc_runs/FINAL/Model7.rda",
-                 package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model5.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model6.rda", package = "senegalHIVmodel"))
+load(system.file("data/mcmc_runs/Model7.rda", package = "senegalHIVmodel"))
 
 
 
