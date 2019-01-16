@@ -2,4 +2,7 @@ inst/doc
 .Rproj.user
 *.rds
 *.rda
+.Rhistory
+.Rbuildignore
+.Rapp.history
 
