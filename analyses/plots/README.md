@@ -1,6 +1,6 @@
 # Summary of each directory
 
-These are plots obtained using results of phylodynamic analyses. Parameters were estimated using Markov chain Monte Carlo (MCMC). 
+These are plots obtained using results of phylodynamic analyses. Parameters were estimated using Markov chain Monte Carlo (MCMC). You can find the scripts to carry out phylodynamic analyses and MCMC at https://github.com/thednainus/senegalHIVmodel/tree/master/analyses/scripts/R-scripts
 
 **mcmc_runs**
 
