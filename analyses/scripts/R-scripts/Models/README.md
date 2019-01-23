@@ -1,6 +1,4 @@
-Directories are organized by analyses by subtype and analyses for subtypes combined. In each directory will you find one the
-following files summarized below. In the OSG directory will you find the scripts used in the Open Scince Grid computer resources
-(https://opensciencegrid.org/)
+Directories are organized by (1) analyses by subtype (subtype C and CRF 02_AG) and (2) analyses for subtypes combined (including subtypes B, C and CRF 02_AG). In each directory will you find one the following files summarized below. In the OSG directory will you find the scripts used in the [Open Scince Grid computer resources](https://opensciencegrid.org/).
 
 # Summary of each file
 
