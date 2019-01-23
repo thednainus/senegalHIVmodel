@@ -1,12 +1,14 @@
-# Function to read csv file containing metadata and format it in a way to be
-# used as input data for treedater
+# Function to read csv file containing metadata (for HIV sampling dates)
+# and format it in a way to be used as input data for treedater
+
 library(treedater)
 library(lubridate)
 library(phytools)
 
 
 # Plot lineage through time with confidence interval
-# (below is the function plot.parboot.ltt) using parametric bootstrap
+# (below is the function plot.parboot.ltt from a previous treedater version)
+# using parametric bootstrap
 parboot.ltt <- function(pbtd)
 {
   t0 <-  NA
@@ -102,7 +104,7 @@ B.missing_sample.df.2 <- B.missing_sample.df[(c("lower","upper"))]
 row.names(B.missing_sample.df.2) <- B.missing_sample.df[,1]
 
 
-# chech which sequence is not present in the phylogeny but present in the
+# check which sequence is not present in the phylogeny but present in the
 # database
 B.df <- rbind(B.SN.df[c("Accession_number","tip","decimal")],
               B.CGR.df[c("Accession_number","tip","decimal")])
