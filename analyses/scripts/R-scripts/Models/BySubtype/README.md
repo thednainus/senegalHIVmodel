@@ -1,5 +1,9 @@
 Directory names ending in m1 = Model 1; m2 = Model 2; m3 = Model 3 and m4 = Model 4.
 
+C = phylodynamic analyses for subtype C.
+
+02_AG = phylodynamic analyses for subtype CRF 02_AG.
+
 ---
 
 **Model 1**
