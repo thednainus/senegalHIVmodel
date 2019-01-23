@@ -1,3 +1,7 @@
+Directory names ending in m1 = Model 1; m2 = Model 2; m3 = Model 3 and m4 = Model 4.
+
+---
+
 **Model 1**
 
 We assigned each sequence to its respective risk-group in the phylogenetic tree a value of 1.0 (100% in the respective self-reported risk group).
