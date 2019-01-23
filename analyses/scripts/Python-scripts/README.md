@@ -12,4 +12,5 @@ blastn -db nt -query filename.fasta -max_target_seqs 1 -max_hsps 5 -word_size 28
 
 ---
 These scripts require [Python](https://www.python.org/) version 2.7.
-Before running the Python scrips you will need to download [Biopython](https://biopython.org/wiki/Download).
+
+Before running Python scrips you will need to download [Biopython](https://biopython.org/wiki/Download).
