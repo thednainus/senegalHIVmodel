@@ -16,8 +16,8 @@ We assigned each sequence to its respective risk-group in the phylogenetic tree 
 
 **Model 6**
 
-Also to assumed uncertainty in the self-reported *gpm*, we removed all *gpm* sequences from the phylogenetic tree and added the prevalence term to the calculation of the likelihood. This plot is only shown in the main text.
+Also to assumed uncertainty in the self-reported *gpm*, we removed all *gpm* sequences from the phylogenetic tree and added the prevalence term to the calculation of the likelihood.
 
 **Model 7**
 
-We assumed some uncertainty in the self-reported *gpm* by assigning to every *gpm* sequence a value of 0.5 (50%) of being \textit{gpm} and 0.5 (50%) of being *msm* and added the prevalence term to the calculation of the likelihood.
+We assumed some uncertainty in the self-reported *gpm* by assigning to every *gpm* sequence a value of 0.5 (50%) of being *gpm* and 0.5 (50%) of being *msm* and added the prevalence term to the calculation of the likelihood.
