@@ -6,7 +6,6 @@ BEAST2
 Growth
 reorganizing_data.R
 *.rda
-*.pdf
 *.tex
 *.Rmd
 .Rhistory
