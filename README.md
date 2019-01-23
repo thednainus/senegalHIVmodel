@@ -12,7 +12,6 @@ Erik M. Volz (e.volz@imperial.ac.uk)
 ## How to install it?
 
 ```r
-#it will only work when repository is made public
 devtools::install_github(repo = "thednainus/senegalHIVmodel", build_vignettes = T)
 
 # After installing the package:
