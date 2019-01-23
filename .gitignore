@@ -2,7 +2,11 @@ inst/doc
 .Rproj.user
 *.rds
 *.rda
+*.pdf
+*.tex
+*.Rmd
 .Rhistory
 .Rbuildignore
 .Rapp.history
+.idea
 

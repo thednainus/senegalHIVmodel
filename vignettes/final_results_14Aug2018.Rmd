@@ -23,9 +23,9 @@ options(knitr.table.format = "latex")
 ```
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/Model2.rda",
+load(system.file("data/mcmc_runs/Model2.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/Model5.rda",
+load(system.file("data/mcmc_runs/Model5.rda",
                   package = "senegalHIVmodel"))
 
 #Model 2
@@ -90,9 +90,9 @@ kableExtra::kable_styling(kable_input = kable_table.m25.ESS,
 ```
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/Model3.rda",
+load(system.file("data/mcmc_runs/Model3.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/Model6.rda",
+load(system.file("data/mcmc_runs/Model6.rda",
                   package = "senegalHIVmodel"))
 
 #Model 3
@@ -159,9 +159,9 @@ kableExtra::kable_styling(kable_input = kable_table.m36.ESS,
 
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/Model4.rda",
+load(system.file("data/mcmc_runs/Model4.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/Model7.rda",
+load(system.file("data/mcmc_runs/Model7.rda",
                   package = "senegalHIVmodel"))
 
 #Model 4
@@ -228,9 +228,9 @@ kableExtra::kable_styling(kable_input = kable_table.m47.ESS,
 
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/C_m1.rda",
+load(system.file("data/mcmc_runs/C_m1.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/C_m3.rda",
+load(system.file("data/mcmc_runs/C_m3.rda",
                   package = "senegalHIVmodel"))
 
 # Subtype C model 1
@@ -298,9 +298,9 @@ kableExtra::kable_styling(kable_input = kable_table.Cm13.ESS,
 
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/C_m2.rda",
+load(system.file("data/mcmc_runs/C_m2.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/C_m4.rda",
+load(system.file("data/mcmc_runs/C_m4.rda",
                   package = "senegalHIVmodel"))
 
 # Subtype C model 2
@@ -368,9 +368,9 @@ kableExtra::kable_styling(kable_input = kable_table.Cm24.ESS,
 
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/AG_m1.rda",
+load(system.file("data/mcmc_runs/AG_m1.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/AG_m3.rda",
+load(system.file("data/mcmc_runs/AG_m3.rda",
                   package = "senegalHIVmodel"))
 
 # Subtype 02_AG model 1
@@ -438,9 +438,9 @@ kableExtra::kable_styling(kable_input = kable_table.AGm13.ESS,
 
 
 ```{r echo = FALSE}
-load(system.file("data/mcmc_runs/FINAL/AG_m2.rda",
+load(system.file("data/mcmc_runs/AG_m2.rda",
                   package = "senegalHIVmodel"))
-load(system.file("data/mcmc_runs/FINAL/AG_m4.rda",
+load(system.file("data/mcmc_runs/AG_m4.rda",
                   package = "senegalHIVmodel"))
 
 # Subtype 02_AG model 2
