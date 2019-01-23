@@ -20,5 +20,5 @@ Perform the MCMC using the BayesianTools R package
 Source the files *"1.model.R"* and *"2.load_data.R"*.
 Perform the MCMC using the BayesianTools R package. 
 The difference here is that it uses a previous run to generate
-values for a z-matrix. For more information see https://github.com/florianhartig/BayesianTools/issues/79
+values for a z-matrix. This previous run was generated using script *3.mcmc.R*. For more information see https://github.com/florianhartig/BayesianTools/issues/79
 
