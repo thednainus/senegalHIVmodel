@@ -1,10 +1,10 @@
+# Calculates the proportion of infections in gpm attributable to gpf.
+# To understand how trajectories were solved see Trajectories.R or
+# Trajectories_allSubtypes.R at /analyses/results/
+
 library(senegalHIVmodel)
 library(ggplot2)
 library(purrr)
-# Calculates the proportion of infections in gpf attributable to msm.
-# To understand how
-# trajectories were solved see Trajectories.R or Trajectories_allSubtypes.R at
-# /analyses/results/FINAL/
 
 
 # SUBTYPE C
@@ -163,6 +163,6 @@ gpf2gpm_All <- rbind(gpf2gpm_m2[1,], gpf2gpm_m3[1,],gpf2gpm_m4[1,],
                      gpf2gpm_m5[1,], gpf2gpm_m6[1,],gpf2gpm_m7[1,])
 
 
-save(gpf2gpm_C, gpf2gpm_AG, gpf2gpm_All, file="gpf2gpm_correct.rda")
+save(gpf2gpm_C, gpf2gpm_AG, gpf2gpm_All, file="gpf2gpm.rda")
 
 rm(dm_m2.2, dm_m3.2, dm_m4.2, dm_m5.1, dm_m6.1, dm_m7.2)

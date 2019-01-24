@@ -4,7 +4,7 @@
 
 # Note that the data we load here are the MCMC runs after removing burnin.
 # Look at script compare_mcmc_runs_bySubtype.R at directory
-# analyses/results/FINAL/ for how that was done.
+# analyses/results/ for how that was done.
 
 library(BayesianTools)
 

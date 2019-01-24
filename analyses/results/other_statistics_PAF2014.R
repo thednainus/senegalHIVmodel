@@ -1,8 +1,7 @@
 # Script that calculates the population attributable fraction (PAF) for 2014
-# for gpf, gpm and msm
-# It uses the element births from the solved trajectory. To understand how
-# trajectories were solved see Trajectories.R or Trajectories_allSubtypes.R at
-# /analyses/results/
+# for gpf, gpm and msm. It uses the element births from the solved trajectory.
+# To understand how trajectories were solved see Trajectories.R or
+# Trajectories_allSubtypes.R at /analyses/results/
 
 library(phydynR)
 library(reshape2)

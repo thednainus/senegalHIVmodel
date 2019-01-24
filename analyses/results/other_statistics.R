@@ -1,8 +1,8 @@
 # Script that calculates the proportion of infected individuals that are gpm,
-# gpf, and msm
-# It uses the element sizes from the solved trajectory. To understand how
-# trajectories were solved see Trajectories.R or Trajectories_allSubtypes.R at
-# /analyses/results/FINAL/
+# gpf and msm. It uses the element sizes from the solved trajectory.
+# To understand how trajectories were solved see Trajectories.R or
+# Trajectories_allSubtypes.R at /analyses/results/
+# It also gets the values for 2014 as shown in the paper.
 
 library(phydynR)
 library(reshape2)
@@ -178,5 +178,5 @@ infections_All <- rbind(m2.values, m3.values, m4.values,
 
 rm(dm_m2.2, dm_m3.2, dm_m4.2, dm_m5.1, dm_m6.1, dm_m7.2)
 
-save(infections_C, infections_AG, infections_All, file = "infections_correct.rda")
+save(infections_C, infections_AG, infections_All, file = "infections.rda")
 
