@@ -1,4 +1,4 @@
-DNA sequence alignments used to generate maximum likelihood trees. Maximum likelihood trees were generated using the program [RAxML-NG](https://github.com/amkozlov/raxml-ng) version 0.5.1.
+DNA sequence alignments (aligned by codon position) used to generate maximum likelihood trees. Maximum likelihood trees were generated using the program [RAxML-NG](https://github.com/amkozlov/raxml-ng) version 0.5.1.
 
 Basic command used to generate maximum likelihood trees using RAxML-NG:
 
