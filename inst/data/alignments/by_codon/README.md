@@ -2,19 +2,19 @@ DNA sequence alignments used to generate maximum likelihood trees. Maximum likel
 
 Basic command used to generate maximum likelihood trees using RAxML-NG:
 
-'''bash
+```bash
 raxml-ng --search --msa alignment.fasta -model GTR+G --tree pars{1} --threads 2 --seed 125433
 
 # alignment.fasta is a DNA sequence alignment
-'''
+```
 
 Basic command used to generate bootstrapped maximum likelihood trees using RAxML-NG:
 
-'''bash
+```bash
 raxml-ng --bootstrap --msa alignment.fasta -model GTR+G --bs-trees 1 --threads 2 --seed 543278
 
 # alignment.fasta is a DNA sequence alignment
-'''
+```
 
 We independently reconstructed phylogenetic trees for each subtype and using 4 different DNA substitution models: 
 
