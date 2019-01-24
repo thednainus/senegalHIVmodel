@@ -68,11 +68,11 @@ root_and_drop_tips <- function(tree, outgroups){
 
 ################################################################################
 
-setwd("~/Box Sync/Senegal/HIV_myDesktop/sn-data/")
-
 # Metadata for Senegal only and close global reference (CGR)
-SN.data <- read.csv("HIV_subtypes_summary_SENEGAL_noDups.csv")
-CGR.data <-  read.csv("HIV_subtypes_summary_CGR.csv")
+SN.data <- read.csv(system.file("data/HIV_subtypes_summary_SENEGAL_noDups.csv",
+                                package = "senegalHIVmodel"))
+CGR.data <-  read.csv(system.file("data/HIV_subtypes_summary_CGR.csv",
+                                  package = "senegalHIVmodel"))
 
 # Metadata for Senegal sequences
 B.SN <- subset(SN.data, Subtype == "B")
