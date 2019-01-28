@@ -119,7 +119,7 @@ prior <- createPrior(density = densities,
 
 # After we had a run to create a z-matrix we did the follow:
 # Read a previous run for creating starting values for the Z matrix
-runZ <- readRDS("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model4/Preliminary_results/out_38564116_Model4_maleX.rds")
+runZ <- readRDS("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model4/Preliminary_results/out_41478099_m4.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79

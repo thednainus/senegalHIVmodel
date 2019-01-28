@@ -124,7 +124,7 @@ while(i < 101){
   if(!file.exists("out.RDS")){
     # After we had a run to create a z-matrix we did the follow:
     # Read a previous run for creating starting values for the Z matrix
-    runZ <- readRDS("out_38564088_Model3_maleX.rds")
+    runZ <- readRDS("out_41490311_m3_zMatrix.rds")
 
     # Get a good sample (the run above is not good, however it can provide a good Z matrix)
     # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
