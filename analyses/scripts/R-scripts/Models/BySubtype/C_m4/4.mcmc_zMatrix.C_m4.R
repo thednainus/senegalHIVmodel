@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/bySubtype/C_m4/1.model.C_m4.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/C_m4/1.model.C_m4.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/MaleX/bySubtype/C_m4/2.load_data.C_m4.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/C_m4/2.load_data.C_m4.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -121,7 +121,7 @@ prior <- createPrior(density = densities,
 
 # After we had a run to create a z-matrix we did the follow:
 # Read a previous run for creating starting values for the Z matrix
-runZ <- readRDS("analyses/scripts/MaleX/bySubtype/C_m4/Preliminary_results/out_40177889_C_m4_maleX.rds")
+runZ <- readRDS("analyses/scripts/R-scripts/Models/BySubtype/C_m4/Preliminary_results/out_40177889_C_m4_maleX.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
@@ -134,7 +134,7 @@ rangePost = apply(x, 2, range)
 u_x <- unique(x)
 
 #cretae new Z matrix based on previous run
-# now I am estimating 15 parameters (hence ncol=14)
+# now I am estimating 15 parameters (hence ncol=15)
 newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
 
 # Because I will run several analysis in parallel, and to avoid the initial values to be identical

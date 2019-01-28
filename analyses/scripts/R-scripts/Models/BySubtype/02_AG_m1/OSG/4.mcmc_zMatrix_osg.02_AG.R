@@ -135,7 +135,7 @@ while(i < 101){
     #get unique values of x
     u_x <- unique(x)
 
-    #cretae new Z matrix based on previous run
+    #create new Z matrix based on previous run
     newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
 
     # Because I will run several analysis in parallel, and to avoid the initial values to be identical

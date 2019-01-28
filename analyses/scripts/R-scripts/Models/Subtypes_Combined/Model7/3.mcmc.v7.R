@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/Model7/1.model.v7.R")
+source("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model7/1.model.v7.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/MaleX/Model7/2.load_data.v7.R")
+source("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model7/2.load_data.v7.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the

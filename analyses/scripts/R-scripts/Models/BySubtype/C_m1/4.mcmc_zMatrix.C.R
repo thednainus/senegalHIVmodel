@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/bySubtype/C_m1/1.model.C.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/C_m1/1.model.C.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/bySubtype/C_m1/2.load_data.C.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/C_m1/2.load_data.C.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -119,10 +119,7 @@ prior <- createPrior(density = densities,
 
 # After we had a run to create a z-matrix we did the follow:
 # Read a previous run for creating starting values for the Z matrix
-# runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
-#runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
-# runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
-runZ <- readRDS("analyses/scripts/MaleX/bySubtype/C_m1/Preliminary_results/out_38569078_C_m1_maleX.rds")
+runZ <- readRDS("analyses/scripts/R-scripts/Models/BySubtype/C_m1/Preliminary_results/out_38569078_C_m1_maleX.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79

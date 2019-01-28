@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/MaleX/bySubtype/02_AG_m2/1.model.02_AG_m2.R.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/02_AG_m2/1.model.02_AG_m2.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/MaleX/bySubtype/02_AG_m2/2.load_data.02_AG_m2.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/02_AG_m2/2.load_data.02_AG_m2.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -122,7 +122,7 @@ prior <- createPrior(density = densities,
 # runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
 #runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
 # runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
-runZ <- readRDS("analyses/scripts/MaleX/bySubtype/02_AG_m2/Preliminary_results/out_38564347_02_AG_m2_maleX.rds")
+runZ <- readRDS("analyses/scripts/R-scripts/Models/BySubtype/02_AG_m2/Preliminary_results/out_38564347_02_AG_m2_maleX.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
@@ -135,7 +135,7 @@ rangePost = apply(x, 2, range)
 u_x <- unique(x)
 
 #cretae new Z matrix based on previous run
-# now I am estimating 14 parameters (hence ncol=14)
+# now I am estimating 15 parameters (hence ncol=15)
 newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
 
 # Because I will run several analysis in parallel, and to avoid the initial values to be identical

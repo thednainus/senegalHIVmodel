@@ -4,9 +4,9 @@
 # It used the R package phydynR to calculate the likelihood
 
 # laad the mathematical model
-source("analyses/scripts/1.model.v2.R")
+source("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model2/1.model.v2.R")
 #load the data that will be used in the subsequent analysis
-source("analyses/scripts/2.load_data.v2.R")
+source("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model2/2.load_data.v2.R")
 
 # This object function will receive the proposals of the MCMC (Markov chain Monte Carlo).
 # The reason of using an object function is to make it easier to change the
@@ -118,10 +118,7 @@ prior <- createPrior(density = densities,
 
 # After we had a run to create a z-matrix we did the follow:
 # Read a previous run for creating starting values for the Z matrix
-# runZ below is the run used for previous model (when not estimating initial population size, and using maleX=2)
-#runZ <- readRDS(system.file("data/outDEZs_37147513_0_18000_1.rds", package = "senegalHIVmodel"))
-# runZ below is the run used for new model (when estimating initial population size, and using maleX=1.02)
-runZ <- readRDS("analyses/scripts/MaleX/Model2/Preliminary_results/out_38563803_Model2_maleX.rds")
+runZ <- readRDS("analyses/scripts/R-scripts/Models/Subtypes_Combined/Model2/Preliminary_results/out_38563803_Model2_maleX.rds")
 
 # Get a good sample (the run above is not good, however it can provide a good Z matrix)
 # For more information on this: https://github.com/florianhartig/BayesianTools/issues/79
@@ -134,7 +131,7 @@ rangePost = apply(x, 2, range)
 u_x <- unique(x)
 
 #cretae new Z matrix based on previous run
-# now I am estimating 15 parameters (hence ncol=14)
+# now I am estimating 15 parameters (hence ncol=15)
 newZ = matrix(runif(2250, rangePost[1,], rangePost[2,]), ncol = 15, byrow = T)
 
 # Because I will run several analysis in parallel, and to avoid the initial values to be identical
@@ -151,11 +148,5 @@ settings = list(Z = newZ, startValue =  u_x[c(pos1, pos2, pos3), ], nrChains = 1
 bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
 
 outZ <- runMCMC(bayesianSetup = bayesianSetup,  sampler = "DEzs", settings = settings )
-#saveRDS(outZ, "z_andSuperHighLn2.RDS")
-#outZ.2 <- runMCMC(bayesianSetup = outZ)
 
 
-
-# save output file for later analysis, i.e. check convergence, plot samples, etc
-# give the name that you wish, i.e. mcmc_run.RDS
-#saveRDS(out, "newPrior_with_zMatrix.RDS")
