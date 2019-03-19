@@ -4,7 +4,7 @@ To get these "source" sequences we used *blastn* using the the [BLAST command li
 
 The *blastn* command we used to get such sequences were:
 ```bash
-blastn -db nt -query filename.fasta -max_target_seqs 1 -max_hsps 5 -word_size 28 -evalue 0.001 -outfmt 5 -remote -out outfile_name.xml
+blastn -db nt -query filename.fasta -task "megablast" -max_target_seqs 10 -max_hsps 1 -evalue 0.001 -outfmt 5 -remote -out outfile_name.xml
 
 # where filename.fasta is the name of the fasta file containing the sequences you would like to blast
 # and outfile_name.xml is the name of the output file to save the blast results.
