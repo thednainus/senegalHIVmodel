@@ -63,6 +63,8 @@ root_and_drop_tips <- function(tree, outgroups){
     tree.r <- reroot(tree, node.number=node, edgelabel = TRUE)
     tree.r.new <- drop.tip(tree.r, tip=outgroups)
   }
+
+  return(tree.r.new)
 }
 
 
@@ -236,7 +238,7 @@ ggplot(B.GTR.R3, aes(x=times, y=Bootstrap)) +
 
 # Rooting bootstrap trees using the outgroups and removing outgroups from
 # phylogenetic trees
-B.CGR.GTR_G_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_G/ML_0_GTR+G.raxml.bootstraps.tre")[1:100]
+B.CGR.GTR_G_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/sn-data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_G/ML_0_GTR+G.raxml.bootstraps.tre")[1:100]
 B.CGR.GTR_G_100boot.r.new <- lapply(unclass(B.CGR.GTR_G_100boot),
                                     root_and_drop_tips,
                                     outgroups=c("Ref.D.CM.01.01CM_4412HAL.AY371157",
@@ -244,7 +246,7 @@ B.CGR.GTR_G_100boot.r.new <- lapply(unclass(B.CGR.GTR_G_100boot),
                                                 "Ref.D.TZ.01.A280.AY253311"))
 class(B.CGR.GTR_G_100boot.r.new)<-"multiPhylo"
 
-B.CGR.GTR_R3_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_R/ML_0_GTR+R3.raxml.bootstraps.tre")[1:100]
+B.CGR.GTR_R3_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/sn-data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_R/ML_0_GTR+R3.raxml.bootstraps.tre")[1:100]
 B.CGR.GTR_R3_100boot.r.new <- lapply(unclass(B.CGR.GTR_R3_100boot),
                                      root_and_drop_tips,
                                      outgroups=c("Ref.D.CM.01.01CM_4412HAL.AY371157",
@@ -252,7 +254,7 @@ B.CGR.GTR_R3_100boot.r.new <- lapply(unclass(B.CGR.GTR_R3_100boot),
                                                  "Ref.D.TZ.01.A280.AY253311"))
 class(B.CGR.GTR_R3_100boot.r.new)<-"multiPhylo"
 
-B.CGR.GTR_Gp_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_Gp/ML_0_GTR+Gp.raxml.bootstraps.tre")[1:100]
+B.CGR.GTR_Gp_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/sn-data/B/additional_data/raxml-ng/no_duplicated/CGR/by_codon/B_CGR_GTR_Gp/ML_0_GTR+Gp.raxml.bootstraps.tre")[1:100]
 B.CGR.GTR_Gp_100boot.r.new <- lapply(unclass(B.CGR.GTR_Gp_100boot),
                                      root_and_drop_tips,
                                      outgroups=c("Ref.D.CM.01.01CM_4412HAL.AY371157",
@@ -538,7 +540,7 @@ AG.df$decimal <- as.numeric(AG.df$decimal)
 
 ##### READING TREES for SUBTYPE 02_AG ##########
 #DNA substitution model: GTR+G
-(tAG.CGR.GTR_G <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/data/02_AG/additional_data/raxml-ng/no_duplicated/CGR/by_codon/02_AG_CGR_GTR+G/final.ML_14_GTR+G.raxml.bestTree.raxml.support.tre"))
+(tAG.CGR.GTR_G <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/sn-data/02_AG/additional_data/raxml-ng/no_duplicated/CGR/by_codon/02_AG_CGR_GTR+G/final.ML_14_GTR+G.raxml.bestTree.raxml.support.tre"))
 quartz()
 plot(tAG.CGR.GTR_G, no.mar=T, cex = .5)
 nodelabels()
@@ -677,7 +679,7 @@ p <- p + geom_path(aes(x = times, y = pml)) +
 
 #### non-parametric bootstrap for treedater trees #######
 # Rooting bootstrap trees using the outgroups and removing outgroups from phylogenetic trees
-AG.CGR.GTR_G_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/data/02_AG/additional_data/raxml-ng/no_duplicated/CGR/by_codon/02_AG_CGR_GTR+G/final.BOOT.02_AG.CGR.GTR+G.raxml.bootstraps.tre")[1:2]
+AG.CGR.GTR_G_100boot <- read.tree("~/Box Sync/Senegal/HIV_myDesktop/sn-data/02_AG/additional_data/raxml-ng/no_duplicated/CGR/by_codon/02_AG_CGR_GTR+G/final.BOOT.02_AG.CGR.GTR+G.raxml.bootstraps.tre")[1:2]
 AG.CGR.GTR_G_100boot.r.new <- lapply(unclass(AG.CGR.GTR_G_100boot),
                                      root_and_drop_tips,
                                      outgroups=c("Ref.A1.UG.92.92UG037.AB253429",

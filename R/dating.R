@@ -259,7 +259,7 @@ organize_metadata_bySubtype <- function(all_data_SN, all_data_CGR, code){
 #'
 #' @examples
 #' # TO DO
-root_and_drop_tips <- function(tree, outgroups){
+root_drop_tips <- function(tree, outgroups){
 
   # gets the node number in the tree that represents the outgroup sequences
   node <- ape::getMRCA(tree, outgroups)
