@@ -17,6 +17,7 @@ obj_fun <- function(parameters){
   # sometimes it comes with column names, which I chose to remove these column names
   # in here.
   parameters <- unname(parameters)
+  print(parameters)
 
   # add the values of THETA to a new variable named THETA.new
   THETA.new <- THETA
@@ -54,7 +55,8 @@ obj_fun <- function(parameters){
                t0 = 1978,
                res = 1e3, #TODO
                timeOfOriginBoundaryCondition = FALSE,
-               AgtY_penalty = 1)
+               AgtY_penalty = 1,
+               maxHeight = 35)
 
   return(mll)
 
@@ -76,12 +78,12 @@ densities <-  function(par){
   d7 = dgamma(par[7], shape = 3, rate = 3/0.1, log = TRUE) #msmsp2
   d8 = dunif(par[8], min = 1978, max = 2014, log = TRUE) #msmsploc
   d9 = dunif(par[9], min = 0.5, max = 2.0, log = TRUE) #maleX
-  d10 = dexp(par[9], rate = 30, log = TRUE) #import
-  d11 = dexp(par[10], rate = 1/100, log = TRUE) #srcNe
-  d12 = dbeta(par[11], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
-  d13 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
-  d14 = dexp(par[13], rate = 1/3, log = TRUE) #initmsm
-  d15 = dexp(par[14], rate = 1/3, log = TRUE) #initgp
+  d10 = dexp(par[10], rate = 30, log = TRUE) #import
+  d11 = dexp(par[11], rate = 1/100, log = TRUE) #srcNe
+  d12 = dbeta(par[12], shape1 = 16, shape2 = 4, log = TRUE) #pmsm2msm
+  d13 = dbeta(par[13], shape1 = 16, shape2 = 4, log = TRUE) #pgpf2gpm
+  d14 = dexp(par[14], rate = 1/3, log = TRUE) #initmsm
+  d15 = dexp(par[15], rate = 1/3, log = TRUE) #initgp
 
   return(d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15)
 }
@@ -112,15 +114,16 @@ sampler <-  function(n=1){
 # Create prior (necessary for the BayesianTools package)
 prior <- createPrior(density = densities,
                      sampler = sampler,
-                     lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0.5, 0, 1., 0, 0, 1, 1),
-                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 2.0, 0.30, 5000, 1, 1, 20, 20))
+                     lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0.1, 0, 1, 0, 0, 1, 1),
+                     upper = c(1, 1, 1, 2014, 1, 1, 1, 2014, 10, 0.30, 5000, 1, 1, 300, 300))
+
 
 
 # We first run several mcmc runs in order to get an ok run to create a
 # z-matrix (for more details see Braak and Vrugt 2008)
 # First, we run the following lines of code and ignoring everything else:
-bayesianSetup <- createBayesianSetup(likelihood = obj_fun , prior = prior)
-settings = list(iterations = 100, nrChains = 1, thin = 1)
+bayesianSetup <- createBayesianSetup(likelihood = obj_fun, prior = prior)
+settings = list(iterations = 6000, nrChains = 1, thin = 1)
 out <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
 
 

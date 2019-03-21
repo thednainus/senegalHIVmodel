@@ -16,7 +16,7 @@ load(system.file("data/mcmc_runs/C_m4.rda", package = "senegalHIVmodel"))
 
 # source model.R script to have access to the values of THETA
 # and to dm object (which builds the demographic process)
-source("analyses/scripts/Models/BySubtype/C_m1/1.model.C.R")
+source("analyses/scripts/R-scripts/Models/BySubtype/C_m1/1.model.C.R")
 
 # calculate the demographic model (dm) for each variation of the mathematical
 # model used for subtype C.

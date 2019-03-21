@@ -128,17 +128,18 @@ tipisC <- function(tip)
 
 
 #how many sequences from gpm, gpf, msm?
-Dakar_only <- sapply(all_data$tip, tip2isdakar)
+#Dakar_only <- sapply(all_data$tip, tip2isdakar)
 
-Dakar_data <- all_data[Dakar_only,]
-Dakar_data["Subtype"] <- sapply(Dakar_data$tip, function(x)
-                                                strsplit(x, '\\.')[[1]][2])
-Dakar_data$States <- as.character(Dakar_data$States)
-Dakar_data$States <- as.factor(Dakar_data$States)
+#Dakar_data <- all_data[Dakar_only,]
+#Dakar_data["Subtype"] <- sapply(Dakar_data$tip, function(x)
+#                                                strsplit(x, '\\.')[[1]][2])
+#Dakar_data$States <- as.character(Dakar_data$States)
+#Dakar_data$States <- as.factor(Dakar_data$States)
 
 
-table(Dakar_data$State, Dakar_data$Subtype)
+#table(Dakar_data$State, Dakar_data$Subtype)
 
-all_data[Dakar_only,]
-isdakar <- sapply( dated.tree$tip, tip2isdakar )
-notdakar <- sapply( dated.tree$tip, tip2isSenegalNotDakar)
+#all_data[Dakar_only,]
+#isdakar <- sapply( dated.tree$tip, tip2isdakar )
+#notdakar <- sapply( dated.tree$tip, tip2isSenegalNotDakar)
+

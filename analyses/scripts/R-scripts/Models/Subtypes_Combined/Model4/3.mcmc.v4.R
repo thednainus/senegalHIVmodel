@@ -110,7 +110,6 @@ sampler <-  function(n=1){
 }
 
 # Create prior (necessary for the BayesianTools package)
-# Create prior (necessary for the BayesianTools package)
 prior <- createPrior(density = densities,
                      sampler = sampler,
                      lower = c(0.05, 0.05, 0.05, 1978, 0.05, 0.05, 0.05, 1978, 0.5, 0, 1, 0, 0, 1, 1),

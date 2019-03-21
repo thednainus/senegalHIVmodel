@@ -8,65 +8,66 @@ library(senegalHIVmodel)
 
 # SUBTYPE C: PAF
 # Load solved objects
-load("analyses/plots/solved_objects/dmC_m4.2.rda")
+load("analyses/results/plots/solved_objects/dmC_m3.rda")
 
-# MODEL 4
-Cm4_pafs <- df_pafs(births.p = dmC_m4.2$run[2,],
-                    births.map = dmC_m4.2$MAP[[2]],
-                    times = dmC_m4.2$run[[1]])
-Cm4_pafs["Model"] <- "Subtype C"
+# MODEL 3
+Cm3_pafs <- df_pafs(births.p = dmC_m3.1$run[2,],
+                    births.map = dmC_m3.1$MAP[[2]],
+                    times = dmC_m3.1$run[[1]])
+Cm3_pafs["Model"] <- "Subtype C"
 
-Cm4_pafs.l <- melt(Cm4_pafs, id.vars = c("times", "lower", "upper",
+Cm3_pafs.l <- melt(Cm3_pafs, id.vars = c("times", "lower", "upper",
                                          "group", "group2", "Model"))
-colnames(Cm4_pafs.l)[4] <- "Deme"
-colnames(Cm4_pafs.l)[7] <- "Linetype"
+colnames(Cm3_pafs.l)[4] <- "Deme"
+colnames(Cm3_pafs.l)[7] <- "Linetype"
 
 
 # SUBTYPE 02AG: PAF
 # Load solved objects
-load("analyses/plots/solved_objects/dmAG_m4.2.rda")
+load("analyses/results/plots/solved_objects/dmAG_m3.2.rda")
 
-# MODEL 2
-AGm4_pafs <- df_pafs(births.p = dmAG_m4.2$run[2,],
-                     births.map = dmAG_m4.2$MAP[[2]],
-                     times = dmAG_m4.2$run[[1]])
-AGm4_pafs["Model"] <- "Subtype 02_AG"
+# MODEL 3
+AGm3_pafs <- df_pafs(births.p = dmAG_m3.2$run[2,],
+                     births.map = dmAG_m3.2$MAP[[2]],
+                     times = dmAG_m3.2$run[[1]])
+AGm3_pafs["Model"] <- "Subtype 02_AG"
 
-AGm4_pafs.l <- melt(AGm4_pafs, id.vars = c("times", "lower", "upper",
+AGm3_pafs.l <- melt(AGm3_pafs, id.vars = c("times", "lower", "upper",
                                            "group", "group2", "Model"))
-colnames(AGm4_pafs.l)[4] <- "Deme"
-colnames(AGm4_pafs.l)[7] <- "Linetype"
+colnames(AGm3_pafs.l)[4] <- "Deme"
+colnames(AGm3_pafs.l)[7] <- "Linetype"
 
 
-# SUBTYPES COMBINED :PAF
+# SUBTYPES COMBINED: PAF
 
 #PREVALENCE
-load("analyses/plots/solved_objects/dm_m6.rda")
+load("analyses/results/plots/solved_objects/dm_m5.rda")
 
-# Model 6 (prevalence)
-m6_pafs <- df_pafs(births.p = dm_m6.1$run[2,],
-                   births.map = dm_m6.1$MAP[[2]],
-                   times = dm_m6.1$run[[1]])
-m6_pafs["Model"] <- "Subtypes combined"
+# Model 5 (prevalence)
+m5_pafs <- df_pafs(births.p = dm_m5.1$run[2,],
+                   births.map = dm_m5.1$MAP[[2]],
+                   times = dm_m5.1$run[[1]])
+m5_pafs["Model"] <- "Subtypes combined"
 
-m6_pafs.l <- melt(m6_pafs, id.vars = c("times", "lower", "upper",
+
+m5_pafs.l <- melt(m5_pafs, id.vars = c("times", "lower", "upper",
                                        "group", "group2", "Model"))
-colnames(m6_pafs.l)[4] <- "Deme"
-colnames(m6_pafs.l)[7] <- "Linetype"
+colnames(m5_pafs.l)[4] <- "Deme"
+colnames(m5_pafs.l)[7] <- "Linetype"
 
 
 # Combine dataframes
-all_data <- rbind(Cm4_pafs.l, AGm4_pafs.l, m6_pafs.l)
+all_data <- rbind(Cm3_pafs.l, AGm3_pafs.l, m5_pafs.l)
 
 #PLOT
 p1_paf <- ggplot(all_data, aes(x = times)) +
-  geom_ribbon(aes(ymin = lower, ymax = upper, fill = Deme), alpha=0.60) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = Deme), alpha=0.70) +
   geom_line(aes(y = value, colour = Deme, linetype = Linetype)) +
   facet_wrap(Model ~ Deme, scales = "free") +
   ylab("Population attributable fraction") +
   xlab("Time (years)") +
-  scale_fill_grey()+ scale_colour_grey() + theme_bw() +
-  theme(legend.position="bottom")
+  scale_fill_brewer() + scale_colour_brewer() + theme_bw() +
+  theme(legend.position="bottom", text = element_text(size = 20))
 
 
 # creating new dataframe to add points and confidence intervals for
