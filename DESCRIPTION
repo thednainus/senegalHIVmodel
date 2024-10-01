@@ -1,7 +1,7 @@
 Package: senegalHIVmodel
 Type: Package
 Title: Analysis of HIV data from Senegal
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Fabricia", "F. Nascimento", email = "thednainus@yahoo.com", role = c("cre", "aut")),
     person("Erik", "M. Volz", email = "e.volz@imperial.ac.uk", role = "aut"))
