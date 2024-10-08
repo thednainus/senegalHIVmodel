@@ -8,7 +8,6 @@ Growth
 reorganizing_data.R
 *.rda
 *.tex
-*.Rmd
 .Rhistory
 .Rbuildignore
 .Rapp.history
