@@ -24,4 +24,3 @@ Suggests: kableExtra,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-URL: https://thednainus.github.io/senegalHIVmodel/
